@@ -1,0 +1,7 @@
+{
+  "name": "litedogeMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
