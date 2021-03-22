@@ -13,5 +13,15 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-grid>
+    <ion-row>
+      <div>
+        <ion-button (click)="generateWallet()">Generate</ion-button>
+      </div>
+      <div *ngIf="wallet">
+        <div>Wallet Address: {{wallet.litedogeAddress}}</div>
+        <div>Private Key: {{wallet.litedogePrivateKey}}</div>
+      </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>
