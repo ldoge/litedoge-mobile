@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Wallet
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,25 +9,30 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Wallet</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-grid>
     <ion-row>
-      <div>
+      <ion-col>
         <ion-button (click)="generateWallet()">Generate</ion-button>
-      </div>
-      <div *ngIf="wallet">
-        <div>Wallet Address: {{wallet.litedogeAddress}}</div>
-        <div>Private Key: {{wallet.litedogePrivateKey}}</div>
-      </div>
-      <div *ngIf="wallet">
-        <ion-button (click)="storeWallet()">Encrypt & Store</ion-button>
-      </div>
-      <div>
+      </ion-col>
+      <ion-col>
         <ion-button (click)="loadWallet()">Load Wallet</ion-button>
-      </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="(janinService.loadedWallet$ | async) as wallet">
+      <ion-col>
+        <div>Wallet Address: {{wallet.litedogeAddress}}</div>
+        <div *ngIf="showPrivateKey$ | async">Private Key: {{wallet.litedogePrivateKey}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="(janinService.loadedWallet$ | async)">
+      <ion-col>
+        <ion-button (click)="storeWallet()">Encrypt & Store</ion-button>
+        <ion-button (click)="togglePrivateKeyVisibility()">Toggle Private Key</ion-button>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
