@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage';
 import * as CryptoJS from 'crypto-js';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class StorageService {
     this.pStorage = await this.storage.create();
   }
 
-  public get(key: string) {
+  public async get(key: string) {
     return this.pStorage?.get(key);
   }
 
@@ -23,14 +24,14 @@ export class StorageService {
     this.pStorage?.set(key, value);
   }
 
-  public encryptedGet(key: string, passphrase: string): string {
-    const encryptedData = this.pStorage?.get(key);
+  public async encryptedGet(key: string, passphrase: string): Promise<string> {
+    const encryptedData = await this.pStorage?.get(key);
     const bytes = CryptoJS.AES.decrypt(encryptedData, passphrase);
     return bytes.toString(CryptoJS.enc.Utf8);
   }
 
-  public encryptedSet(key: string, value: any, passphrase: string) {
+  public async encryptedSet(key: string, value: any, passphrase: string) {
     const encryptedData = CryptoJS.AES.encrypt(value, passphrase).toString();
-    this.pStorage?.set(key, encryptedData);
+    await this.pStorage?.set(key, encryptedData);
   }
 }

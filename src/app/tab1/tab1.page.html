@@ -22,6 +22,12 @@
         <div>Wallet Address: {{wallet.litedogeAddress}}</div>
         <div>Private Key: {{wallet.litedogePrivateKey}}</div>
       </div>
+      <div *ngIf="wallet">
+        <ion-button (click)="storeWallet()">Encrypt & Store</ion-button>
+      </div>
+      <div>
+        <ion-button (click)="loadWallet()">Load Wallet</ion-button>
+      </div>
     </ion-row>
   </ion-grid>
 </ion-content>
