@@ -17,7 +17,7 @@ export class LitedogeCurrency {
     pubKeyHash: 0x5a,
     // data from SCRIPT_ADDRESS
     scriptHash: 0x07,
-    // TODO: find out WTF is wif. Seems like this should be correct
+    // Seems like this should be correct
     wif: 0xab,
   };
   public privateKeyPrefix = 0xab;

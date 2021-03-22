@@ -16,21 +16,18 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-button (click)="generateWallet()">Generate</ion-button>
+        <ion-button (click)="generateWallet()" color="primary">Generate</ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="loadWallet()">Load Wallet</ion-button>
+        <ion-button (click)="loadWallet()" color="light">Load Wallet</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="(janinService.loadedWallet$ | async)">
+    <ion-row>
       <ion-col>
-        <ion-button (click)="storeWallet()">Encrypt & Store</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="togglePrivateKeyVisibility()" color="warning">Toggle Private Key</ion-button>
+
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="(janinService.loadedWallet$ | async) as wallet">
+    <ion-row>
       <ion-col>
         <ion-card>
           <ion-card-header>
@@ -39,13 +36,26 @@
           <ion-card-content>
             <ion-item>
               <ion-label position="floating">Address</ion-label>
-              <ion-input readonly="readonly" type="text" [value]="wallet.litedogeAddress"></ion-input>
+              <ion-input readonly="readonly" type="text"
+                         [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label position="floating">Private Key</ion-label>
               <ion-input readonly="readonly" [type]="(showPrivateKey$ | async) ? 'text' : 'password'"
-                         [value]="wallet.litedogePrivateKey"></ion-input>
+                         [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogePrivateKey : ''"></ion-input>
             </ion-item>
+            <ion-row>
+              <ion-button (click)="togglePrivateKeyVisibility()" color="warning"
+                          [disabled]="!(janinService.loadedWallet$ | async)">
+                <ion-icon name="eye-outline"></ion-icon>
+                Toggle Private Key
+              </ion-button>
+              <ion-button (click)="storeWallet()" color="light" [disabled]="!(janinService.loadedWallet$ | async)">
+                <ion-icon name="save-outline" slot="start"></ion-icon>
+                Encrypt
+                & Store
+              </ion-button>
+            </ion-row>
           </ion-card-content>
         </ion-card>
       </ion-col>
