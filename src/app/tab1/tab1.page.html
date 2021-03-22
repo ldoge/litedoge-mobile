@@ -22,16 +22,32 @@
         <ion-button (click)="loadWallet()">Load Wallet</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="(janinService.loadedWallet$ | async) as wallet">
-      <ion-col>
-        <div>Wallet Address: {{wallet.litedogeAddress}}</div>
-        <div *ngIf="showPrivateKey$ | async">Private Key: {{wallet.litedogePrivateKey}}</div>
-      </ion-col>
-    </ion-row>
     <ion-row *ngIf="(janinService.loadedWallet$ | async)">
       <ion-col>
         <ion-button (click)="storeWallet()">Encrypt & Store</ion-button>
-        <ion-button (click)="togglePrivateKeyVisibility()">Toggle Private Key</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="togglePrivateKeyVisibility()" color="warning">Toggle Private Key</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="(janinService.loadedWallet$ | async) as wallet">
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>LiteDoge Wallet</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="floating">Address</ion-label>
+              <ion-input readonly="readonly" type="text" [value]="wallet.litedogeAddress"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Private Key</ion-label>
+              <ion-input readonly="readonly" [type]="(showPrivateKey$ | async) ? 'text' : 'password'"
+                         [value]="wallet.litedogePrivateKey"></ion-input>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
