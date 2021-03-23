@@ -3,6 +3,7 @@ import {ApiService} from './api.service';
 import {JaninService} from './janin.service';
 import {BehaviorSubject} from 'rxjs';
 import {Transaction} from '../models/transaction';
+import {catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,13 @@ export class TransactionService {
     const loadedWallet = this.janinService.loadedWallet$.getValue();
     if (loadedWallet) {
       this.apiService.get('/ext/getaddresstxs/' + loadedWallet.litedogeAddress + '/' + start + '/' + end, {})
-        .subscribe((responseData) => {
-          if (responseData) {
-            this.transactions$.next(responseData);
-            this.output = responseData;
+        .subscribe((response) => {
+          if (response) {
+            this.output = response;
+            this.transactions$.next(response.data);
           }
+        }, (error) => {
+          this.output = error;
         });
     }
   }
