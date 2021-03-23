@@ -14,6 +14,8 @@ export class JaninService {
 
   constructor(private singleWalletGenerator: SingleWalletGenerator,
               private alertController: AlertController) {
+    const testWallet = new SingleWallet(null, 'dXJjuiRhvPLBYSwwvNpM8auxZVR2xDZgJi', '');
+    this.loadedWallet$.next(testWallet);
   }
 
   public generateWallet() {
