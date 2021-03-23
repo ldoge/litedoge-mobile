@@ -20,6 +20,11 @@
     </ion-row>
     <ion-row>
       <ion-col>
+        {{transactionService.output | json}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
         <ion-card *ngFor="let transaction of (transactionService.transactions$ | async)">
           <ion-card-content>
             <ion-text>{{transaction.txid}}</ion-text>

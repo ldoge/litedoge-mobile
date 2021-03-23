@@ -9,6 +9,7 @@ import {Transaction} from '../models/transaction';
 })
 export class TransactionService {
   public transactions$: BehaviorSubject<Transaction[]> = new BehaviorSubject<Transaction[]>([]);
+  public output = {};
 
   constructor(private apiService: ApiService, private janinService: JaninService) {
   }
@@ -19,7 +20,8 @@ export class TransactionService {
       this.apiService.get('/ext/getaddresstxs/' + loadedWallet.litedogeAddress + '/' + start + '/' + end, {})
         .subscribe((responseData) => {
           if (responseData) {
-            console.log(responseData);
+            this.transactions$.next(responseData);
+            this.output = responseData;
           }
         });
     }
