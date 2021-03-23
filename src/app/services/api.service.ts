@@ -19,7 +19,7 @@ export class ApiService {
     const options = {
       ...this.getJsonHeaders()
     };
-    return from(this.http.get(path, data, options));
+    return from(this.http.get(this.getEndpointHostUrl() + path, data, options));
   }
 
   private getJsonHeaders() {
