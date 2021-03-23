@@ -12,4 +12,22 @@
       <ion-title size="large">Transactions</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="loadTransactions()">Load transactions</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card *ngFor="let transaction of (transactionService.transactions$ | async)">
+          <ion-card-content>
+            <ion-text>{{transaction.txid}}</ion-text>
+            <ion-text [color]="transaction.isSpend() ? 'danger' : 'success'">{{transaction.getAmount()}}</ion-text>
+            <ion-text>{{transaction.timestamp | date}}</ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

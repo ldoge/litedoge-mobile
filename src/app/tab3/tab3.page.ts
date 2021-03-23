@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {TransactionService} from '../services/transaction.service';
 
 @Component({
   selector: 'app-tab3',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
+  constructor(public transactionService: TransactionService) {
+  }
 
+  public loadTransactions() {
+    this.transactionService.getTransactionsOfWallet();
+  }
 }
