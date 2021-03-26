@@ -4,8 +4,17 @@ export class SingleWallet {
   get litedogeAddress(): string {
     return this.pLiteDogeAddress;
   }
-  get litedogePrivateKey(): string {
+
+  get litedogePubKey(): Buffer {
+    return this.keyPair.publicKey;
+  }
+
+  get litedogeWifPrivateKey(): string {
     return this.pLiteDogeWif;
+  }
+
+  get liteDogeKeyPair(): ECPairInterface {
+    return this.keyPair;
   }
 
   private readonly keyPair: ECPairInterface;

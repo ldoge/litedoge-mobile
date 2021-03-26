@@ -29,7 +29,7 @@ export class SingleWalletGenerator {
   }
 
   public encryptAndStoreWallet(unencryptedWallet: SingleWallet, walletName: string, walletPassphrase: string) {
-    this.storageService.encryptedSet(this.walletNamePrepend + walletName, unencryptedWallet.litedogePrivateKey, walletPassphrase);
+    this.storageService.encryptedSet(this.walletNamePrepend + walletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase);
   }
 
   public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency, walletName: string, walletPassphrase: string): Promise<SingleWallet> {

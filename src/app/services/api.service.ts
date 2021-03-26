@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {from, Observable} from 'rxjs';
-import {HTTP} from '@ionic-native/http/ngx';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private http: HTTP) {
+  constructor(private http: HttpClient) {
   }
 
   public getEndpointHostUrl(): string {
@@ -16,20 +16,24 @@ export class ApiService {
   }
 
   public get(path: string, data: { [param: string]: string }): Observable<any> {
+    let params = new HttpParams();
+    for (const dataKey in data) {
+      if (dataKey && data[dataKey]) {
+        params = params.set(dataKey, data[dataKey]);
+      }
+    }
     const options = {
-      ...this.getJsonHeaders()
+      headers: this.getJsonHeaders(),
+      params,
     };
-    return from(this.http.get(this.getEndpointHostUrl() + path, data, options));
+    return this.http.get<any>(this.getEndpointHostUrl() + path, options);
   }
 
-  private getJsonHeaders() {
-    return {
-      responseType: 'json',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      }
-    };
+  private getJsonHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    });
   }
 }

@@ -1,9 +1,10 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {SingleWalletGenerator} from './single-wallet-generator';
 import {SingleWallet} from '../models/single-wallet';
 import {AlertController} from '@ionic/angular';
 import {BehaviorSubject} from 'rxjs';
+import {TransactionService} from './transaction.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,16 @@ export class JaninService {
   public loadedWallet$: BehaviorSubject<SingleWallet> = new BehaviorSubject<SingleWallet>(null);
 
   constructor(private singleWalletGenerator: SingleWalletGenerator,
+              private transactionService: TransactionService,
               private alertController: AlertController) {
+    // TODO: remove this test address
     const testWallet = new SingleWallet(null, 'dXJjuiRhvPLBYSwwvNpM8auxZVR2xDZgJi', '');
     this.loadedWallet$.next(testWallet);
   }
 
   public generateWallet() {
     this.loadedWallet$.next(this.singleWalletGenerator.generateNewAddressAndKey(this.litedogeCurrency));
+    this.transactionService.clearTransactionsOfWallet();
   }
 
   async encryptAndStoreWallet() {
@@ -51,6 +55,7 @@ export class JaninService {
           handler: (alertData) => {
             this.singleWalletGenerator.encryptAndStoreWallet(this.loadedWallet$.getValue(), alertData.walletName, alertData.passphrase);
             this.loadedWallet$.next(null);
+            this.transactionService.clearTransactionsOfWallet();
           }
         }
       ]
@@ -87,20 +92,15 @@ export class JaninService {
           text: 'Ok',
           handler: (alertData) => {
             this.singleWalletGenerator.retrieveEncryptedWallet(this.litedogeCurrency, alertData.walletName, alertData.passphrase)
-              .then(decryptedWallet => this.loadedWallet$.next(decryptedWallet));
+              .then(decryptedWallet => {
+                this.loadedWallet$.next(decryptedWallet);
+                this.transactionService.clearTransactionsOfWallet();
+              });
           }
         }
       ]
     });
 
     await alert.present();
-  }
-
-  public WIF_RegEx() {
-    return new RegExp('^' + this.litedogeCurrency.WIF_Start + '[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$');
-  }
-
-  public CWIF_RegEx() {
-    return new RegExp('^' + this.litedogeCurrency.CWIF_Start + '[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$');
   }
 }

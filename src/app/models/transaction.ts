@@ -1,15 +1,15 @@
 export class Transaction {
   public timestamp: number;
   public txid: string;
-  public sent: number;
-  public received: number;
-  public balance: number;
+  public sent: bigint;
+  public received: bigint;
+  public balance: bigint;
 
   public isSpend(): boolean {
-    return this.received < this.sent;
+    return this.sent < this.received;
   }
 
-  public getAmount(): number {
-    return this.received - this.sent;
+  public getAmount(): bigint {
+    return this.sent - this.received;
   }
 }

@@ -1,32 +1,27 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {ApiService} from './api.service';
-import {JaninService} from './janin.service';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Transaction} from '../models/transaction';
-import {catchError} from 'rxjs/operators';
+import {SingleWallet} from '../models/single-wallet';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
   public transactions$: BehaviorSubject<Transaction[]> = new BehaviorSubject<Transaction[]>([]);
-  public output = {};
+  public transactionsCleared$: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private apiService: ApiService, private janinService: JaninService) {
+  constructor(private apiService: ApiService) {
   }
 
-  public getTransactionsOfWallet(start = 0, end = 30) {
-    const loadedWallet = this.janinService.loadedWallet$.getValue();
-    if (loadedWallet) {
-      this.apiService.get('/ext/getaddresstxs/' + loadedWallet.litedogeAddress + '/' + start + '/' + end, {})
-        .subscribe((response) => {
-          if (response) {
-            this.output = response;
-            this.transactions$.next(response.data);
-          }
-        }, (error) => {
-          this.output = error;
-        });
+  public clearTransactionsOfWallet() {
+    this.transactions$.next([]);
+    this.transactionsCleared$.emit(true);
+  }
+
+  public getTransactionsOfWallet(wallet: SingleWallet, start = 0, amount = 30): Observable<any> {
+    if (wallet) {
+      return this.apiService.get('/ext/getaddresstxs/' + wallet.litedogeAddress + '/' + start + '/' + amount, {});
     }
   }
 }
