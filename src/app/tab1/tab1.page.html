@@ -12,21 +12,27 @@
       <ion-title size="large">Wallet</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary">
+      <ion-icon md="caret-up" ios="chevron-up-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="secondary" (click)="generateWallet()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)">
+        <ion-icon name="lock-closed-outline" (click)="storeWallet()"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="secondary">
+        <ion-icon name="lock-open-outline" (click)="loadWallet()"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="secondary">
+        <ion-icon name="download-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="generateWallet()" color="primary">Generate</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="loadWallet()" color="light">Load Wallet</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-
-      </ion-col>
-    </ion-row>
     <ion-row>
       <ion-col>
         <ion-card>
@@ -49,11 +55,6 @@
                           [disabled]="!(janinService.loadedWallet$ | async)">
                 <ion-icon name="eye-outline"></ion-icon>
                 Toggle Private Key
-              </ion-button>
-              <ion-button (click)="storeWallet()" color="light" [disabled]="!(janinService.loadedWallet$ | async)">
-                <ion-icon name="save-outline" slot="start"></ion-icon>
-                Encrypt
-                & Store
               </ion-button>
             </ion-row>
           </ion-card-content>

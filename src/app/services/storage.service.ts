@@ -24,6 +24,15 @@ export class StorageService {
     this.pStorage?.set(key, value);
   }
 
+  public async getJson(key: string) {
+    const data = await this.pStorage?.get(key);
+    return JSON.parse(data || '[]');
+  }
+
+  public async setJson(key: string, value: any) {
+    await this.pStorage?.set(key, JSON.stringify(value));
+  }
+
   public async encryptedGet(key: string, passphrase: string): Promise<string> {
     const encryptedData = await this.pStorage?.get(key);
     const bytes = CryptoJS.AES.decrypt(encryptedData, passphrase);
@@ -33,5 +42,9 @@ export class StorageService {
   public async encryptedSet(key: string, value: any, passphrase: string) {
     const encryptedData = CryptoJS.AES.encrypt(value, passphrase).toString();
     await this.pStorage?.set(key, encryptedData);
+  }
+
+  public async remove(key: string) {
+    await this.pStorage?.remove(key);
   }
 }

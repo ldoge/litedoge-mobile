@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {SingleWalletGenerator} from './single-wallet-generator';
 import {SingleWallet} from '../models/single-wallet';
-import {AlertController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {BehaviorSubject} from 'rxjs';
 import {TransactionService} from './transaction.service';
+import {SaveWalletComponent} from './save-wallet/save-wallet.component';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class JaninService {
 
   constructor(private singleWalletGenerator: SingleWalletGenerator,
               private transactionService: TransactionService,
+              private modalController: ModalController,
               private alertController: AlertController) {
     // TODO: remove this test address
     const testWallet = new SingleWallet(null, 'dXJjuiRhvPLBYSwwvNpM8auxZVR2xDZgJi', '');
@@ -27,41 +29,14 @@ export class JaninService {
   }
 
   async encryptAndStoreWallet() {
-    const alert = await this.alertController.create({
-      header: 'Wallet Name & Passphrase',
-      inputs: [
-        {
-          name: 'walletName',
-          type: 'text',
-          value: 'my wallet',
-          label: 'Wallet Name',
-        },
-        {
-          name: 'passphrase',
-          type: 'password',
-          value: '',
-          label: 'Passphrase',
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-          }
-        }, {
-          text: 'Ok',
-          handler: (alertData) => {
-            this.singleWalletGenerator.encryptAndStoreWallet(this.loadedWallet$.getValue(), alertData.walletName, alertData.passphrase);
-            this.loadedWallet$.next(null);
-            this.transactionService.clearTransactionsOfWallet();
-          }
-        }
-      ]
+    const saveWalletModal = await this.modalController.create({
+      component: SaveWalletComponent,
+      componentProps: {
+        wallet$: this.loadedWallet$,
+      }
     });
 
-    await alert.present();
+    await saveWalletModal.present();
   }
 
   async decryptAndRetrieveWallet() {

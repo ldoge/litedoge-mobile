@@ -1,0 +1,52 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Encrypt & Save</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Address</ion-label>
+          <ion-input readonly type="text"
+                     [value]="(this.wallet$ | async) ? (this.wallet$ | async).litedogeAddress : ''"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Private Key</ion-label>
+          <ion-input readonly type="password"
+                     [value]="(this.wallet$ | async) ? (this.wallet$ | async).litedogeWifPrivateKey : ''"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Wallet Name</ion-label>
+          <ion-input type="text" [(ngModel)]="walletName"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Passphrase</ion-label>
+          <ion-input type="password" [(ngModel)]="passphrase"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" expand="block" (click)="saveWallet()" [disabled]="!isWalletReady()">Save Wallet
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

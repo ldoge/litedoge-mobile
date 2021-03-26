@@ -1,11 +1,12 @@
-import { IonicModule } from '@ionic/angular';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {IonicModule} from '@ionic/angular';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { TabsPageRoutingModule } from './tabs-routing.module';
+import {TabsPageRoutingModule} from './tabs-routing.module';
 
-import { TabsPage } from './tabs.page';
+import {TabsPage} from './tabs.page';
+import {SaveWalletComponent} from '../services/save-wallet/save-wallet.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { TabsPage } from './tabs.page';
     FormsModule,
     TabsPageRoutingModule
   ],
-  declarations: [TabsPage]
+  declarations: [
+    TabsPage,
+    SaveWalletComponent,
+  ]
 })
-export class TabsPageModule {}
+export class TabsPageModule {
+}
