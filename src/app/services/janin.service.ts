@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {SingleWalletGenerator} from './single-wallet-generator';
 import {SingleWallet} from '../models/single-wallet';
-import {AlertController, ModalController} from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 import {BehaviorSubject} from 'rxjs';
 import {TransactionService} from './transaction.service';
 import {SaveWalletComponent} from './save-wallet/save-wallet.component';
+import {LoadWalletComponent} from './load-wallet/load-wallet.component';
+import {first} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,7 @@ export class JaninService {
 
   constructor(private singleWalletGenerator: SingleWalletGenerator,
               private transactionService: TransactionService,
-              private modalController: ModalController,
-              private alertController: AlertController) {
+              private modalController: ModalController) {
     // TODO: remove this test address
     const testWallet = new SingleWallet(null, 'dXJjuiRhvPLBYSwwvNpM8auxZVR2xDZgJi', '');
     this.loadedWallet$.next(testWallet);
@@ -39,43 +40,21 @@ export class JaninService {
     await saveWalletModal.present();
   }
 
-  async decryptAndRetrieveWallet() {
-    const alert = await this.alertController.create({
-      header: 'Wallet Name & Passphrase',
-      inputs: [
-        {
-          name: 'walletName',
-          type: 'text',
-          value: 'my wallet',
-          label: 'Wallet Name',
-        },
-        {
-          name: 'passphrase',
-          type: 'password',
-          value: '',
-          label: 'Passphrase',
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
+  public decryptAndRetrieveWallet() {
+    this.singleWalletGenerator
+      .getWalletList()
+      .pipe(first())
+      .subscribe(async walletList => {
+        const loadWalletModal = await this.modalController.create({
+          component: LoadWalletComponent,
+          componentProps: {
+            wallet$: this.loadedWallet$,
+            currency: this.litedogeCurrency,
+            walletNameList: walletList,
           }
-        }, {
-          text: 'Ok',
-          handler: (alertData) => {
-            this.singleWalletGenerator.retrieveEncryptedWallet(this.litedogeCurrency, alertData.walletName, alertData.passphrase)
-              .then(decryptedWallet => {
-                this.loadedWallet$.next(decryptedWallet);
-                this.transactionService.clearTransactionsOfWallet();
-              });
-          }
-        }
-      ]
-    });
+        });
 
-    await alert.present();
+        await loadWalletModal.present();
+      });
   }
 }

@@ -29,10 +29,7 @@ export class SaveWalletComponent implements OnInit {
     this.passphrase = '';
     this.wallet$.next(null);
     this.transactionService.clearTransactionsOfWallet();
-    this.modalCtrl
-      .dismiss({
-        dismissed: true
-      });
+    this.dismiss();
   }
 
   dismiss() {

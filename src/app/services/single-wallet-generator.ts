@@ -4,6 +4,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {StorageService} from './storage.service';
 import {from, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +31,15 @@ export class SingleWalletGenerator {
     return new SingleWallet(keyPair, address, wifKeyPair);
   }
 
-  public getWalletList(): Observable<any> {
-    return from(this.storageService.getJson(this.walletList));
+  public getWalletList(): Observable<string[]> {
+    return from(this.storageService.getJson(this.walletList))
+      .pipe(map(data => data as string[]));
   }
 
   public encryptAndStoreWallet(unencryptedWallet: SingleWallet, walletName: string, walletPassphrase: string) {
     const fullWalletName = this.walletNamePrepend + walletName;
     this.storageService.encryptedSet(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase);
-    this.addWalletNameToList(fullWalletName);
+    this.addWalletNameToList(walletName);
   }
 
   public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency, walletName: string, walletPassphrase: string): Promise<SingleWallet> {
@@ -51,7 +53,8 @@ export class SingleWalletGenerator {
   }
 
   public deleteWallet(walletName: string) {
-    this.storageService.remove(walletName);
+    const fullWalletName = this.walletNamePrepend + walletName;
+    this.storageService.remove(fullWalletName);
     this.removeWalletNameFromList(walletName);
   }
 
