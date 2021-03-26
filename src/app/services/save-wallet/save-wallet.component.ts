@@ -44,7 +44,9 @@ export class SaveWalletComponent implements OnInit {
     return wallet
       && wallet.litedogeAddress
       && wallet.litedogeWifPrivateKey !== ''
+      && this.walletName
       && this.walletName !== ''
+      && this.passphrase
       && this.passphrase !== '';
   }
 }

@@ -27,6 +27,10 @@ export class Tab1Page {
     this.janinService.decryptAndRetrieveWallet();
   }
 
+  public importWallet() {
+    this.janinService.importWallet();
+  }
+
   public togglePrivateKeyVisibility() {
     if (this.showPrivateKey$.getValue()) {
       this.showPrivateKey$.next(false);

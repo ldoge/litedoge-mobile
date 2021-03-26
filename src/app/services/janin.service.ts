@@ -8,6 +8,7 @@ import {TransactionService} from './transaction.service';
 import {SaveWalletComponent} from './save-wallet/save-wallet.component';
 import {LoadWalletComponent} from './load-wallet/load-wallet.component';
 import {first} from 'rxjs/operators';
+import {ImportWalletComponent} from './import-wallet/import-wallet.component';
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +57,17 @@ export class JaninService {
 
         await loadWalletModal.present();
       });
+  }
+
+  async importWallet() {
+    const importWalletModal = await this.modalController.create({
+      component: ImportWalletComponent,
+      componentProps: {
+        wallet$: this.loadedWallet$,
+        currency: this.litedogeCurrency,
+      }
+    });
+
+    await importWalletModal.present();
   }
 }

@@ -31,6 +31,13 @@ export class SingleWalletGenerator {
     return new SingleWallet(keyPair, address, wifKeyPair);
   }
 
+  public importWallet(litedogeCurrency: LitedogeCurrency, privateKey: string): SingleWallet {
+    const importedKeyPair = bitcoin.ECPair.fromWIF(privateKey, litedogeCurrency.network);
+    const {address} = bitcoin.payments.p2pkh({pubkey: importedKeyPair.publicKey, network: litedogeCurrency.network}, {validate: true});
+
+    return new SingleWallet(importedKeyPair, address, privateKey);
+  }
+
   public getWalletList(): Observable<string[]> {
     return from(this.storageService.getJson(this.walletList))
       .pipe(map(data => data as string[]));

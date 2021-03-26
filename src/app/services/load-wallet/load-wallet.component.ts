@@ -30,6 +30,8 @@ export class LoadWalletComponent implements OnInit {
     this.singleWalletGenerator
       .retrieveEncryptedWallet(this.currency, this.selectedWalletName, this.passphrase)
       .then(decryptedWallet => {
+        this.selectedWalletName = null;
+        this.passphrase = '';
         this.wallet$.next(decryptedWallet);
         this.transactionService.clearTransactionsOfWallet();
         this.dismiss();

@@ -14,19 +14,19 @@
   </ion-header>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary">
-      <ion-icon md="caret-up" ios="chevron-up-circle-outline"></ion-icon>
+      <ion-icon name="chevron-up-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button color="secondary" (click)="generateWallet()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)">
-        <ion-icon name="lock-closed-outline" (click)="storeWallet()"></ion-icon>
+      <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)" (click)="storeWallet()">
+        <ion-icon name="lock-closed-outline"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary">
-        <ion-icon name="lock-open-outline" (click)="loadWallet()"></ion-icon>
+      <ion-fab-button color="secondary" (click)="loadWallet()">
+        <ion-icon name="lock-open-outline"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary">
+      <ion-fab-button color="secondary" (click)="importWallet()">
         <ion-icon name="download-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
