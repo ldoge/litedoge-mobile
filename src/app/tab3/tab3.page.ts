@@ -49,7 +49,6 @@ export class Tab3Page {
             const typedTx = Object.assign(new Transaction(), tx);
             typedTxs.push(typedTx);
           });
-          console.log(typedTxs);
           if (typedTxs.length === 0) {
             this.infiniteScrollReachedEnd$.next(true);
           } else {
