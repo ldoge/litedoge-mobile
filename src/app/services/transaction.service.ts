@@ -24,4 +24,10 @@ export class TransactionService {
       return this.apiService.get('/ext/getaddresstxs/' + wallet.litedogeAddress + '/' + start + '/' + amount, {});
     }
   }
+
+  public getWalletBalance(wallet: SingleWallet): Observable<number> {
+    if (wallet) {
+      return this.apiService.get('/ext/getbalance/' + wallet.litedogeAddress, {});
+    }
+  }
 }
