@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
 import {TransactionService} from '../services/transaction.service';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {Transaction} from '../models/transaction';
@@ -9,7 +9,8 @@ import {JaninService} from '../services/janin.service';
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  styleUrls: ['tab3.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Tab3Page {
   private startCount = 0;
