@@ -3,7 +3,7 @@ import {ModalController} from '@ionic/angular';
 import {SingleWallet} from '../../models/single-wallet';
 import {BehaviorSubject} from 'rxjs';
 import {TransactionService} from '../transaction.service';
-import {SingleWalletGenerator} from '../single-wallet-generator';
+import {SingleWalletGeneratorService} from '../single-wallet-generator.service';
 
 @Component({
   selector: 'app-save-wallet',
@@ -16,7 +16,7 @@ export class SaveWalletComponent implements OnInit {
   @Input() passphrase = '';
 
   constructor(private modalCtrl: ModalController,
-              private singleWalletGenerator: SingleWalletGenerator,
+              private singleWalletGenerator: SingleWalletGeneratorService,
               private transactionService: TransactionService) {
   }
 

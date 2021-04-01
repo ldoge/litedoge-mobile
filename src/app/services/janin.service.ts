@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LitedogeCurrency} from '../models/litedoge-currency';
-import {SingleWalletGenerator} from './single-wallet-generator';
+import {SingleWalletGeneratorService} from './single-wallet-generator.service';
 import {SingleWallet} from '../models/single-wallet';
 import {ModalController} from '@ionic/angular';
 import {BehaviorSubject} from 'rxjs';
@@ -17,7 +17,7 @@ export class JaninService {
   public litedogeCurrency = new LitedogeCurrency();
   public loadedWallet$: BehaviorSubject<SingleWallet> = new BehaviorSubject<SingleWallet>(null);
 
-  constructor(private singleWalletGenerator: SingleWalletGenerator,
+  constructor(private singleWalletGenerator: SingleWalletGeneratorService,
               private transactionService: TransactionService,
               private modalController: ModalController) {
     // TODO: remove this test address

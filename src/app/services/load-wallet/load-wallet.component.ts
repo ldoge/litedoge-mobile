@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SingleWalletGenerator} from '../single-wallet-generator';
+import {SingleWalletGeneratorService} from '../single-wallet-generator.service';
 import {BehaviorSubject} from 'rxjs';
 import {SingleWallet} from '../../models/single-wallet';
 import {LitedogeCurrency} from '../../models/litedoge-currency';
@@ -19,7 +19,7 @@ export class LoadWalletComponent implements OnInit {
   @Input() passphrase = '';
 
   constructor(private modalCtrl: ModalController,
-              private singleWalletGenerator: SingleWalletGenerator,
+              private singleWalletGenerator: SingleWalletGeneratorService,
               private transactionService: TransactionService) {
   }
 

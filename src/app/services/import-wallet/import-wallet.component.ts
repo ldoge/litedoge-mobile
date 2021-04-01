@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {SingleWalletGenerator} from '../single-wallet-generator';
+import {SingleWalletGeneratorService} from '../single-wallet-generator.service';
 import {TransactionService} from '../transaction.service';
 import {LitedogeCurrency} from '../../models/litedoge-currency';
 import {BehaviorSubject} from 'rxjs';
@@ -20,7 +20,7 @@ export class ImportWalletComponent implements OnInit {
   privateKey = '';
 
   constructor(private modalCtrl: ModalController,
-              private singleWalletGenerator: SingleWalletGenerator,
+              private singleWalletGenerator: SingleWalletGeneratorService,
               private transactionService: TransactionService) {
   }
 

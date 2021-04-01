@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {SingleWallet} from '../models/single-wallet';
-import {SingleWalletGenerator} from '../services/single-wallet-generator';
+import {SingleWalletGeneratorService} from '../services/single-wallet-generator.service';
 import {JaninService} from '../services/janin.service';
 import {BehaviorSubject} from 'rxjs';
 

@@ -9,7 +9,7 @@ import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class SingleWalletGenerator {
+export class SingleWalletGeneratorService {
   private readonly walletNamePrepend = 'wallet_';
   private readonly walletList = 'list_wallet';
 
