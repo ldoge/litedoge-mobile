@@ -84,16 +84,6 @@
                 </p>
               </ion-label>
             </ion-item>
-            <ion-item>
-              <ion-label>
-                <p>
-                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-                </p>
-                <p>
-                  <ion-skeleton-text animated></ion-skeleton-text>
-                </p>
-              </ion-label>
-            </ion-item>
             <ion-card-content>
               <ion-button expand="block" disabled="disabled">Send</ion-button>
             </ion-card-content>
@@ -138,11 +128,6 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Amount</ion-label>
-              <ion-input clearInput required type="number" [max]="paymentService.scannedBalance$ | async"
-                         min="0"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Confirmation Amount</ion-label>
               <ion-input clearInput required type="number" [max]="paymentService.scannedBalance$ | async"
                          min="0"></ion-input>
             </ion-item>
