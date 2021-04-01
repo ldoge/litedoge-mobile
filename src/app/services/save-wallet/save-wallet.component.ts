@@ -24,12 +24,14 @@ export class SaveWalletComponent implements OnInit {
   }
 
   saveWallet() {
-    this.singleWalletGenerator.encryptAndStoreWallet(this.wallet$.getValue(), this.walletName, this.passphrase);
-    this.walletName = '';
-    this.passphrase = '';
-    this.wallet$.next(null);
-    this.transactionService.clearTransactionsOfWallet();
-    this.dismiss();
+    this.singleWalletGenerator.encryptAndStoreWallet(this.wallet$.getValue(), this.walletName, this.passphrase)
+      .subscribe(() => {
+        this.walletName = '';
+        this.passphrase = '';
+        this.wallet$.next(null);
+        this.transactionService.clearTransactionsOfWallet();
+        this.dismiss();
+      });
   }
 
   dismiss() {

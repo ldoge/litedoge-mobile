@@ -4,7 +4,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {StorageService} from './storage.service';
 import {from, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {first, map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +14,6 @@ export class SingleWalletGeneratorService {
   private readonly walletList = 'list_wallet';
 
   constructor(private storageService: StorageService) {
-  }
-
-  public open() {
-
   }
 
   public generateNewAddressAndKey(litedogeCurrency: LitedogeCurrency): SingleWallet {
@@ -43,10 +39,13 @@ export class SingleWalletGeneratorService {
       .pipe(map(data => data as string[]));
   }
 
-  public encryptAndStoreWallet(unencryptedWallet: SingleWallet, walletName: string, walletPassphrase: string) {
+  public encryptAndStoreWallet(unencryptedWallet: SingleWallet, walletName: string, walletPassphrase: string): Observable<void> {
     const fullWalletName = this.walletNamePrepend + walletName;
-    this.storageService.encryptedSet(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase);
-    this.addWalletNameToList(walletName);
+    return from(this.storageService.encryptedSet(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase))
+      .pipe(
+        first(),
+        tap(() => this.addWalletNameToList(walletName))
+      );
   }
 
   public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency, walletName: string, walletPassphrase: string): Promise<SingleWallet> {
