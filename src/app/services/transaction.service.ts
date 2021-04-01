@@ -3,6 +3,7 @@ import {ApiService} from './api.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Transaction} from '../models/transaction';
 import {SingleWallet} from '../models/single-wallet';
+import {map, switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,17 @@ export class TransactionService {
 
   public getWalletBalance(wallet: SingleWallet): Observable<number> {
     if (wallet) {
-      return this.apiService.get('/ext/getbalance/' + wallet.litedogeAddress, {});
+      return this.apiService.get('/ext/getbalance/' + wallet.litedogeAddress, {})
+        .pipe(
+          map(data => {
+            if (typeof data === 'number') {
+              return data;
+            }
+
+            // Error telling me that address does not exists
+            return 0.0;
+          })
+        );
     }
   }
 }

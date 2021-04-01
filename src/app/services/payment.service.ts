@@ -23,7 +23,7 @@ export class PaymentService {
     const wallet = this.janinService.loadedWallet$.getValue();
     return this.transactionService
       .getWalletBalance(wallet)
-      .pipe(first(), tap(amount => this.availableBalance$.next(amount)));
+      .pipe(first(), tap(amount => this.availableBalance$.next(amount || 0.0)));
   }
 
   public getFees(): number {
