@@ -44,7 +44,7 @@ describe('SingleWalletGeneratorService', () => {
     expect(retrievedWallet.litedogeWifPrivateKey).toBe(savedWallet.litedogeWifPrivateKey);
   });
 
-  it('3.2 should delete saved wallet',  async() => {
+  it('3.2 should delete saved wallet', async () => {
     expect(service.deleteWallet(storedWalletName)).toBeUndefined();
     await expectAsync(service.retrieveEncryptedWallet(litedogeCurrency, storedWalletName, storedWalletPassphrase)).toBeRejectedWithError();
   });
