@@ -52,7 +52,7 @@
           <ion-card-content>
             <ion-button (click)="togglePrivateKeyVisibility()" color="warning"
                         [disabled]="!(janinService.loadedWallet$ | async)" expand="block">
-              <ion-icon name="eye-outline"></ion-icon>
+              <ion-icon [name]="(this.showPrivateKey$ | async) ? 'eye-off-outline' : 'eye-outline'"></ion-icon>&nbsp;
               Toggle Private Key
             </ion-button>
           </ion-card-content>
