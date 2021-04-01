@@ -1,6 +1,6 @@
 {
   "appId": "org.litedogeofficial.app",
-  "appName": "app",
+  "appName": "LiteDoge Mobile",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
