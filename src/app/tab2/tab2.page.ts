@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {PaymentService} from '../services/payment.service';
 import {BehaviorSubject} from 'rxjs';
+import {JaninService} from '../services/janin.service';
 
 @Component({
   selector: 'app-tab2',
@@ -10,7 +11,8 @@ import {BehaviorSubject} from 'rxjs';
 export class Tab2Page {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  constructor(public paymentService: PaymentService) {
+  constructor(public janinService: JaninService,
+              public paymentService: PaymentService) {
   }
 
   ionViewWillEnter() {

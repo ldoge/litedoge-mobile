@@ -18,32 +18,101 @@
   </ion-refresher>
 
   <ion-grid>
-    <ion-row *ngIf="isLoading$ | async">
-      <ion-col>
-        <ion-card>
-          <ion-card-content>
+    <ng-container *ngIf="isLoading$ | async">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Receive</ion-card-title>
+            </ion-card-header>
             <ion-item>
               <ion-label>
                 <p>
-                  <ion-skeleton-text animated></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
                 </p>
                 <p>
-                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                  <ion-skeleton-text animated></ion-skeleton-text>
                 </p>
               </ion-label>
             </ion-item>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="!(isLoading$ | async)">
-      <ion-col>
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title></ion-card-title>
-            <ion-card-subtitle></ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
+            <ion-item>
+              <ion-label>
+                <p>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </p>
+                <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <p>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </p>
+                <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Send</ion-card-title>
+            </ion-card-header>
+            <ion-item>
+              <ion-label>
+                <p>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </p>
+                <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <p>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </p>
+                <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <p>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </p>
+                <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item>
+            <ion-card-content>
+              <ion-button expand="block" disabled="disabled">Send</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+    <ng-container *ngIf="!(isLoading$ | async)">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Receive</ion-card-title>
+            </ion-card-header>
+            <ion-item>
+              <ion-label position="floating">Address</ion-label>
+              <ion-input readonly="readonly" type="text"
+                         [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"></ion-input>
+            </ion-item>
             <ion-item>
               <ion-label position="floating">Available Balance</ion-label>
               <ion-input type="number" readonly="readonly"
@@ -51,11 +120,38 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Scanned Balance</ion-label>
-              <ion-input type="number" readonly="readonly" [value]="paymentService.scannedBalance$ | async"></ion-input>
+              <ion-input type="number" readonly="readonly"
+                         [value]="paymentService.scannedBalance$ | async"></ion-input>
             </ion-item>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Send</ion-card-title>
+            </ion-card-header>
+            <ion-item>
+              <ion-label position="floating">Address</ion-label>
+              <ion-input clearInput required type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Amount</ion-label>
+              <ion-input clearInput required type="number" [max]="paymentService.scannedBalance$ | async"
+                         min="0"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Confirmation Amount</ion-label>
+              <ion-input clearInput required type="number" [max]="paymentService.scannedBalance$ | async"
+                         min="0"></ion-input>
+            </ion-item>
+            <ion-card-content>
+              <ion-button expand="block">Send</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ng-container>
   </ion-grid>
 </ion-content>
