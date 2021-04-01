@@ -15,7 +15,7 @@ export class ApiService {
     return environment.endpoint;
   }
 
-  public get(path: string, data: { [param: string]: string }): Observable<any> {
+  public get<T>(path: string, data: { [param: string]: string }): Observable<T> {
     let params = new HttpParams();
     for (const dataKey in data) {
       if (dataKey && data[dataKey]) {
@@ -26,7 +26,7 @@ export class ApiService {
       headers: this.getJsonHeaders(),
       params,
     };
-    return this.http.get<any>(this.getEndpointHostUrl() + path, options);
+    return this.http.get<T>(this.getEndpointHostUrl() + path, options);
   }
 
   private getJsonHeaders(): HttpHeaders {
