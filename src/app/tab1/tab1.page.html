@@ -14,20 +14,17 @@
   </ion-header>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary">
-      <ion-icon name="chevron-up-outline"></ion-icon>
+      <ion-icon name="chevron-up"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="secondary" (click)="generateWallet()">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-fab-button>
       <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)" (click)="storeWallet()">
-        <ion-icon name="lock-closed-outline"></ion-icon>
+        <ion-icon name="lock-closed"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="secondary" (click)="loadWallet()">
-        <ion-icon name="lock-open-outline"></ion-icon>
+        <ion-icon name="lock-open"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="secondary" (click)="importWallet()">
-        <ion-icon name="download-outline"></ion-icon>
+        <ion-icon name="download"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
@@ -48,12 +45,16 @@
             <ion-label position="floating">Private Key</ion-label>
             <ion-input readonly="readonly" [type]="(showPrivateKey$ | async) ? 'text' : 'password'"
                        [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeWifPrivateKey : ''"></ion-input>
+
+            <ion-button slot="end" (click)="togglePrivateKeyVisibility()" size="medium" color="light"
+                        [disabled]="!(janinService.loadedWallet$ | async)">
+              <ion-icon [name]="(this.showPrivateKey$ | async) ? 'eye-off' : 'eye'"></ion-icon>
+            </ion-button>
           </ion-item>
           <ion-card-content>
-            <ion-button (click)="togglePrivateKeyVisibility()" color="warning"
-                        [disabled]="!(janinService.loadedWallet$ | async)" expand="block">
-              <ion-icon [name]="(this.showPrivateKey$ | async) ? 'eye-off-outline' : 'eye-outline'"></ion-icon>&nbsp;
-              Toggle Private Key
+            <ion-button (click)="generateWallet()" color="primary" expand="block">
+              <ion-icon name="dice"></ion-icon>&nbsp;
+              Generate Wallet
             </ion-button>
           </ion-card-content>
         </ion-card>
