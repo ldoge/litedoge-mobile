@@ -20,9 +20,6 @@ export class JaninService {
   constructor(private singleWalletGenerator: SingleWalletGeneratorService,
               private transactionService: TransactionService,
               private modalController: ModalController) {
-    // TODO: remove this test address
-    const testWallet = new SingleWallet(null, 'dXJjuiRhvPLBYSwwvNpM8auxZVR2xDZgJi', '');
-    this.loadedWallet$.next(testWallet);
   }
 
   public generateWallet() {
