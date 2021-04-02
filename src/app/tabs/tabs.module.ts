@@ -6,9 +6,6 @@ import {FormsModule} from '@angular/forms';
 import {TabsPageRoutingModule} from './tabs-routing.module';
 
 import {TabsPage} from './tabs.page';
-import {LoadWalletComponent} from '../services/load-wallet/load-wallet.component';
-import {SaveWalletComponent} from '../services/save-wallet/save-wallet.component';
-import {ImportWalletComponent} from '../services/import-wallet/import-wallet.component';
 
 @NgModule({
   imports: [
@@ -19,9 +16,6 @@ import {ImportWalletComponent} from '../services/import-wallet/import-wallet.com
   ],
   declarations: [
     TabsPage,
-    ImportWalletComponent,
-    LoadWalletComponent,
-    SaveWalletComponent,
   ]
 })
 export class TabsPageModule {

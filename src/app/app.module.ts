@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
-
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
+import {Storage} from '@ionic/storage';
+import {IonicStorageModule} from '@ionic/storage-angular';
+import {HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {IonicStorageModule} from '@ionic/storage-angular';
+import {SharedComponentsModule} from './shared-components/shared-components.module';
 
-import {Storage} from '@ionic/storage';
-import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +19,8 @@ import {HttpClientModule} from '@angular/common/http';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedComponentsModule,
   ],
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},

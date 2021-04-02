@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SingleWalletGeneratorService} from '../single-wallet-generator.service';
+import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 import {BehaviorSubject} from 'rxjs';
 import {SingleWallet} from '../../models/single-wallet';
 import {LitedogeCurrency} from '../../models/litedoge-currency';
-import {TransactionService} from '../transaction.service';
+import {TransactionService} from '../../services/transaction.service';
 import {ModalController} from '@ionic/angular';
 
 @Component({

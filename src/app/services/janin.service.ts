@@ -5,10 +5,10 @@ import {SingleWallet} from '../models/single-wallet';
 import {ModalController} from '@ionic/angular';
 import {BehaviorSubject} from 'rxjs';
 import {TransactionService} from './transaction.service';
-import {SaveWalletComponent} from './save-wallet/save-wallet.component';
-import {LoadWalletComponent} from './load-wallet/load-wallet.component';
+import {SaveWalletComponent} from '../shared-components/save-wallet/save-wallet.component';
+import {LoadWalletComponent} from '../shared-components/load-wallet/load-wallet.component';
 import {first} from 'rxjs/operators';
-import {ImportWalletComponent} from './import-wallet/import-wallet.component';
+import {ImportWalletComponent} from '../shared-components/import-wallet/import-wallet.component';
 
 @Injectable({
   providedIn: 'root'

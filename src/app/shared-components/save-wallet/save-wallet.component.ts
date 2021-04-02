@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {SingleWallet} from '../../models/single-wallet';
 import {BehaviorSubject} from 'rxjs';
-import {TransactionService} from '../transaction.service';
-import {SingleWalletGeneratorService} from '../single-wallet-generator.service';
+import {TransactionService} from '../../services/transaction.service';
+import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 
 @Component({
   selector: 'app-save-wallet',
