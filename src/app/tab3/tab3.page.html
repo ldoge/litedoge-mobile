@@ -37,7 +37,8 @@
     </ion-row>
   </ion-grid>
   <ion-list>
-    <ion-item button *ngFor="let transaction of (transactionService.transactions$ | async)">
+    <ion-item button *ngFor="let transaction of (transactionService.transactions$ | async)"
+              (click)="explorerService.viewTransaction(transaction.txid)">
       <ion-label [color]="transaction.isSpend() ? 'danger' : 'success'">
         <h2>{{transaction.getAmount()}}</h2>
       </ion-label>

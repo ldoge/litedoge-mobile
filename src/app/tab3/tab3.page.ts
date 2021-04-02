@@ -5,6 +5,7 @@ import {Transaction} from '../models/transaction';
 import {first} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 import {JaninService} from '../services/janin.service';
+import {ExplorerService} from '../services/explorer.service';
 
 @Component({
   selector: 'app-tab3',
@@ -20,6 +21,7 @@ export class Tab3Page {
   public infiniteScrollReachedEnd$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(public transactionService: TransactionService,
+              public explorerService: ExplorerService,
               private janinService: JaninService) {
   }
 

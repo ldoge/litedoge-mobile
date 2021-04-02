@@ -1,0 +1,93 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>View Transaction</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ng-container *ngIf="(transactionBlock$ | async) as transactionBlock">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Overview</ion-card-title>
+              <ion-card-subtitle>{{transactionBlock.tx.timestamp * 1000 | date}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-item>
+              <ion-label position="floating">ID</ion-label>
+              <ion-input readonly="" [value]="transactionBlock.tx.txid"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Block Hash</ion-label>
+              <ion-input readonly="" [value]="transactionBlock.tx.blockhash"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Block Index</ion-label>
+              <ion-input readonly="" [value]="transactionBlock.tx.blockindex"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Transaction Amount</ion-label>
+              <ion-input readonly="" [value]="transactionBlock.tx.total / getLdogeDenominator()"></ion-input>
+            </ion-item>
+          </ion-card>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Inputs</ion-card-title>
+            </ion-card-header>
+            <ng-container *ngFor="let vin of transactionBlock.tx.vin; let i = index">
+              <ion-item>
+                <ion-label position="floating">Input Address {{i + 1}}</ion-label>
+                <ion-input readonly="" [value]="vin.addresses"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Input Amount {{i + 1}}</ion-label>
+                <ion-input readonly="" [value]="vin.amount / getLdogeDenominator()"></ion-input>
+              </ion-item>
+            </ng-container>
+            <ion-card-content *ngIf="transactionBlock.tx.vin.length === 0">No inputs</ion-card-content>
+          </ion-card>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Outputs</ion-card-title>
+            </ion-card-header>
+            <ng-container *ngFor="let vout of transactionBlock.tx.vout; let i = index">
+              <ion-item>
+                <ion-label position="floating">Output Address {{i + 1}}</ion-label>
+                <ion-input readonly="" [value]="vout.addresses"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Output Amount {{i + 1}}</ion-label>
+                <ion-input readonly="" [value]="vout.amount / getLdogeDenominator()"></ion-input>
+              </ion-item>
+            </ng-container>
+            <ion-card-content *ngIf="transactionBlock.tx.vout.length === 0">No outputs</ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+    <ng-container *ngIf="!(transactionBlock$ | async)">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Overview</ion-card-title>
+            </ion-card-header>
+            <ion-item *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+              <ion-label>
+                <p>
+                  <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                </p>
+                <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+  </ion-grid>
+</ion-content>

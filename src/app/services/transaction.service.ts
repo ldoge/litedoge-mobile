@@ -4,6 +4,8 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Transaction} from '../models/transaction';
 import {SingleWallet} from '../models/single-wallet';
 import {map, switchMap} from 'rxjs/operators';
+import {TransactionBlock} from '../models/transaction-block';
+import {ApiError} from '../models/api-error';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,7 @@ export class TransactionService {
     if (wallet) {
       return this.apiService.get('/ext/getbalance/' + wallet.litedogeAddress, {})
         .pipe(
-          map(data => {
+          map<any, number>(data => {
             if (typeof data === 'number') {
               return data;
             }
@@ -40,5 +42,18 @@ export class TransactionService {
           })
         );
     }
+  }
+
+  public getTransactionBlock(txId: string): Observable<TransactionBlock> {
+    return this.apiService.get<TransactionBlock>('/ext/gettx/' + txId, {})
+      .pipe(
+        map<any, TransactionBlock>(data => {
+          if (data.error) {
+            throw new ApiError(data.error);
+          }
+
+          return data;
+        })
+      );
   }
 }
