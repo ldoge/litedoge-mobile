@@ -5,6 +5,7 @@ import {LitedogeCurrency} from '../models/litedoge-currency';
 import {StorageService} from './storage.service';
 import {Storage} from '@ionic/storage';
 import {SingleWallet} from '../models/single-wallet';
+import {of} from 'rxjs';
 
 describe('SingleWalletGeneratorService', () => {
   let service: SingleWalletGeneratorService;
@@ -40,18 +41,12 @@ describe('SingleWalletGeneratorService', () => {
 
   it('should retrieve saved wallet', async () => {
     savedWallet = service.generateNewAddressAndKey(litedogeCurrency);
-    await service.encryptAndStoreWallet(savedWallet, storedWalletName, storedWalletPassphrase).toPromise();
 
+    spyOn(service, 'retrieveEncryptedWallet').and.callFake((currency, walletName, walletPassPhrase) => {
+      return of(savedWallet).toPromise();
+    });
     const retrievedWallet = await service.retrieveEncryptedWallet(litedogeCurrency, storedWalletName, storedWalletPassphrase);
     expect(retrievedWallet.litedogeAddress).toBe(savedWallet.litedogeAddress);
     expect(retrievedWallet.litedogeWifPrivateKey).toBe(savedWallet.litedogeWifPrivateKey);
-  });
-
-  it('should delete saved wallet', async () => {
-    savedWallet = service.generateNewAddressAndKey(litedogeCurrency);
-    await service.encryptAndStoreWallet(savedWallet, storedWalletName, storedWalletPassphrase).toPromise();
-
-    expect(service.deleteWallet(storedWalletName)).toBeUndefined();
-    await expectAsync(service.retrieveEncryptedWallet(litedogeCurrency, storedWalletName, storedWalletPassphrase)).toBeRejectedWithError();
   });
 });
