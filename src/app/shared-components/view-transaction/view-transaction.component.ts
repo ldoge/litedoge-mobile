@@ -31,8 +31,8 @@ export class ViewTransactionComponent implements OnInit {
       });
   }
 
-  getLdogeDenominator() {
-    return environment.ldogeDenominator;
+  getLdogeDenominator(): bigint {
+    return BigInt(environment.ldogeDenominator);
   }
 
   dismiss() {
