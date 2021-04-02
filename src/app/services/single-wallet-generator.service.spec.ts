@@ -13,7 +13,7 @@ describe('SingleWalletGeneratorService', () => {
   let storedWalletName: string;
   let storedWalletPassphrase: string;
 
-  beforeAll(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [Storage, StorageService],
     });
@@ -24,27 +24,33 @@ describe('SingleWalletGeneratorService', () => {
     service = TestBed.inject(SingleWalletGeneratorService);
   });
 
-  it('1.0 should be created', () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('2.0 should generate single wallet', () => {
+  it('should generate single wallet', () => {
     const wallet = service.generateNewAddressAndKey(litedogeCurrency);
     expect(wallet).toBeDefined();
   });
 
-  it('3.0 should generate and save single wallet', async () => {
+  it('should generate and save single wallet', async () => {
     savedWallet = service.generateNewAddressAndKey(litedogeCurrency);
     await expectAsync(service.encryptAndStoreWallet(savedWallet, storedWalletName, storedWalletPassphrase).toPromise()).not.toBeRejected();
   });
 
-  it('3.1 should retrieve saved wallet', async () => {
+  it('should retrieve saved wallet', async () => {
+    savedWallet = service.generateNewAddressAndKey(litedogeCurrency);
+    await service.encryptAndStoreWallet(savedWallet, storedWalletName, storedWalletPassphrase).toPromise();
+
     const retrievedWallet = await service.retrieveEncryptedWallet(litedogeCurrency, storedWalletName, storedWalletPassphrase);
     expect(retrievedWallet.litedogeAddress).toBe(savedWallet.litedogeAddress);
     expect(retrievedWallet.litedogeWifPrivateKey).toBe(savedWallet.litedogeWifPrivateKey);
   });
 
-  it('3.2 should delete saved wallet', async () => {
+  it('should delete saved wallet', async () => {
+    savedWallet = service.generateNewAddressAndKey(litedogeCurrency);
+    await service.encryptAndStoreWallet(savedWallet, storedWalletName, storedWalletPassphrase).toPromise();
+
     expect(service.deleteWallet(storedWalletName)).toBeUndefined();
     await expectAsync(service.retrieveEncryptedWallet(litedogeCurrency, storedWalletName, storedWalletPassphrase)).toBeRejectedWithError();
   });
