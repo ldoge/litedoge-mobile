@@ -46,4 +46,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Network API -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Video -->
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>
