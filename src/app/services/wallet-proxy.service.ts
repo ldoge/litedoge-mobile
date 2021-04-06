@@ -3,6 +3,8 @@ import {Observable} from 'rxjs';
 import {SingleWallet} from '../models/single-wallet';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {UnspentTransaction} from '../models/unspent-transaction';
+import {first, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +18,15 @@ export class WalletProxyService {
     return environment.walletProxyEndpoint;
   }
 
-  public getUnspent(wallet: SingleWallet): Observable<any> {
+  public getUnspent(wallet: SingleWallet): Observable<UnspentTransaction[]> {
     const options = {
       headers: this.getJsonHeaders()
     };
-    return this.http.get<any>(this.getWalletProxyEndpoint() + '/addresses/' + wallet.litedogeAddress + '/unspent', options);
+    return this.http.get<UnspentTransaction[]>(this.getWalletProxyEndpoint() + '/addresses/' + wallet.litedogeAddress + '/unspent', options)
+      .pipe(
+        first(),
+        map<any, UnspentTransaction[]>(response => response.data),
+      );
   }
 
   public pushTransactionHex(transactionHex: string): Observable<any> {
@@ -28,9 +34,9 @@ export class WalletProxyService {
       headers: this.getJsonHeaders()
     };
     const data = {
-      transactionHex
+      transactionData: transactionHex
     };
-    return this.http.post<any>(this.getWalletProxyEndpoint() + '/transactions/push', data, options);
+    return this.http.post<any>(this.getWalletProxyEndpoint() + '/transactions', data, options);
   }
 
   private getJsonHeaders(): HttpHeaders {

@@ -30,7 +30,8 @@
             </ion-item>
             <ion-item>
               <ion-label position="floating">Transaction Amount</ion-label>
-              <ion-input readonly="" [value]="transactionBlock.tx.total / getLdogeDenominator()"></ion-input>
+              <ion-input readonly=""
+                         [value]="parseBigIntToNumber(transactionBlock.tx.total) / getLdogeDenominator()"></ion-input>
             </ion-item>
           </ion-card>
           <ion-card>
@@ -44,7 +45,7 @@
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Input Amount {{i + 1}}</ion-label>
-                <ion-input readonly="" [value]="vin.amount / getLdogeDenominator()"></ion-input>
+                <ion-input readonly="" [value]="parseBigIntToNumber(vin.amount) / getLdogeDenominator()"></ion-input>
               </ion-item>
             </ng-container>
             <ion-card-content *ngIf="transactionBlock.tx.vin.length === 0">No inputs</ion-card-content>
@@ -60,7 +61,7 @@
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Output Amount {{i + 1}}</ion-label>
-                <ion-input readonly="" [value]="vout.amount / getLdogeDenominator()"></ion-input>
+                <ion-input readonly="" [value]="parseBigIntToNumber(vout.amount)/ getLdogeDenominator()"></ion-input>
               </ion-item>
             </ng-container>
             <ion-card-content *ngIf="transactionBlock.tx.vout.length === 0">No outputs</ion-card-content>
