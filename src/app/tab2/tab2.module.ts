@@ -5,14 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
+import {QRCodeModule} from 'angular2-qrcode';
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    Tab2PageRoutingModule
-  ],
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        Tab2PageRoutingModule,
+        QRCodeModule
+    ],
   declarations: [Tab2Page]
 })
 export class Tab2PageModule {}

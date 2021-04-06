@@ -98,6 +98,9 @@
             <ion-card-header>
               <ion-card-title>Receive</ion-card-title>
             </ion-card-header>
+            <ion-card-content>
+              <qr-code [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''" [size]="1000"></qr-code>
+            </ion-card-content>
             <ion-item>
               <ion-label position="floating">Address</ion-label>
               <ion-input readonly="readonly" type="text"
