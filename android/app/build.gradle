@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    buildToolsVersion '31.0.0-rc2'
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "org.litedogeofficial.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

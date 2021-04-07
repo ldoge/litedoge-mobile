@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {PaymentService} from '../services/payment.service';
 import {BehaviorSubject} from 'rxjs';
 import {JaninService} from '../services/janin.service';
-import {QRScanner, QRScannerStatus} from '@ionic-native/qr-scanner/ngx';
+import {BarcodeScannerWeb, ScanOptions, SupportedFormat} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
 import {ToastController} from '@ionic/angular';
 
@@ -19,7 +19,7 @@ export class Tab2Page {
   constructor(public janinService: JaninService,
               public paymentService: PaymentService,
               private toastController: ToastController,
-              private qrScanner: QRScanner) {
+              private barcodeScanner: BarcodeScannerWeb) {
   }
 
   ionViewWillEnter() {
@@ -39,28 +39,21 @@ export class Tab2Page {
       });
   }
 
-  openQrScanner() {
-    this.qrScanner.prepare()
-      .then((status: QRScannerStatus) => {
-        if (status.authorized) {
-          // camera permission was granted
-          // start scanning
-          const scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            this.sendToAddress = text;
+  async openQrScanner() {
+    const status = await this.barcodeScanner.checkPermission({force: true});
 
-            this.qrScanner.hide(); // hide camera preview
-            scanSub.unsubscribe(); // stop scanning
-          });
-
-        } else if (status.denied) {
-          // camera permission was permanently denied
-          // you must use QRScanner.openSettings() method to guide the user to the settings page
-          // then they can grant the permission from there
-        } else {
-          // permission was denied, but not permanently. You can ask for permission again at a later time.
+    switch (status) {
+      case status.granted:
+        this.barcodeScanner.hideBackground();
+        const scanOptions: ScanOptions = {targetedFormats: [SupportedFormat.QR_CODE]};
+        const result = await this.barcodeScanner.startScan(scanOptions);
+        if (result.hasContent) {
+          this.sendToAddress = result.content;
+          this.barcodeScanner.showBackground();
+          await this.barcodeScanner.stopScan();
         }
-      })
-      .catch((e: any) => console.log('Error is', e));
+        break;
+    }
   }
 
   async makePayment() {

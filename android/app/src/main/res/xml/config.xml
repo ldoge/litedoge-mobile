@@ -7,9 +7,5 @@
     <param name="onload" value="true"/>
   </feature>
 
-  <feature name="QRScanner">
-    <param name="android-package" value="com.bitpay.cordova.qrscanner.QRScanner"/>
-  </feature>
-
   
 </widget>

@@ -9,8 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedComponentsModule} from './shared-components/shared-components.module';
-import {QRCodeModule} from 'angular2-qrcode';
-import {QRScanner} from '@ionic-native/qr-scanner/ngx';
+import {BarcodeScannerWeb} from '@capacitor-community/barcode-scanner';
 
 
 @NgModule({
@@ -23,12 +22,11 @@ import {QRScanner} from '@ionic-native/qr-scanner/ngx';
     HttpClientModule,
     AppRoutingModule,
     SharedComponentsModule,
-    QRCodeModule,
   ],
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     Storage,
-    QRScanner,
+    BarcodeScannerWeb,
   ],
   bootstrap: [AppComponent],
 })
