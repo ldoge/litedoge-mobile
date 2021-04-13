@@ -13,6 +13,7 @@ import {ToastController} from '@ionic/angular';
 })
 export class Tab2Page {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public paymentSending$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   sendToAddress = '';
   sendToAmount = 0;
 
@@ -58,15 +59,28 @@ export class Tab2Page {
 
   async makePayment() {
     try {
-      this.paymentService.createPayment(this.sendToAddress, this.sendToAmount);
-      this.sendToAddress = '';
-      this.sendToAmount = 0;
-      const toast = await this.toastController.create({
-        message: 'Payment Sent!',
-        color: 'success',
-        duration: 5000
-      });
-      toast.present();
+      this.paymentSending$.next(true);
+      this.paymentService.createPayment(this.sendToAddress, this.sendToAmount)
+        .subscribe(async result => {
+          console.log(result);
+          this.paymentSending$.next(false);
+          this.sendToAddress = '';
+          this.sendToAmount = 0;
+          const toast = await this.toastController.create({
+            message: 'Payment Sent!',
+            color: 'success',
+            duration: 5000
+          });
+          toast.present();
+        }, async error => {
+          const toast = await this.toastController.create({
+            message: 'Transaction Failed!',
+            color: 'danger',
+            duration: 5000
+          });
+          toast.present();
+          this.paymentSending$.next(false);
+        });
     } catch (exception: any) {
       if (exception instanceof InsufficientLitedoge) {
         const toast = await this.toastController.create({

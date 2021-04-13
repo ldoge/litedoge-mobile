@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {JaninService} from './janin.service';
-import * as bitcoin from 'bitcoinjs-lib';
 import {TransactionService} from './transaction.service';
 import {environment} from '../../environments/environment';
 import {WalletProxyService} from './wallet-proxy.service';
@@ -8,6 +7,7 @@ import {BehaviorSubject, Observable, zip} from 'rxjs';
 import {first, tap} from 'rxjs/operators';
 import {UnspentTransaction} from '../models/unspent-transaction';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
+import {LitedogeBuilder} from '../models/litedoge-builder';
 
 @Injectable({
   providedIn: 'root'
@@ -55,15 +55,17 @@ export class PaymentService {
   }
 
   // This amount given will also be used for covering transaction fees
-  public createPayment(receiverAddress: string, amount: number) {
+  public createPayment(receiverAddress: string, amount: number): Observable<any> {
     const wallet = this.janinService.loadedWallet$.getValue();
-    const amountAndFees = amount - Number(this.getFees() / this.getLdogeDenominator());
+    const amountInSats = Math.floor(amount * this.getLdogeDenominator());
+    const amountAndFees = amountInSats + this.getFees();
+    const signer = wallet.liteDogeKeyPair;
     const unspentTransactions = this.unspentTransactions$.getValue();
     const referencedTransactions: UnspentTransaction[] = [];
     let totalInputAmount = 0;
     for (const unspentTransaction of unspentTransactions) {
       if (unspentTransaction.spendable) {
-        totalInputAmount += unspentTransaction.amount;
+        totalInputAmount += Math.floor(unspentTransaction.amount * this.getLdogeDenominator());
         referencedTransactions.push(unspentTransaction);
         // Check if there's sufficient being referenced
         if (totalInputAmount >= amountAndFees) {
@@ -72,23 +74,41 @@ export class PaymentService {
       }
     }
     const returnToSenderAmount = totalInputAmount - amountAndFees;
+    console.log('return to sender');
+    console.log(returnToSenderAmount);
 
     // Has enough LiteDoges
     if (returnToSenderAmount >= 0) {
-      const transactionBuilder = new bitcoin.TransactionBuilder(this.janinService.litedogeCurrency.network);
-      // Add sources from previous transactions hash
-      referencedTransactions.forEach(referencedTransaction => {
-        transactionBuilder.addInput(referencedTransaction.txid, referencedTransaction.vout);
-      });
-      // Add output address
-      transactionBuilder.addOutput(receiverAddress, amount * this.getLdogeDenominator());
-      // Send remaining LiteDoges back to sender address
-      if (returnToSenderAmount > 0) {
-        transactionBuilder.addOutput(wallet.litedogeAddress, returnToSenderAmount * this.getLdogeDenominator());
+      try {
+        const transactionBuilder = new LitedogeBuilder(this.janinService.litedogeCurrency.network);
+        transactionBuilder.setLockTime(environment.ldogeLocktime);
+        transactionBuilder.setVersion(environment.ldogeVersion);
+        transactionBuilder.setLowR(false);
+        // Add sources from previous transactions hash
+        referencedTransactions.forEach(referencedTransaction => {
+          transactionBuilder.addInput(referencedTransaction.txid, referencedTransaction.vout);
+        });
+        // Add output address
+        transactionBuilder.addOutput(receiverAddress, amountInSats);
+        // Send remaining LiteDoges back to sender address
+        if (returnToSenderAmount > 0) {
+          transactionBuilder.addOutput(wallet.litedogeAddress, returnToSenderAmount);
+        }
+        for (let i = 0; i < referencedTransactions.length; i++) {
+          transactionBuilder.sign(i, signer);
+        }
+        transactionBuilder.setTimeToCurrentTime();
+        console.log('build');
+        const transaction = transactionBuilder.build();
+        console.log(transaction.time);
+        console.log(transaction);
+        const transactionHex = transaction.toHex();
+        console.log(transactionHex);
+
+        return this.walletProxyService.pushTransactionHex(transactionHex);
+      } catch (e) {
+        console.error(e);
       }
-      transactionBuilder.sign(0, wallet.liteDogeKeyPair);
-      const transactionHex = transactionBuilder.build().toHex();
-      this.walletProxyService.pushTransactionHex(transactionHex);
     } else {
       throw new InsufficientLitedoge();
     }
