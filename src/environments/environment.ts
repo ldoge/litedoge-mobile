@@ -8,6 +8,8 @@ export const environment = {
   walletProxyEndpoint: 'https://wallet-proxy.ldoge-wow.com',
   minFee: 10000000,
   ldogeDenominator: 100000000,
+  ldogeLocktime: 0,
+  ldogeVersion: 1,
 };
 
 /*
