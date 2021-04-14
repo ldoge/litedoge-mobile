@@ -3,6 +3,7 @@ import * as varuint from 'varuint-bitcoin';
 import {LitedogeBufferwriter} from './litedoge-bufferwriter';
 import {LitedogeInput} from './litedoge-input';
 import {LitedogeOutput} from './litedoge-output';
+import {Sighash} from './sighash.enum';
 
 const EMPTY_SCRIPT = Buffer.allocUnsafe(0);
 const ZERO = Buffer.from(
@@ -51,7 +52,7 @@ export class LitedogeTransaction extends Transaction {
     );
   }
 
-  hashForSignature(inIndex: number, prevOutScript: Buffer, hashType: number) {
+  hashForSignature(inIndex: number, prevOutScript: Buffer, hashType: Sighash) {
     if (inIndex >= this.inputs.length) {
       return ONE;
     }
@@ -64,8 +65,8 @@ export class LitedogeTransaction extends Transaction {
     const txTmp = this.litedogeClone();
     // SIGHASH_NONE: ignore all outputs? (wildcard payee)
     // tslint:disable-next-line:no-bitwise
-    if ((hashType & 0x1f) === Transaction.SIGHASH_NONE) {
-      txTmp.outs = [];
+    if ((hashType & 0x1f) === Sighash.SIGHASH_NONE) {
+      txTmp.outputs = [];
       // ignore sequence numbers (except at inIndex)
       txTmp.inputs.forEach((input, i) => {
         if (i === inIndex) {
@@ -75,7 +76,7 @@ export class LitedogeTransaction extends Transaction {
       });
       // SIGHASH_SINGLE: ignore all outputs, except at the same index?
       // tslint:disable-next-line:no-bitwise
-    } else if ((hashType & 0x1f) === Transaction.SIGHASH_SINGLE) {
+    } else if ((hashType & 0x1f) === Sighash.SIGHASH_SINGLE) {
       // https://github.com/bitcoin/bitcoin/blob/master/src/test/sighash_tests.cpp#L60
       if (inIndex >= this.outputs.length) {
         return ONE;
@@ -114,14 +115,14 @@ export class LitedogeTransaction extends Transaction {
     return bcrypto.hash256(buffer);
   }
 
-  hashForWitnessV0(inIndex: number, prevOutScript: Buffer, value: number, hashType: number) {
+  hashForWitnessV0(inIndex: number, prevOutScript: Buffer, value: number, hashType: Sighash) {
     let tbuffer = Buffer.from([]);
     let bufferWriter;
     let hashOutputs = ZERO;
     let hashPrevouts = ZERO;
     let hashSequence = ZERO;
     // tslint:disable-next-line:no-bitwise
-    if (!(hashType & Transaction.SIGHASH_ANYONECANPAY)) {
+    if (!(hashType & Sighash.SIGHASH_ANYONECANPAY)) {
       tbuffer = Buffer.allocUnsafe(36 * this.inputs.length);
       bufferWriter = new LitedogeBufferwriter(tbuffer, 0);
       this.inputs.forEach(txIn => {
@@ -132,11 +133,11 @@ export class LitedogeTransaction extends Transaction {
     }
     if (
       // tslint:disable-next-line:no-bitwise
-      !(hashType & Transaction.SIGHASH_ANYONECANPAY) &&
+      !(hashType & Sighash.SIGHASH_ANYONECANPAY) &&
       // tslint:disable-next-line:no-bitwise
-      (hashType & 0x1f) !== Transaction.SIGHASH_SINGLE &&
+      (hashType & 0x1f) !== Sighash.SIGHASH_SINGLE &&
       // tslint:disable-next-line:no-bitwise
-      (hashType & 0x1f) !== Transaction.SIGHASH_NONE
+      (hashType & 0x1f) !== Sighash.SIGHASH_NONE
     ) {
       tbuffer = Buffer.allocUnsafe(4 * this.inputs.length);
       bufferWriter = new LitedogeBufferwriter(tbuffer, 0);
@@ -147,9 +148,9 @@ export class LitedogeTransaction extends Transaction {
     }
     if (
       // tslint:disable-next-line:no-bitwise
-      (hashType & 0x1f) !== Transaction.SIGHASH_SINGLE &&
+      (hashType & 0x1f) !== Sighash.SIGHASH_SINGLE &&
       // tslint:disable-next-line:no-bitwise
-      (hashType & 0x1f) !== Transaction.SIGHASH_NONE
+      (hashType & 0x1f) !== Sighash.SIGHASH_NONE
     ) {
       const txOutsSize = this.outputs.reduce((sum, output) => {
         return sum + 8 + this.varSliceSize(output.script);
@@ -163,10 +164,10 @@ export class LitedogeTransaction extends Transaction {
       hashOutputs = bcrypto.hash256(tbuffer);
     } else if (
       // tslint:disable-next-line:no-bitwise
-      (hashType & 0x1f) === Transaction.SIGHASH_SINGLE &&
+      (hashType & 0x1f) === Sighash.SIGHASH_SINGLE &&
       inIndex < this.outputs.length
     ) {
-      const output = this.outs[inIndex];
+      const output = this.outputs[inIndex];
       tbuffer = Buffer.allocUnsafe(8 + this.varSliceSize(output.script));
       bufferWriter = new LitedogeBufferwriter(tbuffer, 0);
       bufferWriter.writeUInt64(output.value);

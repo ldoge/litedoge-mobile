@@ -3,6 +3,8 @@ import {LitedogeTransaction} from './litedoge-transaction';
 import {LitedogeBufferutils} from './litedoge-bufferutils';
 import {LitedogeAddress} from './litedoge-address';
 import {LitedogeClassify} from '../classes/litedoge-classify';
+import {Sighash} from './sighash.enum';
+import {LitedogeNetwork} from './litedoge-network';
 
 const SCRIPT_TYPES = LitedogeClassify.types;
 const PREVOUT_TYPES = new Set([
@@ -27,11 +29,12 @@ const PREVOUT_TYPES = new Set([
 ]);
 
 export class LitedogeBuilder extends TransactionBuilder {
+  public network: LitedogeNetwork;
   private litedogeTransaction: LitedogeTransaction;
   private previousTransactionSet = {};
   private inputs: any[] = [];
 
-  constructor(network) {
+  constructor(network: LitedogeNetwork) {
     super(network);
     this.litedogeTransaction = new LitedogeTransaction();
   }
@@ -60,9 +63,7 @@ export class LitedogeBuilder extends TransactionBuilder {
     signParams: number,
     keyPair: Signer,
     redeemScript?: Buffer,
-    hashType?: number,
-    witnessValue?: number,
-    witnessScript?: Buffer,
+    hashType?: Sighash,
   ) {
     this.trySign(
       this.getSigningData(
@@ -74,8 +75,6 @@ export class LitedogeBuilder extends TransactionBuilder {
         keyPair,
         redeemScript,
         hashType,
-        witnessValue,
-        witnessScript,
         false,
       ),
     );
@@ -87,8 +86,7 @@ export class LitedogeBuilder extends TransactionBuilder {
                          prevOutScript?: Buffer,
                          value?: any,
                          scriptSig?: any,
-                         inputScript?: any,
-                         witness?: any) {
+                         inputScript?: any) {
     const prevTxOut = txHash.toString('hex') + ':' + vout;
     if (this.previousTransactionSet[prevTxOut] !== undefined) {
       throw new Error('Duplicate TxOut: ' + prevTxOut);
@@ -96,7 +94,7 @@ export class LitedogeBuilder extends TransactionBuilder {
     let input: any = {};
     // derive what we can from the scriptSig
     if (inputScript !== undefined) {
-      input = this.expandInput(inputScript, witness || []);
+      input = this.expandInput(inputScript);
     }
     // if an input value was given, retain it
     if (value !== undefined) {
@@ -127,20 +125,16 @@ export class LitedogeBuilder extends TransactionBuilder {
     return vin;
   }
 
-  private expandInput(scriptSig, witnessStack?: any[], type?: any, scriptPubKey?: any) {
-    if (scriptSig.length === 0 && witnessStack.length === 0) {
+  private expandInput(scriptSig, type?: any, scriptPubKey?: any) {
+    if (scriptSig.length === 0) {
       return {};
     }
     if (!type) {
       let ssType = LitedogeClassify.input(scriptSig);
-      let wsType = LitedogeClassify.witness(witnessStack);
       if (ssType === SCRIPT_TYPES.NONSTANDARD) {
         ssType = undefined;
       }
-      if (wsType === SCRIPT_TYPES.NONSTANDARD) {
-        wsType = undefined;
-      }
-      type = ssType || wsType;
+      type = ssType;
     }
     switch (type) {
       case SCRIPT_TYPES.P2PKH: {
@@ -217,12 +211,6 @@ export class LitedogeBuilder extends TransactionBuilder {
       if (input.signatures[i]) {
         throw new Error('Signature already exists');
       }
-      // TODO: add tests
-      if (ourPubKey.length !== 33 && input.hasWitness) {
-        throw new Error(
-          'BIP143 rejects uncompressed public keys in P2WPKH or P2WSH',
-        );
-      }
       const signature = keyPair.sign(signatureHash, useLowR);
       input.signatures[i] = script.signature.encode(signature, hashType);
       signed = true;
@@ -233,16 +221,14 @@ export class LitedogeBuilder extends TransactionBuilder {
   }
 
   private getSigningData(
-    network,
+    network: LitedogeNetwork,
     inputs,
     needsOutputs,
-    tx,
+    tx: LitedogeTransaction,
     signParams,
     keyPair,
     redeemScript,
-    hashType,
-    witnessValue,
-    witnessScript,
+    hashType: Sighash = Sighash.SIGHASH_ALL,
     useLowR,
   ) {
     const vin = signParams;
@@ -256,7 +242,6 @@ export class LitedogeBuilder extends TransactionBuilder {
     if (!inputs[vin]) {
       throw new Error('No input at index: ' + vin);
     }
-    hashType = hashType || LitedogeTransaction.SIGHASH_ALL;
     if (needsOutputs(hashType)) {
       throw new Error('Transaction needs outputs');
     }
@@ -272,18 +257,11 @@ export class LitedogeBuilder extends TransactionBuilder {
     const ourPubKey =
       keyPair.publicKey || (keyPair.getPublicKey && keyPair.getPublicKey());
     if (!this.canSign(input)) {
-      if (witnessValue !== undefined) {
-        if (input.value !== undefined && input.value !== witnessValue) {
-          throw new Error('Input did not match witnessValue');
-        }
-        input.value = witnessValue;
-      }
       if (!this.canSign(input)) {
         const prepared = this.prepareInput(
           input,
           ourPubKey,
           redeemScript,
-          witnessScript,
         );
         // updates inline
         Object.assign(input, prepared);
@@ -293,17 +271,7 @@ export class LitedogeBuilder extends TransactionBuilder {
       }
     }
     // ready to sign
-    let signatureHash;
-    if (input.hasWitness) {
-      signatureHash = tx.hashForWitnessV0(
-        vin,
-        input.signScript,
-        input.value,
-        hashType,
-      );
-    } else {
-      signatureHash = tx.hashForSignature(vin, input.signScript, hashType);
-    }
+    const signatureHash = tx.hashForSignature(vin, input.signScript, hashType);
     return {
       input,
       ourPubKey,
@@ -388,20 +356,6 @@ export class LitedogeBuilder extends TransactionBuilder {
           redeem: {
             output: redeem.output || input.redeemScript,
             input: redeem.input,
-            witness: redeem.witness,
-          },
-        });
-      }
-      case SCRIPT_TYPES.P2WSH: {
-        const redeem = this.paymentBuild(input.witnessScriptType, input);
-        if (!redeem) {
-          return;
-        }
-        return payments.p2wsh({
-          redeem: {
-            output: input.witnessScript,
-            input: redeem.input,
-            witness: redeem.witness,
           },
         });
       }
@@ -415,17 +369,15 @@ export class LitedogeBuilder extends TransactionBuilder {
       input.pubkeys !== undefined &&
       input.signatures !== undefined &&
       input.signatures.length === input.pubkeys.length &&
-      input.pubkeys.length > 0 &&
-      (input.hasWitness === false || input.value !== undefined)
+      input.pubkeys.length > 0
     );
   }
 
-  private prepareInput(input, ourPubKey, redeemScript, witnessScript) {
+  private prepareInput(input, ourPubKey, redeemScript?) {
     const prevOutScript = payments.p2pkh({pubkey: ourPubKey}).output;
     return {
       prevOutType: SCRIPT_TYPES.P2PKH,
       prevOutScript,
-      hasWitness: false,
       signScript: prevOutScript,
       signType: SCRIPT_TYPES.P2PKH,
       pubkeys: [ourPubKey],
@@ -433,8 +385,8 @@ export class LitedogeBuilder extends TransactionBuilder {
     };
   }
 
-  private needsOutputs(signingHashType) {
-    if (signingHashType === LitedogeTransaction.SIGHASH_ALL) {
+  private needsOutputs(signingHashType: Sighash): boolean {
+    if (signingHashType === Sighash.SIGHASH_ALL) {
       return this.litedogeTransaction.outputs.length === 0;
     }
     // if inputs are being signed with SIGHASH_NONE, we don't strictly need outputs
@@ -451,7 +403,7 @@ export class LitedogeBuilder extends TransactionBuilder {
           } // no signature, no issue
           const hashType = this.signatureHashType(signature);
           // tslint:disable-next-line:no-bitwise
-          if (hashType & LitedogeTransaction.SIGHASH_NONE) {
+          if (hashType & Sighash.SIGHASH_NONE) {
             return false;
           } // SIGHASH_NONE doesn't care about outputs
           return true; // SIGHASH_* does care
@@ -460,7 +412,7 @@ export class LitedogeBuilder extends TransactionBuilder {
     );
   }
 
-  private signatureHashType(buffer) {
+  private signatureHashType(buffer: Buffer): number {
     return buffer.readUInt8(buffer.length - 1);
   }
 }
