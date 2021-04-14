@@ -74,14 +74,13 @@ export class PaymentService {
       }
     }
     const returnToSenderAmount = totalInputAmount - amountAndFees;
-    console.log('return to sender');
-    console.log(returnToSenderAmount);
 
     // Has enough LiteDoges
     if (returnToSenderAmount >= 0) {
       try {
         const transactionBuilder = new LitedogeBuilder(this.janinService.litedogeCurrency.network);
         transactionBuilder.setLockTime(environment.ldogeLocktime);
+        transactionBuilder.setTimeToCurrentTime();
         transactionBuilder.setVersion(environment.ldogeVersion);
         transactionBuilder.setLowR(false);
         // Add sources from previous transactions hash
@@ -97,13 +96,8 @@ export class PaymentService {
         for (let i = 0; i < referencedTransactions.length; i++) {
           transactionBuilder.sign(i, signer);
         }
-        transactionBuilder.setTimeToCurrentTime();
-        console.log('build');
         const transaction = transactionBuilder.build();
-        console.log(transaction.time);
-        console.log(transaction);
         const transactionHex = transaction.toHex();
-        console.log(transactionHex);
 
         return this.walletProxyService.pushTransactionHex(transactionHex);
       } catch (e) {

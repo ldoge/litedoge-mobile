@@ -62,7 +62,6 @@ export class Tab2Page {
       this.paymentSending$.next(true);
       this.paymentService.createPayment(this.sendToAddress, this.sendToAmount)
         .subscribe(async result => {
-          console.log(result);
           this.paymentSending$.next(false);
           this.sendToAddress = '';
           this.sendToAmount = 0;

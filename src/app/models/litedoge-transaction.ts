@@ -4,6 +4,7 @@ import {LitedogeBufferwriter} from './litedoge-bufferwriter';
 import {LitedogeInput} from './litedoge-input';
 import {LitedogeOutput} from './litedoge-output';
 import {Sighash} from './sighash.enum';
+import {LitedogeBufferutils} from './litedoge-bufferutils';
 
 const EMPTY_SCRIPT = Buffer.allocUnsafe(0);
 const ZERO = Buffer.from(
@@ -25,12 +26,12 @@ export class LitedogeTransaction extends Transaction {
   outputs: LitedogeOutput[] = [];
   time = 0;
 
-  private varSliceSize(someScript) {
+  private varSliceSize(someScript: Buffer): number {
     const length = someScript.length;
     return varuint.encodingLength(length) + length;
   }
 
-  addInput(hash: Buffer, index: number, sequence: number = LitedogeTransaction.DEFAULT_SEQUENCE, scriptSig?: Buffer) {
+  addInput(hash: Buffer, index: number, sequence: number = LitedogeTransaction.DEFAULT_SEQUENCE, scriptSig?: Buffer): number {
     // Add the input and return the input's index
     return (
       this.inputs.push({
@@ -42,7 +43,7 @@ export class LitedogeTransaction extends Transaction {
     );
   }
 
-  addOutput(scriptPubKey: Buffer, value: number) {
+  addOutput(scriptPubKey: Buffer, value: number): number {
     // Add the output and return the output's index
     return (
       this.outputs.push({
@@ -52,7 +53,7 @@ export class LitedogeTransaction extends Transaction {
     );
   }
 
-  hashForSignature(inIndex: number, prevOutScript: Buffer, hashType: Sighash) {
+  hashForSignature(inIndex: number, prevOutScript: Buffer, hashType: Sighash): Buffer {
     if (inIndex >= this.inputs.length) {
       return ONE;
     }
@@ -115,7 +116,7 @@ export class LitedogeTransaction extends Transaction {
     return bcrypto.hash256(buffer);
   }
 
-  hashForWitnessV0(inIndex: number, prevOutScript: Buffer, value: number, hashType: Sighash) {
+  hashForWitnessV0(inIndex: number, prevOutScript: Buffer, value: number, hashType: Sighash): Buffer {
     let tbuffer = Buffer.from([]);
     let bufferWriter;
     let hashOutputs = ZERO;
@@ -214,19 +215,28 @@ export class LitedogeTransaction extends Transaction {
     return newTx;
   }
 
-  toBuffer(buffer, initialOffset) {
+  getHash(): Buffer {
+    return bcrypto.hash256(this.toLitedogeBuffer());
+  }
+
+  getId(): string {
+    // transaction hash's are displayed in reverse order
+    return LitedogeBufferutils.reverseBuffer(this.getHash()).toString('hex');
+  }
+
+  toBuffer(buffer?: Buffer, initialOffset?: number): Buffer {
     return this.toLitedogeBuffer(buffer, initialOffset);
   }
 
-  toHex() {
-    return this.toBuffer(undefined, undefined).toString('hex');
+  toHex(): string {
+    return this.toBuffer().toString('hex');
   }
 
-  setInputScript(index, scriptSig) {
+  setInputScript(index: number, scriptSig: Buffer) {
     this.inputs[index].script = scriptSig;
   }
 
-  public byteLength() {
+  public byteLength(): number {
     return (
       4 + // version
       4 + // time
@@ -242,7 +252,7 @@ export class LitedogeTransaction extends Transaction {
     );
   }
 
-  private toLitedogeBuffer(buffer?: Buffer, initialOffset?: number) {
+  private toLitedogeBuffer(buffer?: Buffer, initialOffset?: number): Buffer {
     if (!buffer) {
       buffer = Buffer.allocUnsafe(this.byteLength());
     }
@@ -277,7 +287,7 @@ export class LitedogeTransaction extends Transaction {
     return buffer;
   }
 
-  private isOutput(out) {
+  private isOutput(out): boolean {
     return out.value !== undefined;
   }
 }

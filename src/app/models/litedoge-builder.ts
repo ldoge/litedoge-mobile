@@ -47,14 +47,14 @@ export class LitedogeBuilder extends TransactionBuilder {
     this.litedogeTransaction.version = version;
   }
 
-  addInput(txHash: string, vout: number, sequence?: number, prevOutScript?: Buffer) {
+  addInput(txHash: string, vout: number, sequence?: number, prevOutScript?: Buffer): number {
     let value;
     const txBuffer = LitedogeBufferutils.reverseBuffer(Buffer.from(txHash, 'hex'));
 
     return this.addInputUnsafe(txBuffer, vout, sequence, prevOutScript, value);
   }
 
-  addOutput(publicHash: string, value: number) {
+  addOutput(publicHash: string, value: number): number {
     const scriptPubKey: Buffer = LitedogeAddress.toOutputScript(publicHash, this.network);
     return this.litedogeTransaction.addOutput(scriptPubKey, value);
   }
@@ -140,6 +140,7 @@ export class LitedogeBuilder extends TransactionBuilder {
       case SCRIPT_TYPES.P2PKH: {
         const {output, pubkey, signature} = payments.p2pkh({
           input: scriptSig,
+          network: this.network,
         });
         return {
           prevOutScript: output,
@@ -149,7 +150,10 @@ export class LitedogeBuilder extends TransactionBuilder {
         };
       }
       case SCRIPT_TYPES.P2PK: {
-        const {signature} = payments.p2pk({input: scriptSig});
+        const {signature} = payments.p2pk({
+          input: scriptSig,
+          network: this.network,
+        });
         return {
           prevOutType: SCRIPT_TYPES.P2PK,
           pubkeys: [undefined],
@@ -171,7 +175,10 @@ export class LitedogeBuilder extends TransactionBuilder {
           return {type};
         }
         // does our hash160(pubKey) match the output scripts?
-        const pkh1 = payments.p2pkh({output: outputScript}).hash;
+        const pkh1 = payments.p2pkh({
+          output: outputScript,
+          network: this.network,
+        }).hash;
         const pkh2 = crypto.hash160(ourPubKey);
         if (!pkh1.equals(pkh2)) {
           return {type};
@@ -183,7 +190,10 @@ export class LitedogeBuilder extends TransactionBuilder {
         };
       }
       case SCRIPT_TYPES.P2PK: {
-        const p2pk = payments.p2pk({output: outputScript});
+        const p2pk = payments.p2pk({
+          output: outputScript,
+          network: this.network,
+        });
         return {
           type,
           pubkeys: [p2pk.pubkey],
@@ -327,7 +337,7 @@ export class LitedogeBuilder extends TransactionBuilder {
         if (signatures.length === 0) {
           break;
         }
-        return payments.p2pkh({pubkey: pubkeys[0], signature: signatures[0]});
+        return payments.p2pkh({pubkey: pubkeys[0], signature: signatures[0], network: this.network});
       }
       case SCRIPT_TYPES.P2WPKH: {
         if (pubkeys.length === 0) {
@@ -336,7 +346,7 @@ export class LitedogeBuilder extends TransactionBuilder {
         if (signatures.length === 0) {
           break;
         }
-        return payments.p2wpkh({pubkey: pubkeys[0], signature: signatures[0]});
+        return payments.p2wpkh({pubkey: pubkeys[0], signature: signatures[0], network: this.network});
       }
       case SCRIPT_TYPES.P2PK: {
         if (pubkeys.length === 0) {
@@ -345,7 +355,7 @@ export class LitedogeBuilder extends TransactionBuilder {
         if (signatures.length === 0) {
           break;
         }
-        return payments.p2pk({signature: signatures[0]});
+        return payments.p2pk({signature: signatures[0], network: this.network});
       }
       case SCRIPT_TYPES.P2SH: {
         const redeem = this.paymentBuild(input.redeemScriptType, input);
@@ -357,6 +367,7 @@ export class LitedogeBuilder extends TransactionBuilder {
             output: redeem.output || input.redeemScript,
             input: redeem.input,
           },
+          network: this.network,
         });
       }
     }
@@ -374,7 +385,7 @@ export class LitedogeBuilder extends TransactionBuilder {
   }
 
   private prepareInput(input, ourPubKey, redeemScript?) {
-    const prevOutScript = payments.p2pkh({pubkey: ourPubKey}).output;
+    const prevOutScript = payments.p2pkh({pubkey: ourPubKey, network: this.network}).output;
     return {
       prevOutType: SCRIPT_TYPES.P2PKH,
       prevOutScript,
