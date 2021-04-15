@@ -32,6 +32,7 @@ export class Tab3Page {
       .subscribe(() => {
         this.infiniteScrollReady$.next(false);
         this.infiniteScrollReachedEnd$.next(false);
+        this.startCount$.next(0);
       });
   }
 
@@ -54,9 +55,7 @@ export class Tab3Page {
   }
 
   doRefresh(event) {
-    this.infiniteScrollReady$.next(false);
-    this.infiniteScrollReachedEnd$.next(false);
-    this.startCount$.next(0);
+    this.transactionService.clearTransactionsOfWallet();
     this.loadData();
     event.target.complete();
   }
