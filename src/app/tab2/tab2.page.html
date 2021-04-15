@@ -105,7 +105,9 @@
               <ion-card-title>Receive</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <qr-code [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''" [size]="1000"></qr-code>
+              <qr-code
+                [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"
+                [size]="1000"></qr-code>
             </ion-card-content>
             <ion-item>
               <ion-label position="floating">Address</ion-label>
@@ -131,18 +133,19 @@
             <ion-card-header>
               <ion-card-title>Send</ion-card-title>
             </ion-card-header>
-            <ion-item>
-              <ion-label position="floating">Address</ion-label>
-              <ion-input clearInput required type="text" [(ngModel)]="sendToAddress"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Amount</ion-label>
-              <ion-input clearInput required type="number" [max]="paymentService.scannedBalance$ | async"
-                         min="0" [(ngModel)]="sendToAmount"></ion-input>
-            </ion-item>
-            <ion-card-content>
-              <ion-button expand="block" color="success" (click)="makePayment()">Send</ion-button>
-            </ion-card-content>
+            <form (submit)="makePayment()" [formGroup]="sendToForm" novalidate>
+              <ion-item>
+                <ion-label position="floating">Address</ion-label>
+                <ion-input clearInput type="text" formControlName="address"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Amount</ion-label>
+                <ion-input clearInput type="number" [max]="paymentService.scannedBalance$ | async" formControlName="amount"></ion-input>
+              </ion-item>
+              <ion-card-content>
+                <ion-button expand="block" color="success" type="submit" [disabled]="sendToForm.invalid">Send</ion-button>
+              </ion-card-content>
+            </form>
           </ion-card>
         </ion-col>
       </ion-row>

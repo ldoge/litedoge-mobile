@@ -6,6 +6,7 @@ import {BarcodeScannerWeb, ScanOptions, SupportedFormat} from '@capacitor-commun
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
 import {AlertController, ToastController} from '@ionic/angular';
 import {switchMap} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-tab2',
@@ -15,14 +16,18 @@ import {switchMap} from 'rxjs/operators';
 export class Tab2Page {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public paymentSending$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  sendToAddress = '';
-  sendToAmount = 0;
+  public sendToForm: FormGroup;
 
   constructor(public janinService: JaninService,
               public paymentService: PaymentService,
               private toastController: ToastController,
+              private fb: FormBuilder,
               private alertController: AlertController,
               private barcodeScanner: BarcodeScannerWeb) {
+    this.sendToForm = this.fb.group({
+      address: ['', [Validators.required, Validators.minLength(21)]],
+      amount: [0, [Validators.required, Validators.min(1)]]
+    });
   }
 
   ionViewWillEnter() {
@@ -56,12 +61,12 @@ export class Tab2Page {
 
     switch (status) {
       case status.granted:
-        this.barcodeScanner.hideBackground();
+        await this.barcodeScanner.hideBackground();
         const scanOptions: ScanOptions = {targetedFormats: [SupportedFormat.QR_CODE]};
         const result = await this.barcodeScanner.startScan(scanOptions);
         if (result.hasContent) {
-          this.sendToAddress = result.content;
-          this.barcodeScanner.showBackground();
+          this.sendToForm.get('address').setValue(result.content);
+          await this.barcodeScanner.showBackground();
           await this.barcodeScanner.stopScan();
         }
         break;
@@ -71,11 +76,12 @@ export class Tab2Page {
   async makePayment() {
     try {
       this.paymentSending$.next(true);
-      this.paymentService.createPayment(this.sendToAddress, this.sendToAmount)
+      const sendToAddress = this.sendToForm.get('address').value;
+      const sendToAmount = this.sendToForm.get('amount').value;
+      this.paymentService.createPayment(sendToAddress, sendToAmount)
         .subscribe(async result => {
           this.paymentSending$.next(false);
-          this.sendToAddress = '';
-          this.sendToAmount = 0;
+          this.sendToForm.reset();
           const toast = await this.toastController.create({
             message: 'Payment Sent!',
             color: 'success',
