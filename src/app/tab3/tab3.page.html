@@ -34,10 +34,11 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <ion-grid *ngIf="(infiniteScrollReady$ | async) && (transactionService.transactions$ | async).length === 0">
-    <ion-row>
-      <ion-col>
-        Unfortunate. There are no transactions.
+  <ion-grid id="no-transactions" *ngIf="(infiniteScrollReady$ | async) && (transactionService.transactions$ | async).length === 0">
+    <ion-row class="ion-align-items-center">
+      <ion-col class="ion-text-center">
+        <ion-icon name="search"></ion-icon>
+        <p>Unfortunate. There are no transactions.</p>
       </ion-col>
     </ion-row>
   </ion-grid>
