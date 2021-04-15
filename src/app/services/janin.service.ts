@@ -7,7 +7,7 @@ import {BehaviorSubject, from, Observable} from 'rxjs';
 import {TransactionService} from './transaction.service';
 import {SaveWalletComponent} from '../shared-components/save-wallet/save-wallet.component';
 import {LoadWalletComponent} from '../shared-components/load-wallet/load-wallet.component';
-import {first, map} from 'rxjs/operators';
+import {first, map, switchMap} from 'rxjs/operators';
 import {ImportWalletComponent} from '../shared-components/import-wallet/import-wallet.component';
 
 @Injectable({
@@ -23,9 +23,19 @@ export class JaninService {
               private modalController: ModalController) {
   }
 
-  public generateWallet() {
-    this.loadedWallet$.next(this.singleWalletGenerator.generateNewAddressAndKey(this.litedogeCurrency));
-    this.transactionService.clearTransactionsOfWallet();
+  public async generateWallet() {
+    const generatedWallet = this.singleWalletGenerator.generateNewAddressAndKey(this.litedogeCurrency);
+    if (generatedWallet) {
+      this.loadedWallet$.next(generatedWallet);
+      this.transactionService.clearTransactionsOfWallet();
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Error generating wallet!',
+        message: 'Please restart your application before continuing',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
   }
 
   async encryptAndStoreWallet() {
@@ -73,11 +83,11 @@ export class JaninService {
     return this.loadedWallet$.pipe(map<SingleWallet, boolean>(result => result !== null));
   }
 
-  public showWalletNotLoadedAlert(): Observable<HTMLIonAlertElement> {
+  public showWalletNotLoadedAlert(): Observable<any> {
     return from(this.alertController.create({
       header: 'Wallet not loaded!',
       message: 'Please load your wallet from the main page before continuing',
       buttons: ['OK'],
-    }));
+    })).pipe(switchMap(result => from(result.present())));
   }
 }

@@ -39,8 +39,6 @@ export class Tab2Page {
       .subscribe(result => {
         if (Array.isArray(result)) {
           this.isLoading$.next(false);
-        } else {
-          result.present();
         }
       });
   }

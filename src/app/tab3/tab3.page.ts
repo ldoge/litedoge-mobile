@@ -3,7 +3,7 @@ import {TransactionService} from '../services/transaction.service';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {Transaction} from '../models/transaction';
 import {first, switchMap} from 'rxjs/operators';
-import {BehaviorSubject, from, Observable} from 'rxjs';
+import {BehaviorSubject, from, Observable, of} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {ExplorerService} from '../services/explorer.service';
 
@@ -39,19 +39,16 @@ export class Tab3Page {
     if (!this.infiniteScrollReady$.getValue()) {
       this.janinService
         .isWalletLoaded()
-        .pipe(switchMap<boolean, Observable<HTMLIonAlertElement>>((isWalletLoaded: boolean): Observable<HTMLIonAlertElement> => {
+        .pipe(switchMap<boolean, Observable<any>>((isWalletLoaded: boolean): Observable<any> => {
           if (isWalletLoaded) {
             // First entry since new wallet loaded
             this.loadData();
-            return null;
+            return of(null);
           } else {
             return this.janinService.showWalletNotLoadedAlert();
           }
         }))
         .subscribe(result => {
-          if (result !== null) {
-            result.present();
-          }
         });
     }
   }
@@ -66,6 +63,7 @@ export class Tab3Page {
 
   loadData(event = null) {
     this.startCount$.pipe(
+      first(),
       switchMap(startCount => this.transactionService
         .getTransactionsOfWallet(this.janinService.loadedWallet$.getValue(), startCount, this.amount))
     )
