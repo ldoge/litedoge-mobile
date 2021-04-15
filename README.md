@@ -9,6 +9,33 @@ Transaction hex is sent to a watch-only wallet [https://github.com/GIANTCRAB/lit
 
 [Android Playstore](https://play.google.com/store/apps/details?id=org.litedogeofficial.app)
 
+## Development
+
+```shell
+npm install
+ionic serve
+```
+
+## Tests
+
+Oh no, looks like tests are not done yet.
+
+## Web Build
+
+```shell
+ng build --prod
+```
+
+## Android Build
+
+```shell
+ionic capacitor build android --prod
+```
+
+## Privacy Information
+
+[View information on what the app collects and do with the data.](PRIVACY.md)
+
 ## License
 
 LiteDoge Mobile is licensed under GPLv3. To view full license, see [LICENSE](LICENSE.md).
