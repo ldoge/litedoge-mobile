@@ -4,7 +4,8 @@ import {BehaviorSubject} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {BarcodeScannerWeb, ScanOptions, SupportedFormat} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
-import {ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab2',
@@ -20,15 +21,27 @@ export class Tab2Page {
   constructor(public janinService: JaninService,
               public paymentService: PaymentService,
               private toastController: ToastController,
+              private alertController: AlertController,
               private barcodeScanner: BarcodeScannerWeb) {
   }
 
   ionViewWillEnter() {
     this.isLoading$.next(true);
-    this.paymentService
-      .refreshBalances()
-      .subscribe(() => {
-        this.isLoading$.next(false);
+    this.janinService
+      .isWalletLoaded()
+      .pipe(switchMap(result => {
+        if (result) {
+          return this.paymentService.refreshBalances();
+        }
+
+        return this.janinService.showWalletNotLoadedAlert();
+      }))
+      .subscribe(result => {
+        if (Array.isArray(result)) {
+          this.isLoading$.next(false);
+        } else {
+          result.present();
+        }
       });
   }
 

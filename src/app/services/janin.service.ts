@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {SingleWalletGeneratorService} from './single-wallet-generator.service';
 import {SingleWallet} from '../models/single-wallet';
-import {ModalController} from '@ionic/angular';
-import {BehaviorSubject} from 'rxjs';
+import {AlertController, ModalController} from '@ionic/angular';
+import {BehaviorSubject, from, Observable} from 'rxjs';
 import {TransactionService} from './transaction.service';
 import {SaveWalletComponent} from '../shared-components/save-wallet/save-wallet.component';
 import {LoadWalletComponent} from '../shared-components/load-wallet/load-wallet.component';
-import {first} from 'rxjs/operators';
+import {first, map} from 'rxjs/operators';
 import {ImportWalletComponent} from '../shared-components/import-wallet/import-wallet.component';
 
 @Injectable({
@@ -19,6 +19,7 @@ export class JaninService {
 
   constructor(private singleWalletGenerator: SingleWalletGeneratorService,
               private transactionService: TransactionService,
+              private alertController: AlertController,
               private modalController: ModalController) {
   }
 
@@ -66,5 +67,17 @@ export class JaninService {
     });
 
     await importWalletModal.present();
+  }
+
+  public isWalletLoaded(): Observable<boolean> {
+    return this.loadedWallet$.pipe(map<SingleWallet, boolean>(result => result !== null));
+  }
+
+  public showWalletNotLoadedAlert(): Observable<HTMLIonAlertElement> {
+    return from(this.alertController.create({
+      header: 'Wallet not loaded!',
+      message: 'Please load your wallet from the main page before continuing',
+      buttons: ['OK'],
+    }));
   }
 }
