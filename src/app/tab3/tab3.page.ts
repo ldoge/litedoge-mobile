@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
 import {TransactionService} from '../services/transaction.service';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {Transaction} from '../models/transaction';
-import {first} from 'rxjs/operators';
+import {first, switchMap} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {ExplorerService} from '../services/explorer.service';
@@ -14,7 +14,7 @@ import {ExplorerService} from '../services/explorer.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Tab3Page {
-  private startCount = 0;
+  private startCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   private readonly amount = 30;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   public infiniteScrollReady$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -42,8 +42,19 @@ export class Tab3Page {
     }
   }
 
+  doRefresh(event) {
+    this.infiniteScrollReady$.next(false);
+    this.infiniteScrollReachedEnd$.next(false);
+    this.startCount$.next(0);
+    this.loadData();
+    event.target.complete();
+  }
+
   loadData(event = null) {
-    this.transactionService.getTransactionsOfWallet(this.janinService.loadedWallet$.getValue(), this.startCount, this.amount)
+    this.startCount$.pipe(
+      switchMap(startCount => this.transactionService
+        .getTransactionsOfWallet(this.janinService.loadedWallet$.getValue(), startCount, this.amount))
+    )
       .pipe(first())
       .subscribe((response) => {
         if (response) {
@@ -61,7 +72,7 @@ export class Tab3Page {
             ];
             this.transactionService.transactions$.next(allTransactions);
 
-            this.startCount = this.startCount + this.amount;
+            this.startCount$.next(this.startCount$.getValue() + this.amount);
           }
 
           if (event) {

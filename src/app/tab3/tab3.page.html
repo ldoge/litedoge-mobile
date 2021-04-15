@@ -12,6 +12,11 @@
       <ion-title size="large">Transactions</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="!(infiniteScrollReady$ | async)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list *ngIf="!(infiniteScrollReady$ | async)">
     <ion-item *ngFor="let i of [0, 1, 2, 3, 4, 5]">
       <ion-label>
