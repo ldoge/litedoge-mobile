@@ -9,7 +9,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedComponentsModule} from './shared-components/shared-components.module';
-import {BarcodeScannerWeb} from '@capacitor-community/barcode-scanner';
 
 
 @NgModule({
@@ -26,7 +25,6 @@ import {BarcodeScannerWeb} from '@capacitor-community/barcode-scanner';
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     Storage,
-    BarcodeScannerWeb,
   ],
   bootstrap: [AppComponent],
 })

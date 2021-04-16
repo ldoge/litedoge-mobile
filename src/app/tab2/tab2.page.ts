@@ -1,33 +1,59 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {PaymentService} from '../services/payment.service';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, from, Observable, Subscription} from 'rxjs';
 import {JaninService} from '../services/janin.service';
-import {BarcodeScannerWeb, ScanOptions, SupportedFormat} from '@capacitor-community/barcode-scanner';
+import {ScanOptions, SupportedFormat, ScanResult, CheckPermissionResult} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
-import {AlertController, ToastController} from '@ionic/angular';
-import {switchMap} from 'rxjs/operators';
+import {Platform, ToastController} from '@ionic/angular';
+import {filter, switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Plugins} from '@capacitor/core';
+import {AppService} from '../services/app.service';
+
+const {BarcodeScanner} = Plugins;
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  styleUrls: ['tab2.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab2Page {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public paymentSending$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public sendToForm: FormGroup;
+  public scannerSubscription: Subscription;
+  public scanResult$: BehaviorSubject<ScanResult> = new BehaviorSubject<ScanResult>(null);
 
   constructor(public janinService: JaninService,
               public paymentService: PaymentService,
               private toastController: ToastController,
+              private platform: Platform,
               private fb: FormBuilder,
-              private alertController: AlertController,
-              private barcodeScanner: BarcodeScannerWeb) {
+              private appService: AppService) {
     this.sendToForm = this.fb.group({
       address: ['', [Validators.required, Validators.minLength(21)]],
       amount: [0, [Validators.required, Validators.min(1)]]
     });
+
+    // Keep listening for QR results
+    this.scanResult$
+      .pipe(filter(result => result !== null))
+      .subscribe(async result => {
+        if (result.hasContent) {
+          this.sendToForm.get('address').setValue(result.content);
+          await this.stopQrScanner();
+        }
+      });
+
+    // When back button is pressed and scanner is active, stop QR scanner immediately
+    this.platform
+      .backButton
+      .subscribeWithPriority(0, async () => {
+        if (this.scannerSubscription && !this.scannerSubscription.closed) {
+          await this.stopQrScanner();
+        }
+      });
   }
 
   ionViewWillEnter() {
@@ -57,20 +83,26 @@ export class Tab2Page {
   }
 
   async openQrScanner() {
-    const status = await this.barcodeScanner.checkPermission({force: true});
+    const status: CheckPermissionResult = await BarcodeScanner.checkPermission({force: true});
 
-    switch (status) {
-      case status.granted:
-        await this.barcodeScanner.hideBackground();
-        const scanOptions: ScanOptions = {targetedFormats: [SupportedFormat.QR_CODE]};
-        const result = await this.barcodeScanner.startScan(scanOptions);
-        if (result.hasContent) {
-          this.sendToForm.get('address').setValue(result.content);
-          await this.barcodeScanner.showBackground();
-          await this.barcodeScanner.stopScan();
-        }
-        break;
+    if (status.granted) {
+      await BarcodeScanner.hideBackground();
+      this.appService.hideBackground();
+      const scanOptions: ScanOptions = {targetedFormats: [SupportedFormat.QR_CODE]};
+      this.scannerSubscription = from(BarcodeScanner.startScan(scanOptions))
+        .subscribe(scanResult => {
+          this.scanResult$.next(scanResult);
+        });
     }
+  }
+
+  async stopQrScanner() {
+    if (this.scannerSubscription && !this.scannerSubscription.closed) {
+      this.scannerSubscription.unsubscribe();
+    }
+    await BarcodeScanner.showBackground();
+    this.appService.showBackground();
+    await BarcodeScanner.stopScan();
   }
 
   async makePayment() {
