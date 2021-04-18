@@ -15,7 +15,7 @@ def capacitor_pods
   # Do not delete
 end
 
-target 'LiteDoge Mobile' do
+target 'App' do
   capacitor_pods
   # Add your Pods here
 end
