@@ -36,6 +36,9 @@
           <ion-card-header>
             <ion-card-title>LiteDoge Wallet</ion-card-title>
           </ion-card-header>
+          <ion-card-content>
+            <p>Please export your private keys before uninstalling the app as all saved wallets will be deleted.</p>
+          </ion-card-content>
           <ion-item>
             <ion-label position="floating">Address</ion-label>
             <ion-input readonly="readonly" type="text"
@@ -52,10 +55,20 @@
             </ion-button>
           </ion-item>
           <ion-card-content>
-            <ion-button (click)="generateWallet()" color="primary" expand="block">
-              <ion-icon name="dice"></ion-icon>&nbsp;
-              Generate Wallet
-            </ion-button>
+            <ion-row>
+              <ion-col>
+                <ion-button (click)="generateWallet()" color="primary" expand="block">
+                  <ion-icon name="dice"></ion-icon>&nbsp;
+                  Generate
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button (click)="unloadWallet()" color="warning" expand="block">
+                  <ion-icon name="exit"></ion-icon>&nbsp;
+                  Unload
+                </ion-button>
+              </ion-col>
+            </ion-row>
           </ion-card-content>
         </ion-card>
       </ion-col>

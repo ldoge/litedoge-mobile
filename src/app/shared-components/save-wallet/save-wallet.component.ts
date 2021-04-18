@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {SingleWallet} from '../../models/single-wallet';
-import {BehaviorSubject} from 'rxjs';
-import {TransactionService} from '../../services/transaction.service';
+import {BehaviorSubject, from} from 'rxjs';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-save-wallet',
@@ -17,7 +17,7 @@ export class SaveWalletComponent implements OnInit {
 
   constructor(private modalCtrl: ModalController,
               private singleWalletGenerator: SingleWalletGeneratorService,
-              private transactionService: TransactionService) {
+              private alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -25,11 +25,18 @@ export class SaveWalletComponent implements OnInit {
 
   saveWallet() {
     this.singleWalletGenerator.encryptAndStoreWallet(this.wallet$.getValue(), this.walletName, this.passphrase)
+      .pipe(
+        switchMap(() => {
+          return from(this.alertController.create({
+            header: 'Wallet saved!',
+            message: 'Your private key is now safely encrypted and stored in your phone.',
+            buttons: ['OK'],
+          })).pipe(switchMap(result => from(result.present())));
+        })
+      )
       .subscribe(() => {
         this.walletName = '';
         this.passphrase = '';
-        this.wallet$.next(null);
-        this.transactionService.clearTransactionsOfWallet();
         this.dismiss();
       });
   }

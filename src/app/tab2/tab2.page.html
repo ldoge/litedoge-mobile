@@ -105,6 +105,7 @@
               <ion-card-title>Receive</ion-card-title>
             </ion-card-header>
             <ion-card-content>
+              <p>Please remember to save your wallet before depositing.</p>
               <qr-code
                 [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"
                 [size]="1000"></qr-code>
@@ -140,10 +141,12 @@
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Amount</ion-label>
-                <ion-input clearInput type="number" [max]="paymentService.scannedBalance$ | async" formControlName="amount"></ion-input>
+                <ion-input clearInput type="number" [max]="paymentService.scannedBalance$ | async"
+                           formControlName="amount"></ion-input>
               </ion-item>
               <ion-card-content>
-                <ion-button expand="block" color="success" type="submit" [disabled]="sendToForm.invalid">Send</ion-button>
+                <ion-button expand="block" color="success" type="submit" [disabled]="sendToForm.invalid">Send
+                </ion-button>
               </ion-card-content>
             </form>
           </ion-card>

@@ -90,4 +90,9 @@ export class JaninService {
       buttons: ['OK'],
     })).pipe(switchMap(result => from(result.present())));
   }
+
+  public unloadWallet() {
+    this.loadedWallet$.next(null);
+    this.transactionService.clearTransactionsOfWallet();
+  }
 }

@@ -37,4 +37,8 @@ export class Tab1Page {
       this.showPrivateKey$.next(true);
     }
   }
+
+  public unloadWallet() {
+    this.janinService.unloadWallet();
+  }
 }
