@@ -5,7 +5,7 @@ import {JaninService} from '../services/janin.service';
 import {ScanOptions, SupportedFormat, ScanResult, CheckPermissionResult} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
 import {Platform, ToastController} from '@ionic/angular';
-import {filter, switchMap} from 'rxjs/operators';
+import {filter, first, switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Plugins} from '@capacitor/core';
 import {AppService} from '../services/app.service';
@@ -60,13 +60,16 @@ export class Tab2Page {
     this.isLoading$.next(true);
     this.janinService
       .isWalletLoaded()
-      .pipe(switchMap(result => {
-        if (result) {
-          return this.paymentService.refreshBalances();
-        }
+      .pipe(
+        first(),
+        switchMap(result => {
+          if (result) {
+            return this.paymentService.refreshBalances();
+          }
 
-        return this.janinService.showWalletNotLoadedAlert();
-      }))
+          return this.janinService.showWalletNotLoadedAlert();
+        })
+      )
       .subscribe(result => {
         if (Array.isArray(result)) {
           this.isLoading$.next(false);

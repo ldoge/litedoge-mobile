@@ -40,15 +40,18 @@ export class Tab3Page {
     if (!this.infiniteScrollReady$.getValue()) {
       this.janinService
         .isWalletLoaded()
-        .pipe(switchMap<boolean, Observable<any>>((isWalletLoaded: boolean): Observable<any> => {
-          if (isWalletLoaded) {
-            // First entry since new wallet loaded
-            this.loadData();
-            return of(null);
-          } else {
-            return this.janinService.showWalletNotLoadedAlert();
-          }
-        }))
+        .pipe(
+          first(),
+          switchMap<boolean, Observable<any>>((isWalletLoaded: boolean): Observable<any> => {
+            if (isWalletLoaded) {
+              // First entry since new wallet loaded
+              this.loadData();
+              return of(null);
+            } else {
+              return this.janinService.showWalletNotLoadedAlert();
+            }
+          })
+        )
         .subscribe(result => {
         });
     }
