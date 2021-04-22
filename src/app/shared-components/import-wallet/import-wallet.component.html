@@ -8,19 +8,38 @@
 </ion-header>
 <ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-label position="floating">Private Key</ion-label>
-          <ion-input type="password" [(ngModel)]="privateKey"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button color="primary" expand="block" (click)="importWallet()" [disabled]="!isWalletReady()">Import Wallet
-        </ion-button>
-      </ion-col>
-    </ion-row>
+    <form [formGroup]="importWalletInfo" (submit)="importWallet()">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Private Key</ion-label>
+            <ion-input type="password" formControlName="privateKey"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Wallet Name</ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button color="primary" expand="block" type="submit" [disabled]="importWalletInfo.invalid">Import &amp;
+            Save Wallet
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
   </ion-grid>
 </ion-content>

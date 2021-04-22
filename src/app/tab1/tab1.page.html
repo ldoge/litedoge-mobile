@@ -38,6 +38,9 @@
           </ion-card-header>
           <ion-card-content>
             <p>Please export your private keys before uninstalling the app as all saved wallets will be deleted.</p>
+            <ion-text color="danger" *ngIf="(janinService.isWalletLoaded() | async) && !(janinService.walletSaved$ | async)">
+              Your wallet has not been saved yet! Please save it!
+            </ion-text>
           </ion-card-content>
           <ion-item>
             <ion-label position="floating">Address</ion-label>

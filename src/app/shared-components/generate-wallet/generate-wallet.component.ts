@@ -1,17 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {AlertController, ModalController} from '@ionic/angular';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {from} from 'rxjs';
+import {AlertController, ModalController} from '@ionic/angular';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 import {switchMap} from 'rxjs/operators';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JaninService} from '../../services/janin.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-  selector: 'app-save-wallet',
-  templateUrl: './save-wallet.component.html',
-  styleUrls: ['./save-wallet.component.scss'],
+  selector: 'app-generate-wallet',
+  templateUrl: './generate-wallet.component.html',
+  styleUrls: ['./generate-wallet.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SaveWalletComponent implements OnInit {
+export class GenerateWalletComponent implements OnInit {
   public walletSaveInfo: FormGroup;
 
   constructor(private modalCtrl: ModalController,
@@ -46,6 +47,10 @@ export class SaveWalletComponent implements OnInit {
         this.janinService.walletSaved$.next(true);
         this.dismiss();
       });
+  }
+
+  generateWallet() {
+    this.janinService.generateWallet();
   }
 
   dismiss() {

@@ -1,6 +1,6 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Encrypt & Save</ion-title>
+    <ion-title>Generate & Save</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="this.dismiss()">Close</ion-button>
     </ion-buttons>
@@ -24,6 +24,9 @@
             <ion-label position="floating">Private Key</ion-label>
             <ion-input readonly type="password"
                        [value]="(this.janinService.loadedWallet$ | async) ? (this.janinService.loadedWallet$ | async).litedogeWifPrivateKey : ''"></ion-input>
+            <ion-button slot="end" size="medium" color="secondary" type="button" (click)="generateWallet()">
+              <ion-icon name="dice"></ion-icon>&nbsp;Generate
+            </ion-button>
           </ion-item>
         </ion-col>
       </ion-row>

@@ -48,14 +48,16 @@ export class SingleWalletGeneratorService {
       );
   }
 
-  public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency, walletName: string, walletPassphrase: string): Promise<SingleWallet> {
-    return this.storageService.encryptedGet(this.walletNamePrepend + walletName, walletPassphrase)
-      .then(wifKeyPair => {
+  public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency,
+                                 walletName: string,
+                                 walletPassphrase: string): Observable<SingleWallet> {
+    return from(this.storageService.encryptedGet(this.walletNamePrepend + walletName, walletPassphrase))
+      .pipe(map(wifKeyPair => {
         const keyPair = bitcoin.ECPair.fromWIF(wifKeyPair, litedogeCurrency.network);
         const {address} = bitcoin.payments.p2pkh({pubkey: keyPair.publicKey, network: litedogeCurrency.network}, {validate: true});
 
         return new SingleWallet(keyPair, address, wifKeyPair);
-      });
+      }));
   }
 
   public deleteWallet(walletName: string) {

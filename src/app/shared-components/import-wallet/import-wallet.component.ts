@@ -1,10 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 import {TransactionService} from '../../services/transaction.service';
 import {LitedogeCurrency} from '../../models/litedoge-currency';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, from} from 'rxjs';
 import {SingleWallet} from '../../models/single-wallet';
+import {switchMap} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {JaninService} from '../../services/janin.service';
 
 @Component({
   selector: 'app-import-wallet',
@@ -12,30 +15,58 @@ import {SingleWallet} from '../../models/single-wallet';
   styleUrls: ['./import-wallet.component.scss'],
 })
 export class ImportWalletComponent implements OnInit {
-  @Input()
-  wallet$: BehaviorSubject<SingleWallet>;
-  @Input()
-  currency: LitedogeCurrency;
-  @Input()
-  privateKey = '';
+  public importWalletInfo: FormGroup;
 
   constructor(private modalCtrl: ModalController,
               private singleWalletGenerator: SingleWalletGeneratorService,
+              private alertController: AlertController,
+              private janinService: JaninService,
+              private fb: FormBuilder,
               private transactionService: TransactionService) {
+    this.importWalletInfo = this.fb.group({
+      privateKey: ['', [Validators.required, Validators.minLength(20)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]]
+    });
   }
 
   ngOnInit() {
   }
 
   importWallet() {
-    this.wallet$.next(this.singleWalletGenerator.importWallet(this.currency, this.privateKey));
-    this.privateKey = '';
-    this.transactionService.clearTransactionsOfWallet();
-    this.dismiss();
-  }
+    const privateKey = this.importWalletInfo.get('privateKey').value;
+    const walletName = this.importWalletInfo.get('name').value;
+    const walletPassword = this.importWalletInfo.get('password').value;
+    try {
+      const importedWallet = this.janinService.importWallet(privateKey);
+      this.janinService.loadedWallet$.next(importedWallet);
+      this.transactionService.clearTransactionsOfWallet();
+      this.janinService.walletSaved$.next(true);
 
-  isWalletReady(): boolean {
-    return this.privateKey && this.privateKey !== '';
+      this.importWalletInfo.reset();
+      this.janinService.saveWallet(walletName, walletPassword)
+        .pipe(
+          switchMap(
+            () => from(this.alertController.create({
+              header: 'Wallet saved!',
+              message: 'Your private key is now safely encrypted and stored in your phone.',
+              buttons: ['OK'],
+            }))
+              .pipe(switchMap(result => from(result.present())))
+          )
+        )
+        .subscribe(() => {
+          this.dismiss();
+        });
+    } catch (e) {
+      from(this.alertController.create({
+        header: 'Invalid private key!',
+        message: 'We could not generate your address based on this private key.',
+        buttons: ['OK'],
+      })).pipe(switchMap(result => from(result.present())))
+        .subscribe(() => {
+        });
+    }
   }
 
   dismiss() {

@@ -1,6 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {JaninService} from '../services/janin.service';
 import {BehaviorSubject} from 'rxjs';
+import {ModalController} from '@ionic/angular';
+import {GenerateWalletComponent} from '../shared-components/generate-wallet/generate-wallet.component';
+import {LoadWalletComponent} from '../shared-components/load-wallet/load-wallet.component';
+import {ImportWalletComponent} from '../shared-components/import-wallet/import-wallet.component';
+import {SaveWalletComponent} from '../shared-components/save-wallet/save-wallet.component';
 
 @Component({
   selector: 'app-tab1',
@@ -11,23 +16,39 @@ import {BehaviorSubject} from 'rxjs';
 export class Tab1Page {
   public showPrivateKey$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(public janinService: JaninService) {
+  constructor(public janinService: JaninService,
+              private modalController: ModalController) {
   }
 
-  public generateWallet() {
-    this.janinService.generateWallet();
+  public async generateWallet() {
+    const walletGeneratorModal = await this.modalController.create({
+      component: GenerateWalletComponent
+    });
+    await walletGeneratorModal.present();
   }
 
-  public storeWallet() {
-    this.janinService.encryptAndStoreWallet();
+  public async storeWallet() {
+    const importWalletModal = await this.modalController.create({
+      component: SaveWalletComponent
+    });
+
+    await importWalletModal.present();
   }
 
-  public loadWallet() {
-    this.janinService.decryptAndRetrieveWallet();
+  public async loadWallet() {
+    const loadWalletModal = await this.modalController.create({
+      component: LoadWalletComponent
+    });
+
+    await loadWalletModal.present();
   }
 
-  public importWallet() {
-    this.janinService.importWallet();
+  public async importWallet() {
+    const importWalletModal = await this.modalController.create({
+      component: ImportWalletComponent
+    });
+
+    await importWalletModal.present();
   }
 
   public togglePrivateKeyVisibility() {

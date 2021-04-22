@@ -105,7 +105,9 @@
               <ion-card-title>Receive</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <p>Please remember to save your wallet before depositing.</p>
+              <ion-text color="danger" *ngIf="(janinService.isWalletLoaded() | async) && !(janinService.walletSaved$ | async)">
+                Your wallet has not been saved yet! Please save it!
+              </ion-text>
               <qr-code
                 [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"
                 [size]="1000"></qr-code>
