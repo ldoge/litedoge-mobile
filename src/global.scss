@@ -34,6 +34,12 @@ qr-code img {
   visibility: hidden;
 }
 
+.show-bg {
+  background-color: var(--ion-background-color) !important;
+  opacity: 1 !important;
+  visibility: visible;
+}
+
 .transparent-body {
   background-color: transparent;
   opacity: 0;
