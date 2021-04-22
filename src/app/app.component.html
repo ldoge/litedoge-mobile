@@ -1,10 +1,8 @@
 <ion-app>
-  <ion-header [translucent]="true"
-              *ngIf="this.appService.isHideBackground$ | async"
-              [ngClass]="{'show-bg': (this.appService.isHideBackground$ | async)}">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-button (click)="appService.triggerBackButton()">
+  <ion-header *ngIf="this.appService.isHideBackground$ | async" class="show-bg">
+    <ion-toolbar class="show-bg">
+      <ion-buttons slot="start" class="show-bg">
+        <ion-button (click)="appService.triggerBackButton()" class="show-bg">
           <ion-icon name="chevron-back"></ion-icon>&nbsp;Back
         </ion-button>
       </ion-buttons>
