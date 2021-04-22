@@ -1,14 +1,21 @@
-import {Inject, Injectable} from '@angular/core';
+import {EventEmitter, Inject, Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
+import {Platform} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   isHideBackground$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private backButton$: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(@Inject(DOCUMENT) private document: Document) {
+  constructor(@Inject(DOCUMENT) private document: Document, private platform: Platform) {
+    this.platform
+      .backButton
+      .subscribeWithPriority(0, async () => {
+        this.backButton$.emit();
+      });
   }
 
   public hideBackground() {
@@ -19,5 +26,13 @@ export class AppService {
   public showBackground() {
     this.isHideBackground$.next(false);
     this.document.body.classList.remove('transparent-body');
+  }
+
+  public triggerBackButton(): void {
+    this.backButton$.emit();
+  }
+
+  public backButtonEventEmitter(): EventEmitter<void> {
+    return this.backButton$;
   }
 }

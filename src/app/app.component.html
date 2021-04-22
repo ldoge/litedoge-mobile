@@ -1,5 +1,17 @@
-<ion-app [ngClass]="{'hide-bg' : this.appService.isHideBackground$ | async}">
-  <ion-router-outlet></ion-router-outlet>
+<ion-app>
+  <ng-container *ngIf="this.appService.isHideBackground$ | async">
+    <ion-header [translucent]="true">
+      <ion-buttons slot="start">
+        <ion-button (click)="appService.triggerBackButton()">
+          <ion-icon name="chevron-back"></ion-icon>&nbsp;Back
+        </ion-button>
+      </ion-buttons>
+      <ion-toolbar>
+        <ion-title>
+          QR Code
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+  </ng-container>
+  <ion-router-outlet [ngClass]="{'hide-bg' : this.appService.isHideBackground$ | async}"></ion-router-outlet>
 </ion-app>
-
-<div *ngIf="this.appService.isHideBackground$ | async"></div>

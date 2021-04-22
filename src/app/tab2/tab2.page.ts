@@ -4,7 +4,7 @@ import {BehaviorSubject, from, Observable, Subscription} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {ScanOptions, SupportedFormat, ScanResult, CheckPermissionResult} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
-import {Platform, ToastController} from '@ionic/angular';
+import {ToastController} from '@ionic/angular';
 import {filter, first, switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Plugins} from '@capacitor/core';
@@ -22,13 +22,13 @@ export class Tab2Page {
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public paymentSending$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public sendToForm: FormGroup;
-  public scannerSubscription: Subscription;
+  private backButtonSubscription: Subscription;
+  private scannerSubscription: Subscription;
   public scanResult$: BehaviorSubject<ScanResult> = new BehaviorSubject<ScanResult>(null);
 
   constructor(public janinService: JaninService,
               public paymentService: PaymentService,
               private toastController: ToastController,
-              private platform: Platform,
               private fb: FormBuilder,
               private appService: AppService) {
     this.sendToForm = this.fb.group({
@@ -42,15 +42,6 @@ export class Tab2Page {
       .subscribe(async result => {
         if (result.hasContent) {
           this.sendToForm.get('address').setValue(result.content);
-          await this.stopQrScanner();
-        }
-      });
-
-    // When back button is pressed and scanner is active, stop QR scanner immediately
-    this.platform
-      .backButton
-      .subscribeWithPriority(0, async () => {
-        if (this.scannerSubscription && !this.scannerSubscription.closed) {
           await this.stopQrScanner();
         }
       });
@@ -75,6 +66,19 @@ export class Tab2Page {
           this.isLoading$.next(false);
         }
       });
+
+    // When back button is pressed and scanner is active, stop QR scanner immediately
+    this.backButtonSubscription = this.appService
+      .backButtonEventEmitter()
+      .subscribe(async () => {
+        if (this.scannerSubscription && !this.scannerSubscription.closed) {
+          await this.stopQrScanner();
+        }
+      });
+  }
+
+  ionViewDidLeave() {
+    this.backButtonSubscription.unsubscribe();
   }
 
   doRefresh(event) {
