@@ -25,7 +25,8 @@ export class GenerateWalletComponent implements OnInit {
   ngOnInit() {
     this.walletSaveInfo = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      password: ['', [Validators.required, Validators.minLength(3)]],
+      passwordConfirm: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -58,5 +59,9 @@ export class GenerateWalletComponent implements OnInit {
       .dismiss({
         dismissed: true
       });
+  }
+
+  passwordMatches(): boolean {
+    return this.walletSaveInfo.get('password').value === this.walletSaveInfo.get('passwordConfirm').value;
   }
 }

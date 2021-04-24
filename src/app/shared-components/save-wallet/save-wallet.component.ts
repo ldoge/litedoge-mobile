@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AlertController, ModalController} from '@ionic/angular';
 import {from} from 'rxjs';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
@@ -10,6 +10,7 @@ import {JaninService} from '../../services/janin.service';
   selector: 'app-save-wallet',
   templateUrl: './save-wallet.component.html',
   styleUrls: ['./save-wallet.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaveWalletComponent implements OnInit {
   public walletSaveInfo: FormGroup;
@@ -24,7 +25,8 @@ export class SaveWalletComponent implements OnInit {
   ngOnInit() {
     this.walletSaveInfo = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      password: ['', [Validators.required, Validators.minLength(3)]],
+      passwordConfirm: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -46,6 +48,10 @@ export class SaveWalletComponent implements OnInit {
         this.janinService.walletSaved$.next(true);
         this.dismiss();
       });
+  }
+
+  passwordMatches(): boolean {
+    return this.walletSaveInfo.get('password').value === this.walletSaveInfo.get('passwordConfirm').value;
   }
 
   dismiss() {

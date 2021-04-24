@@ -45,8 +45,17 @@
       </ion-row>
       <ion-row>
         <ion-col>
+          <ion-item>
+            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-input type="password" formControlName="passwordConfirm"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
           <ion-button color="success" expand="block" type="submit"
-                      [disabled]="walletSaveInfo.invalid || !(this.janinService.isWalletLoaded() | async)">Save Wallet
+                      [disabled]="walletSaveInfo.invalid || !(this.janinService.isWalletLoaded() | async) || !passwordMatches()">
+            Save Wallet
           </ion-button>
         </ion-col>
       </ion-row>
