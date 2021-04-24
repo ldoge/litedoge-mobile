@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 import {BehaviorSubject} from 'rxjs';
 import {TransactionService} from '../../services/transaction.service';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {first} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JaninService} from '../../services/janin.service';
@@ -21,6 +21,7 @@ export class LoadWalletComponent implements OnInit {
   constructor(private modalCtrl: ModalController,
               private janinService: JaninService,
               private singleWalletGenerator: SingleWalletGeneratorService,
+              private alertController: AlertController,
               private fb: FormBuilder,
               private transactionService: TransactionService) {
   }
@@ -51,6 +52,13 @@ export class LoadWalletComponent implements OnInit {
         this.janinService.walletSaved$.next(true);
         this.transactionService.clearTransactionsOfWallet();
         this.dismiss();
+      }, async err => {
+        const alert = await this.alertController.create({
+          header: 'Incorrect Password!',
+          message: 'The password that you have keyed in is incorrect. Please try again!',
+          buttons: ['OK'],
+        });
+        await alert.present();
       });
   }
 
