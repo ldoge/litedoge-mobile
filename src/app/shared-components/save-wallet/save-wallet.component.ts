@@ -34,19 +34,18 @@ export class SaveWalletComponent implements OnInit {
     const walletName = this.walletSaveInfo.get('name').value;
     const walletPassword = this.walletSaveInfo.get('password').value;
     this.janinService.saveWallet(walletName, walletPassword)
-      .pipe(
-        switchMap(() => {
-          return from(this.alertController.create({
-            header: 'Wallet saved!',
-            message: 'Your private key is now safely encrypted and stored in your phone.',
-            buttons: ['OK'],
-          })).pipe(switchMap(result => from(result.present())));
-        })
-      )
       .subscribe(() => {
         this.walletSaveInfo.reset();
         this.janinService.walletSaved$.next(true);
         this.dismiss();
+      }, async err => {
+        const errorModal = await this.alertController.create({
+          header: 'Wallet name in use!',
+          message: 'The wallet name you have chosen is already being used.',
+          buttons: ['OK'],
+        });
+
+        await errorModal.present();
       });
   }
 

@@ -26,7 +26,8 @@ export class ImportWalletComponent implements OnInit {
     this.importWalletInfo = this.fb.group({
       privateKey: ['', [Validators.required, Validators.minLength(20)]],
       name: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]]
+      password: ['', [Validators.required, Validators.minLength(3)]],
+      passwordConfirm: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -45,18 +46,16 @@ export class ImportWalletComponent implements OnInit {
 
       this.importWalletInfo.reset();
       this.janinService.saveWallet(walletName, walletPassword)
-        .pipe(
-          switchMap(
-            () => from(this.alertController.create({
-              header: 'Wallet saved!',
-              message: 'Your private key is now safely encrypted and stored in your phone.',
-              buttons: ['OK'],
-            }))
-              .pipe(switchMap(result => from(result.present())))
-          )
-        )
         .subscribe(() => {
           this.dismiss();
+        }, async err => {
+          const errorModal = await this.alertController.create({
+            header: 'Wallet name in use!',
+            message: 'The wallet name you have chosen is already being used.',
+            buttons: ['OK'],
+          });
+
+          await errorModal.present();
         });
     } catch (e) {
       from(this.alertController.create({
@@ -67,6 +66,10 @@ export class ImportWalletComponent implements OnInit {
         .subscribe(() => {
         });
     }
+  }
+
+  passwordMatches(): boolean {
+    return this.importWalletInfo.get('password').value === this.importWalletInfo.get('passwordConfirm').value;
   }
 
   dismiss() {

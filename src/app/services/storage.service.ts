@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 import * as CryptoJS from 'crypto-js';
+import {from, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +29,10 @@ export class StorageService {
   public async getJson(key: string) {
     const data = await this.pStorage?.get(key);
     return JSON.parse(data || '[]');
+  }
+
+  public getJsonObservable<T>(key: string): Observable<T> {
+    return from(this.pStorage.get(key)).pipe(map(data => JSON.parse(data || '[]')));
   }
 
   public async setJson(key: string, value: any) {

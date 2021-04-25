@@ -4,7 +4,8 @@ import * as bitcoin from 'bitcoinjs-lib';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {StorageService} from './storage.service';
 import {from, Observable} from 'rxjs';
-import {first, map, tap} from 'rxjs/operators';
+import {first, map, switchMap, tap} from 'rxjs/operators';
+import {WalletNameAlreadyExistsError} from '../models/wallet-name-already-exists-error';
 
 @Injectable({
   providedIn: 'root'
@@ -41,11 +42,20 @@ export class SingleWalletGeneratorService {
 
   public encryptAndStoreWallet(unencryptedWallet: SingleWallet, walletName: string, walletPassphrase: string): Observable<void> {
     const fullWalletName = this.walletNamePrepend + walletName;
-    return from(this.storageService.encryptedSet(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase))
+    return this.walletNameExists(walletName)
       .pipe(
         first(),
-        tap(() => this.addWalletNameToList(walletName))
-      );
+        switchMap(result => {
+          if (result) {
+            throw new WalletNameAlreadyExistsError();
+          }
+
+          return from(this.storageService.encryptedSet(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase))
+            .pipe(
+              first(),
+              tap(() => this.addWalletNameToList(walletName))
+            );
+        }));
   }
 
   public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency,
@@ -64,6 +74,11 @@ export class SingleWalletGeneratorService {
     const fullWalletName = this.walletNamePrepend + walletName;
     this.storageService.remove(fullWalletName);
     this.removeWalletNameFromList(walletName);
+  }
+
+  public walletNameExists(walletName: string): Observable<boolean> {
+    return this.storageService.getJsonObservable<string[]>(this.walletList)
+      .pipe(map<string[], boolean>(jsonData => jsonData && jsonData.includes(walletName)));
   }
 
   private async addWalletNameToList(walletName: string) {

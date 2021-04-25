@@ -37,7 +37,16 @@ export class JaninService {
   }
 
   public saveWallet(walletName: string, password: string): Observable<void> {
-    return this.singleWalletGenerator.encryptAndStoreWallet(this.loadedWallet$.getValue(), walletName, password);
+    return this.singleWalletGenerator.encryptAndStoreWallet(this.loadedWallet$.getValue(), walletName, password)
+      .pipe(
+        switchMap(() => {
+          return from(this.alertController.create({
+            header: 'Wallet saved!',
+            message: 'Your private key is now safely encrypted and stored in your phone.',
+            buttons: ['OK'],
+          })).pipe(switchMap(result => from(result.present())));
+        })
+      );
   }
 
   public loadWallet(walletName: string, password: string): Observable<SingleWallet> {
