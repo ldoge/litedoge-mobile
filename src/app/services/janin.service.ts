@@ -54,8 +54,12 @@ export class JaninService {
       .retrieveEncryptedWallet(this.litedogeCurrency, walletName, password);
   }
 
-  importWallet(privateKey: string): SingleWallet {
+  public importWallet(privateKey: string): SingleWallet {
     return this.singleWalletGenerator.importWallet(this.litedogeCurrency, privateKey);
+  }
+
+  public deleteWallet(walletName: string): Observable<void> {
+    return this.singleWalletGenerator.deleteWallet(walletName);
   }
 
   public isWalletLoaded(): Observable<boolean> {

@@ -7,6 +7,7 @@ import {LoadWalletComponent} from './load-wallet/load-wallet.component';
 import {SaveWalletComponent} from './save-wallet/save-wallet.component';
 import {ViewTransactionComponent} from './view-transaction/view-transaction.component';
 import {GenerateWalletComponent} from './generate-wallet/generate-wallet.component';
+import {DeleteWalletComponent} from './delete-wallet/delete-wallet.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {GenerateWalletComponent} from './generate-wallet/generate-wallet.compone
     SaveWalletComponent,
     ViewTransactionComponent,
     GenerateWalletComponent,
+    DeleteWalletComponent,
   ],
   imports: [
     IonicModule,

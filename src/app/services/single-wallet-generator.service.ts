@@ -6,6 +6,7 @@ import {StorageService} from './storage.service';
 import {from, Observable} from 'rxjs';
 import {first, map, switchMap, tap} from 'rxjs/operators';
 import {WalletNameAlreadyExistsError} from '../models/wallet-name-already-exists-error';
+import {WalletNotFoundError} from '../classes/wallet-not-found-error';
 
 @Injectable({
   providedIn: 'root'
@@ -70,10 +71,11 @@ export class SingleWalletGeneratorService {
       }));
   }
 
-  public deleteWallet(walletName: string) {
+  public deleteWallet(walletName: string): Observable<void> {
     const fullWalletName = this.walletNamePrepend + walletName;
-    this.storageService.remove(fullWalletName);
-    this.removeWalletNameFromList(walletName);
+    return from(this.storageService.remove(fullWalletName)).pipe(
+      switchMap(() => this.removeWalletNameFromList(walletName))
+    );
   }
 
   public walletNameExists(walletName: string): Observable<boolean> {
@@ -89,14 +91,20 @@ export class SingleWalletGeneratorService {
     }
   }
 
-  private async removeWalletNameFromList(walletName: string) {
-    const jsonData = await this.storageService.getJson(this.walletList);
-    if (jsonData && jsonData.includes(walletName)) {
-      const walletIndex = jsonData.findIndex(element => element === walletName);
-      if (walletIndex >= 0) {
-        const newData = jsonData.splice(walletIndex, 1);
-        this.storageService.setJson(this.walletList, newData);
-      }
-    }
+  private removeWalletNameFromList(walletName: string): Observable<void> {
+    return this.storageService.getJsonObservable<string[]>(this.walletList)
+      .pipe(switchMap(jsonData => {
+        if (jsonData && jsonData.includes(walletName)) {
+          const newData = [];
+          jsonData.forEach(value => {
+            if (value !== walletName) {
+              newData.push(value);
+            }
+          });
+          return from(this.storageService.setJson(this.walletList, newData));
+        }
+
+        throw new WalletNotFoundError();
+      }));
   }
 }

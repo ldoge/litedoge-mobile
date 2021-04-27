@@ -1,0 +1,64 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Delete</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ng-container *ngIf="(isLoading$ | async)">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Wallet Name</ion-label>
+            <p>
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </p>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <p>
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </p>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+    <ng-container *ngIf="!(isLoading$ | async)">
+      <form (submit)="showDeleteAlertConfirmation()" [formGroup]="walletDeleteInfo">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Wallet Name</ion-label>
+              <ion-select placeholder="Select One" formControlName="name">
+                <ion-select-option *ngFor="let name of walletNameList$ | async" [value]="name">{{name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button color="danger" expand="block" type="submit"
+                        [disabled]="walletDeleteInfo.invalid">
+              Delete Wallet
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ng-container>
+  </ion-grid>
+</ion-content>
