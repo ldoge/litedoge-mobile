@@ -5,7 +5,7 @@ import {AlertController, ModalController} from '@ionic/angular';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 import {JaninService} from '../../services/janin.service';
 import {first, switchMap} from 'rxjs/operators';
-import {WalletNotFoundError} from '../../classes/wallet-not-found-error';
+import {WalletNotFoundError} from '../../errors/wallet-not-found-error';
 
 @Component({
   selector: 'app-delete-wallet',

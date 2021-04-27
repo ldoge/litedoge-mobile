@@ -3,9 +3,9 @@ import {ApiService} from './api.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Transaction} from '../models/transaction';
 import {SingleWallet} from '../models/single-wallet';
-import {map, switchMap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {TransactionBlock} from '../models/transaction-block';
-import {ApiError} from '../models/api-error';
+import {ApiError} from '../errors/api-error';
 
 @Injectable({
   providedIn: 'root'

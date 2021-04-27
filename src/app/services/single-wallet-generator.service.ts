@@ -5,8 +5,8 @@ import {LitedogeCurrency} from '../models/litedoge-currency';
 import {StorageService} from './storage.service';
 import {from, Observable} from 'rxjs';
 import {first, map, switchMap, tap} from 'rxjs/operators';
-import {WalletNameAlreadyExistsError} from '../models/wallet-name-already-exists-error';
-import {WalletNotFoundError} from '../classes/wallet-not-found-error';
+import {WalletNameAlreadyExistsError} from '../errors/wallet-name-already-exists-error';
+import {WalletNotFoundError} from '../errors/wallet-not-found-error';
 
 @Injectable({
   providedIn: 'root'
