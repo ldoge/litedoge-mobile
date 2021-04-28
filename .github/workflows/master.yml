@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version: [ 14.10 ]
-        firefox: [ '84.0', 'latest-beta', 'latest-devedition', 'latest-esr', 'latest' ]
+        firefox: [ 'latest' ]
 
     steps:
       - uses: actions/checkout@v2
