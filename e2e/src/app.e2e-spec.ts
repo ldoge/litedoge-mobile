@@ -1,4 +1,5 @@
-import { AppPage } from './app.po';
+import {AppPage} from './app.po';
+import {map} from 'rxjs/operators';
 
 describe('new App', () => {
   let page: AppPage;
@@ -7,8 +8,23 @@ describe('new App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getPageTitle()).toContain('Tab 1');
+  it('should display wallet title', async () => {
+    await page.navigateTo();
+    expect(await page.getPageTitle()).toContain('Wallet');
+  });
+
+  it('should display wallet card title', async () => {
+    await page.navigateTo();
+    expect(await page.getMainCardTitle()).toContain('LiteDoge Wallet');
+  });
+
+  it('should display wallet card generate button', async () => {
+    await page.navigateTo();
+    expect(await page.getGenerateButton().getText()).toContain('GENERATE');
+  });
+
+  it('should display wallet card unload button', async () => {
+    await page.navigateTo();
+    expect(await page.getUnloadButton().getText()).toContain('UNLOAD');
   });
 });
