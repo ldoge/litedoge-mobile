@@ -34,6 +34,6 @@ jobs:
       - name: Build
         run: npm run build
       - name: Install webdrivers
-        run: ./node_modules/.bin/webdriver-manager/webdriver-manager update
+        run: ./node_modules/.bin/webdriver-manager update
       - name: E2E tests
         run: npm run e2e
