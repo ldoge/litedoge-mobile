@@ -1,8 +1,8 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Import Wallet</ion-title>
+    <ion-title>{{'import_wallet_modal.title' | translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="this.dismiss()">Close</ion-button>
+      <ion-button (click)="this.dismiss()">{{'import_wallet_modal.close' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +12,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Private Key</ion-label>
+            <ion-label position="floating">{{'import_wallet_modal.private_key_input' | translate}}</ion-label>
             <ion-input type="password" formControlName="privateKey"></ion-input>
           </ion-item>
         </ion-col>
@@ -20,7 +20,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Wallet Name</ion-label>
+            <ion-label position="floating">{{'import_wallet_modal.wallet_name_input' | translate}}</ion-label>
             <ion-input type="text" formControlName="name"></ion-input>
           </ion-item>
         </ion-col>
@@ -28,7 +28,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Password</ion-label>
+            <ion-label position="floating">{{'import_wallet_modal.password_input' | translate}}</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
         </ion-col>
@@ -36,7 +36,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-label position="floating">{{'import_wallet_modal.confirm_password_input' | translate}}</ion-label>
             <ion-input type="password" formControlName="passwordConfirm"></ion-input>
           </ion-item>
         </ion-col>
@@ -44,7 +44,7 @@
       <ion-row>
         <ion-col>
           <ion-button color="primary" expand="block" type="submit" [disabled]="importWalletInfo.invalid || !passwordMatches()">Import &amp;
-            Save Wallet
+            {{'import_wallet_modal.save_wallet_button' | translate}}
           </ion-button>
         </ion-col>
       </ion-row>

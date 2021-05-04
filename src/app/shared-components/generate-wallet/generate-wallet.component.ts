@@ -40,9 +40,9 @@ export class GenerateWalletComponent implements OnInit {
         this.dismiss();
       }, async err => {
         const errorModal = await this.alertController.create({
-          header: this.translateService.instant('generate_wallet_modal.save_wallet_outcome.in_use'),
-          message: this.translateService.instant('generate_wallet_modal.save_wallet_outcome.in_use_description'),
-          buttons: [this.translateService.instant('generate_wallet_modal.save_wallet_outcome.in_use_button')],
+          header: this.translateService.instant('shared.save_wallet_outcome.in_use'),
+          message: this.translateService.instant('shared.save_wallet_outcome.in_use_description'),
+          buttons: [this.translateService.instant('shared.save_wallet_outcome.in_use_button')],
         });
 
         await errorModal.present();

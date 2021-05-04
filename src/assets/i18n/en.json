@@ -67,16 +67,30 @@
     "wallet_name_input": "Wallet Name",
     "password_input": "Password",
     "confirm_password_input": "Confirm Password",
+    "save_wallet_button": "Save Wallet"
+  },
+  "import_wallet_modal": {
+    "title": "Import Wallet",
+    "close": "CLOSE",
+    "private_key_input": "Private Key",
+    "wallet_name_input": "Wallet Name",
+    "password_input": "Password",
+    "confirm_password_input": "Confirm Password",
     "save_wallet_button": "Save Wallet",
-    "save_wallet_outcome": {
-      "in_use": "Wallet name in use!",
-      "in_use_description": "The wallet name you have chosen is already being used.",
-      "in_use_button": "OK"
+    "import_outcome": {
+      "invalid": "Invalid Private Key!",
+      "invalid_description": "We could not generate your address based on this private key.",
+      "invalid_button": "OK"
     }
   },
   "shared": {
     "warnings": {
       "not_saved": "Your wallet has not been saved yet! Please save it!"
+    },
+    "save_wallet_outcome": {
+      "in_use": "Wallet name in use!",
+      "in_use_description": "The wallet name you have chosen is already being used.",
+      "in_use_button": "OK"
     }
   }
 }

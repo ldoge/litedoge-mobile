@@ -1,13 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AlertController, ModalController} from '@ionic/angular';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
 import {TransactionService} from '../../services/transaction.service';
-import {LitedogeCurrency} from '../../models/litedoge-currency';
-import {BehaviorSubject, from} from 'rxjs';
-import {SingleWallet} from '../../models/single-wallet';
+import {from} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JaninService} from '../../services/janin.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-import-wallet',
@@ -22,6 +21,7 @@ export class ImportWalletComponent implements OnInit {
               private alertController: AlertController,
               private janinService: JaninService,
               private fb: FormBuilder,
+              private translateService: TranslateService,
               private transactionService: TransactionService) {
     this.importWalletInfo = this.fb.group({
       privateKey: ['', [Validators.required, Validators.minLength(20)]],
@@ -50,18 +50,18 @@ export class ImportWalletComponent implements OnInit {
           this.dismiss();
         }, async err => {
           const errorModal = await this.alertController.create({
-            header: 'Wallet name in use!',
-            message: 'The wallet name you have chosen is already being used.',
-            buttons: ['OK'],
+            header: this.translateService.instant('shared.save_wallet_outcome.in_use'),
+            message: this.translateService.instant('shared.save_wallet_outcome.in_use_description'),
+            buttons: [this.translateService.instant('shared.save_wallet_outcome.in_use_button')],
           });
 
           await errorModal.present();
         });
     } catch (e) {
       from(this.alertController.create({
-        header: 'Invalid private key!',
-        message: 'We could not generate your address based on this private key.',
-        buttons: ['OK'],
+        header: this.translateService.instant('import_wallet_modal.import_outcome.invalid'),
+        message: this.translateService.instant('import_wallet_modal.import_outcome.invalid_description'),
+        buttons: [this.translateService.instant('import_wallet_modal.import_outcome.invalid_button')],
       })).pipe(switchMap(result => from(result.present())))
         .subscribe(() => {
         });
