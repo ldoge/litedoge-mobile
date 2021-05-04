@@ -83,6 +83,18 @@
       "invalid_button": "OK"
     }
   },
+  "load_wallet_modal": {
+    "title": "Decrypt & Load",
+    "close": "CLOSE",
+    "wallet_name_input": "Wallet Name",
+    "password_input": "Password",
+    "load_wallet_button": "Load Wallet",
+    "load_outcome": {
+      "incorrect_password": "Incorrect Password!",
+      "incorrect_password_description": "The password that you have keyed in is incorrect. Please try again!",
+      "incorrect_password_button": "OK"
+    }
+  },
   "shared": {
     "warnings": {
       "not_saved": "Your wallet has not been saved yet! Please save it!"

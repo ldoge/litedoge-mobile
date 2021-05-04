@@ -6,6 +6,7 @@ import {AlertController, ModalController} from '@ionic/angular';
 import {first} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JaninService} from '../../services/janin.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-load-wallet',
@@ -23,6 +24,7 @@ export class LoadWalletComponent implements OnInit {
               private singleWalletGenerator: SingleWalletGeneratorService,
               private alertController: AlertController,
               private fb: FormBuilder,
+              private translateService: TranslateService,
               private transactionService: TransactionService) {
   }
 
@@ -54,9 +56,9 @@ export class LoadWalletComponent implements OnInit {
         this.dismiss();
       }, async err => {
         const alert = await this.alertController.create({
-          header: 'Incorrect Password!',
-          message: 'The password that you have keyed in is incorrect. Please try again!',
-          buttons: ['OK'],
+          header: this.translateService.instant('load_wallet_modal.load_outcome.incorrect_password'),
+          message: this.translateService.instant('load_wallet_modal.load_outcome.incorrect_password_description'),
+          buttons: [this.translateService.instant('load_wallet_modal.load_outcome.incorrect_password_button')],
         });
         await alert.present();
       });
