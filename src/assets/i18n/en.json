@@ -30,7 +30,9 @@
     }
   },
   "transactions_page": {
-    "title": "Transactions"
+    "title": "Transactions",
+    "no_transactions": "Unfortunate. There are no transactions.",
+    "loading_data": "Loading more data..."
   },
   "shared": {
     "warnings": {

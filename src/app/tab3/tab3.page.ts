@@ -3,7 +3,7 @@ import {TransactionService} from '../services/transaction.service';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {Transaction} from '../models/transaction';
 import {first, switchMap} from 'rxjs/operators';
-import {BehaviorSubject, from, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {ExplorerService} from '../services/explorer.service';
 

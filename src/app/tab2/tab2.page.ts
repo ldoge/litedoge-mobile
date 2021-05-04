@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {PaymentService} from '../services/payment.service';
-import {BehaviorSubject, from, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, from, Subscription} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {ScanOptions, SupportedFormat, ScanResult, CheckPermissionResult} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';

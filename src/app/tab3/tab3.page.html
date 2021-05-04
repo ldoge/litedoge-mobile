@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Transactions
+      {{'transactions_page.title' | translate}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Transactions</ion-title>
+      <ion-title size="large">{{'transactions_page.title' | translate}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -38,7 +38,7 @@
     <ion-row class="ion-align-items-center">
       <ion-col class="ion-text-center">
         <ion-icon name="search"></ion-icon>
-        <p>Unfortunate. There are no transactions.</p>
+        <p>{{'transactions_page.no_transactions' | translate}}</p>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -58,7 +58,7 @@
                        [disabled]="!(infiniteScrollReady$ | async) || (infiniteScrollReachedEnd$ | async)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
-      loadingText="Loading more data...">
+      [loadingText]="'transactions_page.loading_data' | translate">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
