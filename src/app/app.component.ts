@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {AppService} from './services/app.service';
+import {IonRouterOutlet} from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,9 @@ import {AppService} from './services/app.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  @ViewChild(IonRouterOutlet, {static: true}) routerOutlet: IonRouterOutlet;
+
   constructor(public appService: AppService) {
+    this.appService.ionRouterOutlet$.next(this.routerOutlet);
   }
 }

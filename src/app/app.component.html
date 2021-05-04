@@ -2,7 +2,7 @@
   <ion-header *ngIf="this.appService.isHideBackground$ | async">
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-button (click)="appService.triggerBackButton()">
+        <ion-button (click)="this.appService.triggerBackButton()">
           <ion-icon name="chevron-back"></ion-icon>&nbsp;Back
         </ion-button>
       </ion-buttons>

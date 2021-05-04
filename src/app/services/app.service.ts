@@ -10,10 +10,10 @@ const {App} = Plugins;
 })
 export class AppService {
   isHideBackground$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  ionRouterOutlet$: BehaviorSubject<IonRouterOutlet> = new BehaviorSubject<IonRouterOutlet>(null);
   private backButton$: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private platform: Platform,
-              private routerOutlet: IonRouterOutlet) {
+  constructor(private platform: Platform) {
     this.platform
       .backButton
       .subscribeWithPriority(0, async () => {
@@ -21,7 +21,7 @@ export class AppService {
 
         if (!this.isHideBackground$.getValue()) {
           // Background not hidden
-          if (!this.routerOutlet.canGoBack()) {
+          if (!this.ionRouterOutlet$.getValue().canGoBack()) {
             App.exitApp();
           }
         }
