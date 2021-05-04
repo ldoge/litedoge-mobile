@@ -35,7 +35,7 @@
         <ion-row>
           <ion-col>
             <ion-item>
-              <ion-label position="floating">{{'load_wallet_modal.wallet_name' | translate}}</ion-label>
+              <ion-label position="floating">{{'load_wallet_modal.wallet_name_input' | translate}}</ion-label>
               <ion-select placeholder="Select One" formControlName="name">
                 <ion-select-option *ngFor="let name of walletNameList" [value]="name">{{name}}</ion-select-option>
               </ion-select>
@@ -45,7 +45,7 @@
         <ion-row>
           <ion-col>
             <ion-item>
-              <ion-label position="floating">{{'load_wallet_modal.password' | translate}}</ion-label>
+              <ion-label position="floating">{{'load_wallet_modal.password_input' | translate}}</ion-label>
               <ion-input type="password" formControlName="password"></ion-input>
             </ion-item>
           </ion-col>

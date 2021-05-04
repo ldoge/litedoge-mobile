@@ -99,11 +99,28 @@
     "title": "Encrypt & Save",
     "close": "CLOSE",
     "address_input": "Address",
-    "private_key_input": "Address",
+    "private_key_input": "Private Key",
     "wallet_name_input": "Wallet Name",
     "password_input": "Password",
     "confirm_password_input": "Confirm Password",
     "save_wallet_button": "Save Wallet"
+  },
+  "view_transaction_modal": {
+    "title": "View Transaction",
+    "close": "CLOSE",
+    "overview_card_title": "Overview",
+    "txn_id": "ID",
+    "hash": "Block Hash",
+    "index": "Block Index",
+    "amount": "Transaction Amount",
+    "inputs_card_title": "Inputs",
+    "inputs_card_address": "Input Address",
+    "inputs_card_amount": "Input Amount",
+    "inputs_card_empty": "No Inputs",
+    "outputs_card_title": "Outputs",
+    "outputs_card_address": "Output Address",
+    "outputs_card_amount": "Output Amount",
+    "outputs_card_empty": "No Outputs"
   },
   "shared": {
     "warnings": {
