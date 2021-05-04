@@ -6,6 +6,7 @@ import {SingleWalletGeneratorService} from '../../services/single-wallet-generat
 import {JaninService} from '../../services/janin.service';
 import {first, switchMap} from 'rxjs/operators';
 import {WalletNotFoundError} from '../../errors/wallet-not-found-error';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-delete-wallet',
@@ -22,6 +23,7 @@ export class DeleteWalletComponent implements OnInit {
               private singleWalletGenerator: SingleWalletGeneratorService,
               public janinService: JaninService,
               private fb: FormBuilder,
+              private translateService: TranslateService,
               private alertController: AlertController) {
     this.walletDeleteInfo = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,11 +37,19 @@ export class DeleteWalletComponent implements OnInit {
 
   async showDeleteAlertConfirmation() {
     const alert = await this.alertController.create({
-      header: 'Confirm Deletion',
-      message: 'Are you sure you want to delete this wallet?',
+      header: this.translateService.instant('delete_wallet_modal.delete_confirmation.title'),
+      message: this.translateService.instant('delete_wallet_modal.delete_confirmation.description'),
       buttons: [
-        {text: 'DELETE', cssClass: 'danger', handler: () => this.deleteWallet()},
-        {text: 'CANCEL', role: 'cancel', cssClass: 'secondary'}
+        {
+          text: this.translateService.instant('delete_wallet_modal.delete_confirmation.delete_button'),
+          cssClass: 'danger',
+          handler: () => this.deleteWallet()
+        },
+        {
+          text: this.translateService.instant('delete_wallet_modal.delete_confirmation.cancel_button'),
+          role: 'cancel',
+          cssClass: 'secondary'
+        }
       ],
     });
     await alert.present();
@@ -59,24 +69,24 @@ export class DeleteWalletComponent implements OnInit {
         this.janinService.unloadWallet();
         this.getWalletList();
         const alert = await this.alertController.create({
-          header: 'Wallet Deleted!',
-          message: 'The wallet you have selected has been deleted successfully!',
-          buttons: ['OK'],
+          header: this.translateService.instant('delete_wallet_modal.delete_outcome.success'),
+          message: this.translateService.instant('delete_wallet_modal.delete_outcome.success_description'),
+          buttons: [this.translateService.instant('delete_wallet_modal.delete_outcome.success_button')],
         });
         await alert.present();
       }, async err => {
         if (err instanceof WalletNotFoundError) {
           const alert = await this.alertController.create({
-            header: 'Wallet Does Not Exists!',
-            message: 'Something went wrong, the wallet you were trying to delete does not seem to exist. Please restart your application!',
-            buttons: ['OK'],
+            header: this.translateService.instant('delete_wallet_modal.delete_outcome.not_found'),
+            message: this.translateService.instant('delete_wallet_modal.delete_outcome.not_found_description'),
+            buttons: [this.translateService.instant('delete_wallet_modal.delete_outcome.not_found_button')],
           });
           await alert.present();
         } else {
           const alert = await this.alertController.create({
-            header: 'Incorrect Password!',
-            message: 'The password that you have keyed in is incorrect. Please try again!',
-            buttons: ['OK'],
+            header: this.translateService.instant('delete_wallet_modal.delete_outcome.incorrect_password'),
+            message: this.translateService.instant('delete_wallet_modal.delete_outcome.incorrect_password_description'),
+            buttons: [this.translateService.instant('delete_wallet_modal.delete_outcome.incorrect_password_button')],
           });
           await alert.present();
         }
