@@ -3,7 +3,7 @@ import {SingleWallet} from '../models/single-wallet';
 import * as bitcoin from 'bitcoinjs-lib';
 import {LitedogeCurrency} from '../models/litedoge-currency';
 import {StorageService} from './storage.service';
-import {from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {first, map, switchMap, tap} from 'rxjs/operators';
 import {WalletNameAlreadyExistsError} from '../errors/wallet-name-already-exists-error';
 import {WalletNotFoundError} from '../errors/wallet-not-found-error';
@@ -37,8 +37,7 @@ export class SingleWalletGeneratorService {
   }
 
   public getWalletList(): Observable<string[]> {
-    return from(this.storageService.getJson(this.walletList))
-      .pipe(map(data => data as string[]));
+    return this.storageService.getJsonObservable<string[]>(this.walletList);
   }
 
   public encryptAndStoreWallet(unencryptedWallet: SingleWallet, walletName: string, walletPassphrase: string): Observable<void> {
@@ -51,7 +50,7 @@ export class SingleWalletGeneratorService {
             throw new WalletNameAlreadyExistsError();
           }
 
-          return from(this.storageService.encryptedSet(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase))
+          return this.storageService.encryptedSetObservable(fullWalletName, unencryptedWallet.litedogeWifPrivateKey, walletPassphrase)
             .pipe(
               first(),
               tap(() => this.addWalletNameToList(walletName))
@@ -62,7 +61,7 @@ export class SingleWalletGeneratorService {
   public retrieveEncryptedWallet(litedogeCurrency: LitedogeCurrency,
                                  walletName: string,
                                  walletPassphrase: string): Observable<SingleWallet> {
-    return from(this.storageService.encryptedGet(this.walletNamePrepend + walletName, walletPassphrase))
+    return this.storageService.encryptedGetObservable(this.walletNamePrepend + walletName, walletPassphrase)
       .pipe(map(wifKeyPair => {
         const keyPair = bitcoin.ECPair.fromWIF(wifKeyPair, litedogeCurrency.network);
         const {address} = bitcoin.payments.p2pkh({pubkey: keyPair.publicKey, network: litedogeCurrency.network}, {validate: true});
@@ -73,7 +72,7 @@ export class SingleWalletGeneratorService {
 
   public deleteWallet(walletName: string): Observable<void> {
     const fullWalletName = this.walletNamePrepend + walletName;
-    return from(this.storageService.remove(fullWalletName)).pipe(
+    return this.storageService.removeObservable(fullWalletName).pipe(
       switchMap(() => this.removeWalletNameFromList(walletName))
     );
   }
@@ -83,12 +82,19 @@ export class SingleWalletGeneratorService {
       .pipe(map<string[], boolean>(jsonData => jsonData && jsonData.includes(walletName)));
   }
 
-  private async addWalletNameToList(walletName: string) {
-    const jsonData = await this.storageService.getJson(this.walletList);
-    if (jsonData && !jsonData.includes(walletName)) {
-      jsonData.push(walletName);
-      this.storageService.setJson(this.walletList, jsonData);
-    }
+  private addWalletNameToList(walletName: string): void {
+    this.storageService.getJsonObservable<string[]>(this.walletList)
+      .pipe(
+        first(),
+        switchMap(jsonData => {
+          if (jsonData && !jsonData.includes(walletName)) {
+            jsonData.push(walletName);
+            return this.storageService.setJsonObservable(this.walletList, jsonData);
+          }
+          throw new WalletNameAlreadyExistsError();
+        }))
+      .subscribe(() => {
+      });
   }
 
   private removeWalletNameFromList(walletName: string): Observable<void> {
@@ -101,7 +107,7 @@ export class SingleWalletGeneratorService {
               newData.push(value);
             }
           });
-          return from(this.storageService.setJson(this.walletList, newData));
+          return this.storageService.setJsonObservable(this.walletList, newData);
         }
 
         throw new WalletNotFoundError();
