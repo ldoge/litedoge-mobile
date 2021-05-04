@@ -126,6 +126,9 @@
               <ion-label position="floating">{{'payment_page.card1_scanned_input' | translate}}</ion-label>
               <ion-input type="number" readonly="readonly"
                          [value]="paymentService.scannedBalance$ | async"></ion-input>
+              <ion-button (click)="showScannedBalanceHelp()" slot="end" size="medium" color="light">
+                <ion-icon name="help"></ion-icon>
+              </ion-button>
             </ion-item>
           </ion-card>
         </ion-col>

@@ -4,7 +4,7 @@ import {BehaviorSubject, from, Observable, Subscription} from 'rxjs';
 import {JaninService} from '../services/janin.service';
 import {ScanOptions, SupportedFormat, ScanResult, CheckPermissionResult} from '@capacitor-community/barcode-scanner';
 import {InsufficientLitedoge} from '../models/insufficient-litedoge';
-import {ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import {filter, first, switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Plugins} from '@capacitor/core';
@@ -31,6 +31,7 @@ export class Tab2Page {
               public paymentService: PaymentService,
               private toastController: ToastController,
               private translateService: TranslateService,
+              private alertController: AlertController,
               private fb: FormBuilder,
               private appService: AppService) {
     this.sendToForm = this.fb.group({
@@ -148,5 +149,15 @@ export class Tab2Page {
         toast.present();
       }
     }
+  }
+
+  async showScannedBalanceHelp() {
+    const infoAlert = await this.alertController.create({
+      header: this.translateService.instant('payment_page.scanned_balance_info.title'),
+      message: this.translateService.instant('payment_page.scanned_balance_info.description'),
+      buttons: [this.translateService.instant('payment_page.scanned_balance_info.button')],
+    });
+
+    infoAlert.present();
   }
 }

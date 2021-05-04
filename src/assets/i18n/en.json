@@ -22,6 +22,11 @@
       "success": "Payment Sent!",
       "failure": "Transaction Failed!",
       "no_funds": "Insufficient Funds!"
+    },
+    "scanned_balance_info": {
+      "title": "Scanned Balance Info",
+      "description": "Scanned balance is the balance that the mobile wallet is able to use. After sending a transaction, scanned balance may display an amount that is not in sync with the available balance.",
+      "button": "OK"
     }
   },
   "transactions_page": {
