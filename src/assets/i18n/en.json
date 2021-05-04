@@ -95,6 +95,16 @@
       "incorrect_password_button": "OK"
     }
   },
+  "save_wallet_modal": {
+    "title": "Encrypt & Save",
+    "close": "CLOSE",
+    "address_input": "Address",
+    "private_key_input": "Address",
+    "wallet_name_input": "Wallet Name",
+    "password_input": "Password",
+    "confirm_password_input": "Confirm Password",
+    "save_wallet_button": "Save Wallet"
+  },
   "shared": {
     "warnings": {
       "not_saved": "Your wallet has not been saved yet! Please save it!"

@@ -1,10 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AlertController, ModalController} from '@ionic/angular';
-import {from} from 'rxjs';
 import {SingleWalletGeneratorService} from '../../services/single-wallet-generator.service';
-import {switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JaninService} from '../../services/janin.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-save-wallet',
@@ -19,6 +18,7 @@ export class SaveWalletComponent implements OnInit {
               private singleWalletGenerator: SingleWalletGeneratorService,
               public janinService: JaninService,
               private fb: FormBuilder,
+              private translateService: TranslateService,
               private alertController: AlertController) {
   }
 
@@ -40,9 +40,9 @@ export class SaveWalletComponent implements OnInit {
         this.dismiss();
       }, async err => {
         const errorModal = await this.alertController.create({
-          header: 'Wallet name in use!',
-          message: 'The wallet name you have chosen is already being used.',
-          buttons: ['OK'],
+          header: this.translateService.instant('shared.save_wallet_outcome.in_use'),
+          message: this.translateService.instant('shared.save_wallet_outcome.in_use_description'),
+          buttons: [this.translateService.instant('shared.save_wallet_outcome.in_use_button')],
         });
 
         await errorModal.present();
