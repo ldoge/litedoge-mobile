@@ -9,6 +9,7 @@ import {filter, first, switchMap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Plugins} from '@capacitor/core';
 import {AppService} from '../services/app.service';
+import {TranslateService} from '@ngx-translate/core';
 
 const {BarcodeScanner} = Plugins;
 
@@ -29,6 +30,7 @@ export class Tab2Page {
   constructor(public janinService: JaninService,
               public paymentService: PaymentService,
               private toastController: ToastController,
+              private translateService: TranslateService,
               private fb: FormBuilder,
               private appService: AppService) {
     this.sendToForm = this.fb.group({
@@ -122,14 +124,14 @@ export class Tab2Page {
           this.paymentSending$.next(false);
           this.sendToForm.reset();
           const toast = await this.toastController.create({
-            message: 'Payment Sent!',
+            message: this.translateService.instant('payment_page.send_toast_info.success'),
             color: 'success',
             duration: 5000
           });
           toast.present();
         }, async error => {
           const toast = await this.toastController.create({
-            message: 'Transaction Failed!',
+            message: this.translateService.instant('payment_page.send_toast_info.failure'),
             color: 'danger',
             duration: 5000
           });
@@ -139,7 +141,7 @@ export class Tab2Page {
     } catch (exception: any) {
       if (exception instanceof InsufficientLitedoge) {
         const toast = await this.toastController.create({
-          message: 'Insufficient Funds!',
+          message: this.translateService.instant('payment_page.send_toast_info.no_funds'),
           color: 'danger',
           duration: 5000
         });

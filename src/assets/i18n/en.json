@@ -8,6 +8,25 @@
     "card_generate_button": "GENERATE",
     "card_unload_button": "UNLOAD"
   },
+  "payment_page": {
+    "title": "Payment",
+    "card1_title": "Receive",
+    "card1_address_input": "Address",
+    "card1_avail_input": "Available Balance",
+    "card1_scanned_input": "Scanned Balance",
+    "card2_title": "Send",
+    "card2_address_input": "Address",
+    "card2_amount_input": "Amount",
+    "card2_send_button": "Send",
+    "send_toast_info": {
+      "success": "Payment Sent!",
+      "failure": "Transaction Failed!",
+      "no_funds": "Insufficient Funds!"
+    }
+  },
+  "transactions_page": {
+    "title": "Transactions"
+  },
   "shared": {
     "warnings": {
       "not_saved": "Your wallet has not been saved yet! Please save it!"

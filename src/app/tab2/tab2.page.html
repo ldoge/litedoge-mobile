@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Payment
+      {{'payment_page.title' | translate}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Payment</ion-title>
+      <ion-title size="large">{{'payment_page.title' | translate}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -29,7 +29,7 @@
         <ion-col>
           <ion-card>
             <ion-card-header>
-              <ion-card-title>Receive</ion-card-title>
+              <ion-card-title>{{'payment_page.card1_title' | translate}}</ion-card-title>
             </ion-card-header>
             <ion-item>
               <ion-label>
@@ -68,7 +68,7 @@
         <ion-col>
           <ion-card>
             <ion-card-header>
-              <ion-card-title>Send</ion-card-title>
+              <ion-card-title>{{'payment_page.card2_title' | translate}}</ion-card-title>
             </ion-card-header>
             <ion-item>
               <ion-label>
@@ -91,7 +91,7 @@
               </ion-label>
             </ion-item>
             <ion-card-content>
-              <ion-button expand="block" disabled="disabled">Send</ion-button>
+              <ion-button expand="block" disabled="disabled">{{'payment_page.card2_send_button' | translate}}</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -102,28 +102,28 @@
         <ion-col>
           <ion-card>
             <ion-card-header>
-              <ion-card-title>Receive</ion-card-title>
+              <ion-card-title>{{'payment_page.card1_title' | translate}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
               <ion-text color="danger" *ngIf="(janinService.isWalletLoaded() | async) && !(janinService.walletSaved$ | async)">
-                Your wallet has not been saved yet! Please save it!
+                {{'shared.warnings.not_saved' | translate}}
               </ion-text>
               <qr-code
                 [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"
                 [size]="1000"></qr-code>
             </ion-card-content>
             <ion-item>
-              <ion-label position="floating">Address</ion-label>
+              <ion-label position="floating">{{'payment_page.card1_address_input' | translate}}</ion-label>
               <ion-input readonly="readonly" type="text"
                          [value]="(janinService.loadedWallet$ | async) ? (janinService.loadedWallet$ | async).litedogeAddress : ''"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="floating">Available Balance</ion-label>
+              <ion-label position="floating">{{'payment_page.card1_avail_input' | translate}}</ion-label>
               <ion-input type="number" readonly="readonly"
                          [value]="paymentService.availableBalance$ | async"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="floating">Scanned Balance</ion-label>
+              <ion-label position="floating">{{'payment_page.card1_scanned_input' | translate}}</ion-label>
               <ion-input type="number" readonly="readonly"
                          [value]="paymentService.scannedBalance$ | async"></ion-input>
             </ion-item>
@@ -134,20 +134,20 @@
         <ion-col>
           <ion-card>
             <ion-card-header>
-              <ion-card-title>Send</ion-card-title>
+              <ion-card-title>{{'payment_page.card2_title' | translate}}</ion-card-title>
             </ion-card-header>
             <form (submit)="makePayment()" [formGroup]="sendToForm" novalidate>
               <ion-item>
-                <ion-label position="floating">Address</ion-label>
+                <ion-label position="floating">{{'payment_page.card2_address_input' | translate}}</ion-label>
                 <ion-input clearInput type="text" formControlName="address"></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label position="floating">Amount</ion-label>
+                <ion-label position="floating">{{'payment_page.card2_amount_input' | translate}}</ion-label>
                 <ion-input clearInput type="number" [max]="paymentService.scannedBalance$ | async"
                            formControlName="amount"></ion-input>
               </ion-item>
               <ion-card-content>
-                <ion-button expand="block" color="success" type="submit" [disabled]="sendToForm.invalid">Send
+                <ion-button expand="block" color="success" type="submit" [disabled]="sendToForm.invalid">{{'payment_page.card2_send_button' | translate}}
                 </ion-button>
               </ion-card-content>
             </form>

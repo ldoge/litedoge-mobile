@@ -6,6 +6,7 @@ import {Tab2Page} from './tab2.page';
 
 import {Tab2PageRoutingModule} from './tab2-routing.module';
 import {QRCodeModule} from 'angular2-qrcode';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {QRCodeModule} from 'angular2-qrcode';
     FormsModule,
     ReactiveFormsModule,
     Tab2PageRoutingModule,
-    QRCodeModule
+    QRCodeModule,
+    TranslateModule
   ],
   declarations: [Tab2Page]
 })
