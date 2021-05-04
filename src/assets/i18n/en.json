@@ -62,7 +62,7 @@
     "title": "Generate & Save",
     "close": "CLOSE",
     "address_input": "Address",
-    "private_key_input": "Address",
+    "private_key_input": "Private Key",
     "private_key_generate_button": "GENERATE",
     "wallet_name_input": "Wallet Name",
     "password_input": "Password",
