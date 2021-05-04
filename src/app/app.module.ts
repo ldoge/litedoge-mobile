@@ -11,8 +11,9 @@ import {AppComponent} from './app.component';
 import {SharedComponentsModule} from './shared-components/shared-components.module';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {Globalization} from '@ionic-native/globalization/ngx';
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
@@ -24,9 +25,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
     }),
@@ -37,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     Storage,
+    Globalization,
   ],
   bootstrap: [AppComponent],
 })

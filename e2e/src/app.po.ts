@@ -1,6 +1,4 @@
 import {browser, by, element} from 'protractor';
-import {from, Observable} from 'rxjs';
-import {first} from 'rxjs/operators';
 
 export class AppPage {
   navigateTo() {

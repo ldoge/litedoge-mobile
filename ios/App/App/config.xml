@@ -7,5 +7,9 @@
     <param name="onload" value="true"/>
   </feature>
 
+  <feature name="Globalization">
+    <param name="ios-package" value="CDVGlobalization"/>
+  </feature>
+
   
 </widget>
