@@ -1,8 +1,8 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Generate & Save</ion-title>
+    <ion-title>{{'generate_wallet_modal.title' | translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="this.dismiss()">Close</ion-button>
+      <ion-button (click)="this.dismiss()">{{'generate_wallet_modal.close' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +12,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Address</ion-label>
+            <ion-label position="floating">{{'generate_wallet_modal.address_input' | translate}}</ion-label>
             <ion-input readonly type="text"
                        [value]="(this.janinService.loadedWallet$ | async) ? (this.janinService.loadedWallet$ | async).litedogeAddress : ''"></ion-input>
           </ion-item>
@@ -21,11 +21,11 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Private Key</ion-label>
+            <ion-label position="floating">{{'generate_wallet_modal.private_key_input' | translate}}</ion-label>
             <ion-input readonly type="password"
                        [value]="(this.janinService.loadedWallet$ | async) ? (this.janinService.loadedWallet$ | async).litedogeWifPrivateKey : ''"></ion-input>
             <ion-button slot="end" size="medium" color="secondary" type="button" (click)="generateWallet()">
-              <ion-icon name="dice"></ion-icon>&nbsp;Generate
+              <ion-icon name="dice"></ion-icon>&nbsp;{{'generate_wallet_modal.private_key_generate_button' | translate}}
             </ion-button>
           </ion-item>
         </ion-col>
@@ -33,7 +33,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Wallet Name</ion-label>
+            <ion-label position="floating">{{'generate_wallet_modal.wallet_name_input' | translate}}</ion-label>
             <ion-input type="text" formControlName="name"></ion-input>
           </ion-item>
         </ion-col>
@@ -41,7 +41,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Password</ion-label>
+            <ion-label position="floating">{{'generate_wallet_modal.password_input' | translate}}</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
         </ion-col>
@@ -49,7 +49,7 @@
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-label position="floating">{{'generate_wallet_modal.confirm_password_input' | translate}}</ion-label>
             <ion-input type="password" formControlName="passwordConfirm"></ion-input>
           </ion-item>
         </ion-col>
@@ -57,7 +57,7 @@
       <ion-row>
         <ion-col>
           <ion-button color="success" expand="block" type="submit"
-                      [disabled]="walletSaveInfo.invalid || !(this.janinService.isWalletLoaded() | async) || !passwordMatches()">Save Wallet
+                      [disabled]="walletSaveInfo.invalid || !(this.janinService.isWalletLoaded() | async) || !passwordMatches()">{{'generate_wallet_modal.save_wallet_button' | translate}}
           </ion-button>
         </ion-col>
       </ion-row>
