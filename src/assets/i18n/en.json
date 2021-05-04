@@ -124,9 +124,20 @@
   },
   "shared": {
     "warnings": {
-      "not_saved": "Your wallet has not been saved yet! Please save it!"
+      "not_saved": "Your wallet has not been saved yet! Please save it!",
+      "not_loaded": "Wallet Not Loaded!",
+      "not_loaded_description": "Please load your wallet from the main page before continuing",
+      "not_loaded_button": "OK"
+    },
+    "generate_wallet_outcome": {
+      "error": "Error Generating Wallet!",
+      "error_description": "Please restart your application before continuing!",
+      "error_button": "OK"
     },
     "save_wallet_outcome": {
+      "success": "Wallet Saved!",
+      "success_description": "Your private key is now safely encrypted and stored in your phone.",
+      "success_button": "OK",
       "in_use": "Wallet name in use!",
       "in_use_description": "The wallet name you have chosen is already being used.",
       "in_use_button": "OK"
