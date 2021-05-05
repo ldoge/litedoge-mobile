@@ -20,4 +20,28 @@ export class AppPage {
   getUnloadButton() {
     return element(by.id('unload'));
   }
+
+  getFabInitButton() {
+    return element(by.id('fab-init'));
+  }
+
+  getFabDeleteButton() {
+    return element(by.id('fab-delete'));
+  }
+
+  getFabStoreButton() {
+    return element(by.id('fab-store'));
+  }
+
+  getFabLoadButton() {
+    return element(by.id('fab-load'));
+  }
+
+  getFabImportButton() {
+    return element(by.id('fab-import'));
+  }
+
+  getFabSettingsButton() {
+    return element(by.id('fab-settings'));
+  }
 }

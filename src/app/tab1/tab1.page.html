@@ -13,23 +13,23 @@
     </ion-toolbar>
   </ion-header>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary">
+    <ion-fab-button color="primary" id="fab-init">
       <ion-icon name="chevron-up"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="warning" (click)="deleteWallet()">
+      <ion-fab-button color="warning" (click)="deleteWallet()" id="fab-delete">
         <ion-icon name="trash"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)" (click)="storeWallet()">
+      <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)" (click)="storeWallet()" id="fab-store">
         <ion-icon name="lock-closed"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary" (click)="loadWallet()">
+      <ion-fab-button color="secondary" (click)="loadWallet()" id="fab-load">
         <ion-icon name="lock-open"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary" (click)="importWallet()">
+      <ion-fab-button color="secondary" (click)="importWallet()" id="fab-import">
         <ion-icon name="download"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="secondary" (click)="openSettings()">
+      <ion-fab-button color="secondary" (click)="openSettings()" id="fab-settings">
         <ion-icon name="settings"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
