@@ -20,7 +20,7 @@ export class SettingsService {
     },
     {
       id: 'es',
-      value: 'Española'
+      value: 'Español'
     },
     {
       id: 'id',
