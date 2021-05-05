@@ -1,0 +1,152 @@
+{
+  "wallet_page": {
+    "title": "Portefeuille",
+    "card_title": "Portefeuille LiteDoge",
+    "card_description": "Veuillez exporter votre clé privée avant de désinstaller cette application. Tous les portefeuilles sauvegardés seront supprimés.",
+    "card_address_input": "Adresse",
+    "card_private_key_input": "Clé privée",
+    "card_generate_button": "Créer",
+    "card_unload_button": "Fermer"
+  },
+  "payment_page": {
+    "title": "Paiement",
+    "card1_title": "Recevoir",
+    "card1_address_input": "Adresse",
+    "card1_avail_input": "Fonds disponibles",
+    "card1_scanned_input": "Fonds utilisables",
+    "card2_title": "Envoyer",
+    "card2_address_input": "Adresse",
+    "card2_amount_input": "Montant",
+    "card2_send_button": "Envoyer",
+    "send_toast_info": {
+      "success": "Paiement envoyé !",
+      "failure": "Echec de la transaction !",
+      "no_funds": "Fonds insuffisants !"
+    },
+    "scanned_balance_info": {
+      "title": "Fonds utilisables",
+      "description": "Les fonds utilisables sont disponibles immédiatement par le portefeuille mobile. Après une transaction l'indication de fonds utilisables peut être temporairement désynchronisée.",
+      "button": "OK"
+    }
+  },
+  "transactions_page": {
+    "title": "Transactions",
+    "no_transactions": "Aucune transaction à afficher",
+    "loading_data": "Chargement des données..."
+  },
+  "delete_wallet_modal": {
+    "title": "Supprimer",
+    "close": "Fermer",
+    "wallet_name_input": "Nom du portefeuille",
+    "password_input": "Mot de passe",
+    "delete_wallet_button": "Supprimer le portefeuille",
+    "delete_confirmation": {
+      "title": "Confirmation de la suppression",
+      "description": "Etes-vous sûr de vouloir supprimer ce portefeuille ?",
+      "delete_button": "Supprimer",
+      "cancel_button": "Annuler"
+    },
+    "delete_outcome": {
+      "success": "Portefeuille supprimé",
+      "success_description": "Le portefeuille sélectionné a bien été supprimé !",
+      "success_button": "OK",
+      "not_found": "Portefeuille inexistant",
+      "not_found_description": "Ce portefeuille n'existe pas. Veuillez redémarrer votre application.",
+      "not_found_button": "OK",
+      "incorrect_password": "Mot de passe incorrect !",
+      "incorrect_password_description": "Saisie de mot de passe incorrect, veuillez le ressaisir.",
+      "incorrect_password_button": "OK"
+    }
+  },
+  "generate_wallet_modal": {
+    "title": "Créer et Sauvegarder",
+    "close": "Fermer",
+    "address_input": "Adresse",
+    "private_key_input": "Clé privée",
+    "private_key_generate_button": "Créer",
+    "wallet_name_input": "Nom du portefeuille",
+    "password_input": "Mot de passe",
+    "confirm_password_input": "Confirmation du mot de passe",
+    "save_wallet_button": "Sauvegarde du portefeuille"
+  },
+  "import_wallet_modal": {
+    "title": "Importation de portefeuille",
+    "close": "Fermer",
+    "private_key_input": "Clé privée",
+    "wallet_name_input": "Nom du portefeuille",
+    "password_input": "Mot de passe",
+    "confirm_password_input": "Confirmation du mot de passe",
+    "save_wallet_button": "Sauvegarde du portefeuille",
+    "import_outcome": {
+      "invalid": "Clé privée invalide !",
+      "invalid_description": "Impossible de générer une adresse en utilisant cette clé !",
+      "invalid_button": "OK"
+    }
+  },
+  "load_wallet_modal": {
+    "title": "Déchiffrement et Chargement",
+    "close": "Fermer",
+    "wallet_name_input": "Nom du portefeuille",
+    "password_input": "Mot de passe",
+    "load_wallet_button": "Chargement du portefeuille",
+    "load_outcome": {
+      "incorrect_password": "Mot de passe incorrect !",
+      "incorrect_password_description": "Saisie de mot de passe incorrect, veuillez le ressaisir.",
+      "incorrect_password_button": "OK"
+    }
+  },
+  "save_wallet_modal": {
+    "title": "Chiffrer et Sauver",
+    "close": "Fermer",
+    "address_input": "Adresse",
+    "private_key_input": "Clé privée",
+    "wallet_name_input": "Nom du portefeuille",
+    "password_input": "Mot de passe",
+    "confirm_password_input": "Confirmation du mot de passe",
+    "save_wallet_button": "Sauver"
+  },
+  "view_transaction_modal": {
+    "title": "Détail de la transaction",
+    "close": "Fermer",
+    "overview_card_title": "Aperçu",
+    "txn_id": "Identifiant",
+    "hash": "Block Hash",
+    "index": "Block Index",
+    "amount": "Montant de la transaction",
+    "inputs_card_title": "Inputs",
+    "inputs_card_address": "Input Address",
+    "inputs_card_amount": "Input Amount",
+    "inputs_card_empty": "No Inputs",
+    "outputs_card_title": "Outputs",
+    "outputs_card_address": "Output Address",
+    "outputs_card_amount": "Output Amount",
+    "outputs_card_empty": "No Outputs"
+  },
+  "settings_modal": {
+    "title": "Paramètres",
+    "close": "Fermer",
+    "language_input": "Langue",
+    "save_button": "Sauvegarder"
+  },
+  "shared": {
+    "warnings": {
+      "not_saved": "Votre portefeuille n'est pas sauvegardé ! Veuillez le sauvegarder maintenant !",
+      "not_loaded": "Portefeuille non chargé !",
+      "not_loaded_description": "Veuillez charger votre portefeuille depuis la page principale de l'application avant de continuer",
+      "not_loaded_button": "OK"
+    },
+    "generate_wallet_outcome": {
+      "error": "Erreur lors de la génération du portefeuille !",
+      "error_description": "Veuillez redémarrer l'application avant de continuer !",
+      "error_button": "OK"
+    },
+    "save_wallet_outcome": {
+      "success": "Portefeuille sauvegardé !",
+      "success_description": "Votre clé privée est maintenant chiffrée et stockée dans votre téléphone.",
+      "success_button": "OK",
+      "in_use": "Nom de portefeuille déjà utilisé !",
+      "in_use_description": "Le nom de portefeuille que vous avez choisi est déjà utilisé.",
+      "in_use_button": "OK"
+    }
+  }
+}
