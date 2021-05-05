@@ -1,0 +1,152 @@
+{
+  "wallet_page": {
+    "title": "Dompet",
+    "card_title": "Dompet LiteDoge",
+    "card_description": "Mohon memasukan private key anda sebelum menghapus aplikasi ini karena semua dompet yang disimpan akan di hapus.",
+    "card_address_input": "Alamat",
+    "card_private_key_input": "Private Key",
+    "card_generate_button": "BUAT",
+    "card_unload_button": "HAPUS"
+  },
+  "payment_page": {
+    "title": "Pembayaran",
+    "card1_title": "Terima",
+    "card1_address_input": "Alamat",
+    "card1_avail_input": "Dana Tertunda",
+    "card1_scanned_input": "Dana Tersedia",
+    "card2_title": "Kirim",
+    "card2_address_input": "Alamat",
+    "card2_amount_input": "Jumlah",
+    "card2_send_button": "Kirim",
+    "send_toast_info": {
+      "success": "Pembayaran Terkirim!",
+      "failure": "Transaksi Gagal!",
+      "no_funds": "Dana tidak mencukupi!"
+    },
+    "scanned_balance_info": {
+      "title": "Info Dana Tersedia",
+      "description": "Dana Tersedia adalah Dana yang tersedia untuk digunakan dalam Dompet ini. Saat membuat sebuah transaksi, Dana Tersedia akan menampilkan jumlah yang tidak disinkronisasi dengan Dana Tertunda.",
+      "button": "OK"
+    }
+  },
+  "transactions_page": {
+    "title": "Transaksi",
+    "no_transactions": "Sayangnya. Tidak ada transaksi di sini",
+    "loading_data": "Memuat lebih banyak data..."
+  },
+  "delete_wallet_modal": {
+    "title": "Hapus",
+    "close": "TUTUP",
+    "wallet_name_input": "Nama Dompet",
+    "password_input": "Password",
+    "delete_wallet_button": "Hapus Dompet",
+    "delete_confirmation": {
+      "title": "Konfirmasi Penghapusan",
+      "description": "Apakah anda yakin ingin menghapus dompet ini?",
+      "delete_button": "HAPUS",
+      "cancel_button": "BATAL"
+    },
+    "delete_outcome": {
+      "success": "Dompet Terhapus!",
+      "success_description": "Dompet yang anda pilih telah dihapus dengan baik!",
+      "success_button": "OK",
+      "not_found": "Dompet tidak ada!",
+      "not_found_description": "Ada sesuatu yang salah, Dompet yang anda ingin hapus sepertinya tidak ada. Mohon menyalakan kembali aplikasi anda!",
+      "not_found_button": "OK",
+      "incorrect_password": "Password Salah!",
+      "incorrect_password_description": "Password yang anda masukkan salah. Mohon coba lagi!",
+      "incorrect_password_button": "OK"
+    }
+  },
+  "generate_wallet_modal": {
+    "title": "Buat & Simpan",
+    "close": "TUTUP",
+    "address_input": "Alamat",
+    "private_key_input": "Private Key",
+    "private_key_generate_button": "BUAT",
+    "wallet_name_input": "Nama Dompet",
+    "password_input": "Password",
+    "confirm_password_input": "Konfirmasi Password",
+    "save_wallet_button": "Simpan Dompet"
+  },
+  "import_wallet_modal": {
+    "title": "Import Dompet",
+    "close": "TUTUP",
+    "private_key_input": "Private Key",
+    "wallet_name_input": "Nama Dompet",
+    "password_input": "Password",
+    "confirm_password_input": "Konfirmasi Password",
+    "save_wallet_button": "Simpan Dompet",
+    "import_outcome": {
+      "invalid": "Private Key Salah!",
+      "invalid_description": "Kami tidak bisa membuat alamat anda berdasarkan private key ini.",
+      "invalid_button": "OK"
+    }
+  },
+  "load_wallet_modal": {
+    "title": "Dekripsi & Muat",
+    "close": "TUTUP",
+    "wallet_name_input": "Nama Dompet",
+    "password_input": "Password",
+    "load_wallet_button": "Muat Dompet",
+    "load_outcome": {
+      "incorrect_password": "Password Salah!",
+      "incorrect_password_description": "Password yang anda masukkan salah. Mohon coba lagi!",
+      "incorrect_password_button": "OK"
+    }
+  },
+  "save_wallet_modal": {
+    "title": "Enkripsi & Simpan",
+    "close": "TUTUP",
+    "address_input": "Alamat",
+    "private_key_input": "Private Key",
+    "wallet_name_input": "Nama Dompet",
+    "password_input": "Password",
+    "confirm_password_input": "Konfirmasi Password",
+    "save_wallet_button": "Simpan Dompet"
+  },
+  "view_transaction_modal": {
+    "title": "Lihat Transaksi",
+    "close": "TUTUP",
+    "overview_card_title": "Ringkasan",
+    "txn_id": "ID",
+    "hash": "Block Hash",
+    "index": "Block Index",
+    "amount": "Jumlah Transaksi",
+    "inputs_card_title": "Masukkan",
+    "inputs_card_address": "Alamat Penerima",
+    "inputs_card_amount": "Jumlah di terima",
+    "inputs_card_empty": "Tidak ada masukkan",
+    "outputs_card_title": "Pengeluaran",
+    "outputs_card_address": "Alamat pengirim",
+    "outputs_card_amount": "Jumlah yang dikirim",
+    "outputs_card_empty": "Tidak ada Pengeluaran"
+  },
+  "settings_modal": {
+    "title": "Pengaturan",
+    "close": "TUTUP",
+    "language_input": "Bahasa",
+    "save_button": "Simpan Pengaturan"
+  },
+  "shared": {
+    "warnings": {
+      "not_saved": "Dompet anda belum di simpan! Mohon menyimpannya!",
+      "not_loaded": "Dompet tidak dapat dimuat!",
+      "not_loaded_description": "Mohon memuat dompet anda di halaman utama sebelum melanjutkan",
+      "not_loaded_button": "OK"
+    },
+    "generate_wallet_outcome": {
+      "error": "Error Membuat Dompet!",
+      "error_description": "Mohon menyalakan kembali aplikasi anda sebelum melanjutkan!",
+      "error_button": "OK"
+    },
+    "save_wallet_outcome": {
+      "success": "Dompet Berhasil di simpan!",
+      "success_description": "Private key anda sekarang terenkripsi dan disimpan di perangkat anda dengan aman.",
+      "success_button": "OK",
+      "in_use": "Nama Domper telah dipakai!",
+      "in_use_description": "Nama Dompet yang anda pilih telah digunakan.",
+      "in_use_button": "OK"
+    }
+  }
+}
