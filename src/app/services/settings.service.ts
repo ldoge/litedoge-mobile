@@ -3,7 +3,7 @@ import {Globalization} from '@ionic-native/globalization/ngx';
 import {StorageService} from './storage.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Settings} from '../interfaces/settings';
-import {first, switchMap, tap} from 'rxjs/operators';
+import {first, tap} from 'rxjs/operators';
 import {BehaviorSubject, from, Observable} from 'rxjs';
 
 @Injectable({
@@ -22,23 +22,32 @@ export class SettingsService {
 
   loadSettings() {
     from(this.globalization.getPreferredLanguage())
+      .pipe(first())
+      .subscribe(result => {
+        this.systemLanguage$.next(result.value);
+      }, err => {
+        this.systemLanguage$.next(this.translateService.getDefaultLang());
+      });
+
+    this.storageService.getJsonObservable<any>('settings')
       .pipe(
         first(),
-        tap(result => this.systemLanguage$.next(result.value)),
-        switchMap(() => this.storageService.getJsonObservable<any>('settings').pipe(first()))
       )
       .subscribe(result => {
         if (!Array.isArray(result)) {
           this.settings$.next(result);
+          this.translateService.setDefaultLang(result.language);
+          this.translateService.use(result.language);
         } else {
           const systemLanguage = this.systemLanguage$.getValue();
-          if (this.translateService.getLangs().findIndex(value => value === systemLanguage) === -1) {
+          if (systemLanguage && this.translateService.getLangs().findIndex(value => value === systemLanguage) === -1) {
             // not found
           } else {
             const newSettings: Settings = {
               language: systemLanguage
             };
             this.translateService.setDefaultLang(systemLanguage);
+            this.translateService.use(systemLanguage);
             this.settings$.next(newSettings);
           }
         }
@@ -47,6 +56,10 @@ export class SettingsService {
 
   saveSettings(settings: Settings): Observable<any> {
     return this.storageService.setJsonObservable('settings', settings)
-      .pipe(tap(() => this.settings$.next(settings)));
+      .pipe(tap(() => {
+        this.translateService.setDefaultLang(settings.language);
+        this.translateService.use(settings.language);
+        this.settings$.next(settings);
+      }));
   }
 }

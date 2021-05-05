@@ -13,8 +13,8 @@
         <ion-item>
           <ion-label position="floating">{{'settings_modal.language_input' | translate}}</ion-label>
           <ion-select placeholder="Select One" formControlName="language">
-            <ion-select-option *ngFor="let name of translateService.getLangs()"
-                               [value]="name">{{name}}</ion-select-option>
+            <ion-select-option *ngFor="let language of languages"
+                               [value]="language.id">{{language.value}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
