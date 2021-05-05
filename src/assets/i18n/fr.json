@@ -48,7 +48,7 @@
     },
     "delete_outcome": {
       "success": "Portefeuille supprimé",
-      "success_description": "Le portefeuille sélectionné a bien été supprimer !",
+      "success_description": "Le portefeuille sélectionné a bien été supprimé !",
       "success_button": "OK",
       "not_found": "Portefeuille inexistant",
       "not_found_description": "Ce portefeuille n'existe pas. Veuillez redémarrer votre application.",
