@@ -9,6 +9,7 @@ import {ViewTransactionComponent} from './view-transaction/view-transaction.comp
 import {GenerateWalletComponent} from './generate-wallet/generate-wallet.component';
 import {DeleteWalletComponent} from './delete-wallet/delete-wallet.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {SettingsComponent} from './settings/settings.component';
 
 
 @NgModule({
@@ -19,14 +20,15 @@ import {TranslateModule} from '@ngx-translate/core';
     ViewTransactionComponent,
     GenerateWalletComponent,
     DeleteWalletComponent,
+    SettingsComponent,
   ],
-    imports: [
-        IonicModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-    ]
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+  ]
 })
 export class SharedComponentsModule {
 }

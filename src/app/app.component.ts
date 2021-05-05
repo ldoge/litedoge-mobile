@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {AppService} from './services/app.service';
 import {IonRouterOutlet} from '@ionic/angular';
+import {SettingsService} from './services/settings.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,9 @@ import {IonRouterOutlet} from '@ionic/angular';
 export class AppComponent {
   @ViewChild(IonRouterOutlet, {static: true}) routerOutlet: IonRouterOutlet;
 
-  constructor(public appService: AppService) {
+  constructor(public appService: AppService,
+              private settingsService: SettingsService) {
     this.appService.ionRouterOutlet$.next(this.routerOutlet);
+    this.settingsService.loadSettings();
   }
 }

@@ -122,6 +122,12 @@
     "outputs_card_amount": "Output Amount",
     "outputs_card_empty": "No Outputs"
   },
+  "settings_modal": {
+    "title": "Settings",
+    "close": "CLOSE",
+    "language_input": "Language",
+    "save_button": "Save Settings"
+  },
   "shared": {
     "warnings": {
       "not_saved": "Your wallet has not been saved yet! Please save it!",

@@ -7,6 +7,7 @@ import {LoadWalletComponent} from '../shared-components/load-wallet/load-wallet.
 import {ImportWalletComponent} from '../shared-components/import-wallet/import-wallet.component';
 import {SaveWalletComponent} from '../shared-components/save-wallet/save-wallet.component';
 import {DeleteWalletComponent} from '../shared-components/delete-wallet/delete-wallet.component';
+import {SettingsComponent} from '../shared-components/settings/settings.component';
 
 @Component({
   selector: 'app-tab1',
@@ -58,6 +59,14 @@ export class Tab1Page {
     });
 
     await deleteWalletModal.present();
+  }
+
+  public async openSettings() {
+    const settingsModal = await this.modalController.create({
+      component: SettingsComponent
+    });
+
+    await settingsModal.present();
   }
 
   public togglePrivateKeyVisibility() {

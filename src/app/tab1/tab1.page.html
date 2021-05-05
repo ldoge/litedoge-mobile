@@ -17,17 +17,20 @@
       <ion-icon name="chevron-up"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
+      <ion-fab-button color="warning" (click)="deleteWallet()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-fab-button>
       <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)" (click)="storeWallet()">
         <ion-icon name="lock-closed"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="secondary" (click)="loadWallet()">
         <ion-icon name="lock-open"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="warning" (click)="deleteWallet()">
-        <ion-icon name="trash"></ion-icon>
-      </ion-fab-button>
       <ion-fab-button color="secondary" (click)="importWallet()">
         <ion-icon name="download"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="secondary" (click)="openSettings()">
+        <ion-icon name="settings"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

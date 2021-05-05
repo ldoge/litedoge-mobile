@@ -1,0 +1,30 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{'settings_modal.title' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.dismiss()">{{'settings_modal.close' | translate}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="settingsForm" *ngIf="!(isLoading$ | async)" (submit)="saveSettings()">
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">{{'settings_modal.language_input' | translate}}</ion-label>
+          <ion-select placeholder="Select One" formControlName="language">
+            <ion-select-option *ngFor="let name of translateService.getLangs()"
+                               [value]="name">{{name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-row>
+        <ion-col>
+          <ion-button color="primary" expand="block" type="submit"
+                      [disabled]="settingsForm.invalid">{{'settings_modal.save_button' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
