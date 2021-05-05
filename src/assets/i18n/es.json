@@ -1,0 +1,152 @@
+{
+  "wallet_page": {
+    "title": "Billetera",
+    "card_title": "Billetera LiteDoge",
+    "card_description": "Exporte sus claves privadas antes de desinstalar la aplicación, ya que se eliminarán todas las billeteras guardadas.",
+    "card_address_input": "Dirección",
+    "card_private_key_input": "Clave privada",
+    "card_generate_button": "GENERAR",
+    "card_unload_button": "BORRAR"
+  },
+  "payment_page": {
+    "title": "Pago",
+    "card1_title": "Recive",
+    "card1_address_input": "Dirección",
+    "card1_avail_input": "Saldo disponible",
+    "card1_scanned_input": "Saldo escaneado",
+    "card2_title": "Enviar",
+    "card2_address_input": "Dirección",
+    "card2_amount_input": "Monto",
+    "card2_send_button": "Enviar",
+    "send_toast_info": {
+      "success": "Pago enviado!",
+      "failure": "¡Transacción fallida!",
+      "no_funds": "¡Fondos insuficientes!"
+    },
+    "scanned_balance_info": {
+      "title": "Información del saldo escaneado",
+      "description": "El saldo escaneado es el saldo que la billetera móvil puede usar. Después de enviar una transacción, el saldo escaneado puede mostrar una cantidad que no está sincronizada con el saldo disponible.",
+      "button": "ACEPTAR"
+    }
+  },
+  "transactions_page": {
+    "title": "Transacciones",
+    "no_transactions": "No hay transacciones.",
+    "loading_data": "Cargando datos..."
+  },
+  "delete_wallet_modal": {
+    "title": "Eliminar",
+    "close": "CERRAR",
+    "wallet_name_input": "Nombre de la billetera",
+    "password_input": "Contraseña",
+    "delete_wallet_button": "Eliminar billetera",
+    "delete_confirmation": {
+      "title": "Confirmar la eliminación",
+      "description": "¿Estás seguro de que quieres eliminar esta billetera?",
+      "delete_button": "ELIMINAR",
+      "cancel_button": "CANCELAR"
+    },
+    "delete_outcome": {
+      "success": "¡Billetera eliminada!",
+      "success_description": "¡La billetera que ha seleccionado se ha eliminado correctamente!",
+      "success_button": "ACEPTAR",
+      "not_found": "¡La billetera no existe!",
+      "not_found_description": "Algo salió mal, la billetera que intentaba eliminar parece no existir. ¡Reinicie su aplicación!",
+      "not_found_button": "ACEPTAR",
+      "incorrect_password": "¡Contraseña incorrecta!",
+      "incorrect_password_description": "La contraseña que ingresó es incorrecta. ¡Inténtalo de nuevo!",
+      "incorrect_password_button": "ACEPTAR"
+    }
+  },
+  "generate_wallet_modal": {
+    "title": "Generar y guardar",
+    "close": "CERRAR",
+    "address_input": "Dirección",
+    "private_key_input": "Clave privada",
+    "private_key_generate_button": "GENERAR",
+    "wallet_name_input": "Nombre de la billetera",
+    "password_input": "Contraseña",
+    "confirm_password_input": "Confirmar Contraseña",
+    "save_wallet_button": "Guardar billetera"
+  },
+  "import_wallet_modal": {
+    "title": "Importar billetera",
+    "close": "CERRAR",
+    "private_key_input": "Clave privada",
+    "wallet_name_input": "Nombre de la billetera",
+    "password_input": "Contraseña",
+    "confirm_password_input": "Confirmar Contraseña",
+    "save_wallet_button": "Guardar billetera",
+    "import_outcome": {
+      "invalid": "¡Clave privada no válida!",
+      "invalid_description": "No pudimos generar su dirección en base a esta clave privada.",
+      "invalid_button": "ACEPTAR"
+    }
+  },
+  "load_wallet_modal": {
+    "title": "Desencriptar y cargar",
+    "close": "CERRAR",
+    "wallet_name_input": "Nombre de la billetera",
+    "password_input": "Contraseña",
+    "load_wallet_button": "Cargar billetera",
+    "load_outcome": {
+      "incorrect_password": "¡Contraseña incorrecta!",
+      "incorrect_password_description": "La contraseña que ingresó es incorrecta. ¡Inténtalo de nuevo!",
+      "incorrect_password_button": "ACEPTAR"
+    }
+  },
+  "save_wallet_modal": {
+    "title": "Encriptar y guardar",
+    "close": "CERRAR",
+    "address_input": "Dirección",
+    "private_key_input": "Clave privada",
+    "wallet_name_input": "Nombre de la billetera",
+    "password_input": "Contraseña",
+    "confirm_password_input": "Confirmar Contraseña",
+    "save_wallet_button": "Guardar billetera"
+  },
+  "view_transaction_modal": {
+    "title": "Ver transacción",
+    "close": "CERRAR",
+    "overview_card_title": "Descripción",
+    "txn_id": "ID",
+    "hash": "Hash del bloque",
+    "index": "Indice del bloque",
+    "amount": "Monto de la transacción",
+    "inputs_card_title": "Entradas",
+    "inputs_card_address": "Dirección de entrada",
+    "inputs_card_amount": "Monto de entrada",
+    "inputs_card_empty": "Sin entradas",
+    "outputs_card_title": "Salidas",
+    "outputs_card_address": "Dirección de salida",
+    "outputs_card_amount": "Monto de salida",
+    "outputs_card_empty": "Sin salidas"
+  },
+  "settings_modal": {
+    "title": "Ajustes",
+    "close": "CERRAR",
+    "language_input": "Idioma",
+    "save_button": "Guardar ajustes"
+  },
+  "shared": {
+    "warnings": {
+      "not_saved": "¡Tu billetera aún no se ha guardado! ¡Por favor guárdela!",
+      "not_loaded": "¡Billetera no cargada!",
+      "not_loaded_description": "Cargue su billetera desde la pantalla principal antes de continuar",
+      "not_loaded_button": "ACEPTAR"
+    },
+    "generate_wallet_outcome": {
+      "error": "¡Error al generar la billetera!",
+      "error_description": "Por favor, reinicie su aplicación antes de continuar!",
+      "error_button": "ACEPTAR"
+    },
+    "save_wallet_outcome": {
+      "success": "¡Billetera guardada!",
+      "success_description": "Su clave privada ahora está encriptada y almacenada de forma segura en su teléfono.",
+      "success_button": "ACEPTAR",
+      "in_use": "¡Nombre de billetera en uso!",
+      "in_use_description": "El nombre de la billetera que ha elegido ya se está utilizando.",
+      "in_use_button": "ACEPTAR"
+    }
+  }
+}
