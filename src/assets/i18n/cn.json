@@ -1,0 +1,152 @@
+{
+  "wallet_page": {
+    "title": "钱袋",
+    "card_title": "LiteDoge 钱袋",
+    "card_description": "请在卸载之前汇出您的私人钥匙。否则您的钱袋都也会被擦掉。",
+    "card_address_input": "地址",
+    "card_private_key_input": "私人钥匙",
+    "card_generate_button": "创造",
+    "card_unload_button": "卸下"
+  },
+  "payment_page": {
+    "title": "付款",
+    "card1_title": "收银",
+    "card1_address_input": "地址",
+    "card1_avail_input": "结存",
+    "card1_scanned_input": "可用的结存",
+    "card2_title": "发送",
+    "card2_address_input": "地址",
+    "card2_amount_input": "金额",
+    "card2_send_button": "发送",
+    "send_toast_info": {
+      "success": "付款成功发送!",
+      "failure": "付款失败!",
+      "no_funds": "不充足的资金!"
+    },
+    "scanned_balance_info": {
+      "title": "可用的结存信息",
+      "description": "可用结存是手机钱包可以使用的结存。 发送交易后，可用结存可能会显示与现有结存不同步的结存。",
+      "button": "好的"
+    }
+  },
+  "transactions_page": {
+    "title": "交易",
+    "no_transactions": "没有交易...",
+    "loading_data": "加载中..."
+  },
+  "delete_wallet_modal": {
+    "title": "删除",
+    "close": "关闭",
+    "wallet_name_input": "钱袋名称",
+    "password_input": "密码",
+    "delete_wallet_button": "删除钱袋",
+    "delete_confirmation": {
+      "title": "确认删除",
+      "description": "您确定要删除此钱袋吗？",
+      "delete_button": "删除",
+      "cancel_button": "取消"
+    },
+    "delete_outcome": {
+      "success": "钱袋已删除!",
+      "success_description": "您所选择的钱袋已经成功删除!",
+      "success_button": "好的",
+      "not_found": "钱袋不存在!",
+      "not_found_description": "出了点问题，你试图删除的钱袋似乎不存在。请重新启动您的应用程序!",
+      "not_found_button": "好的",
+      "incorrect_password": "密码不正确!",
+      "incorrect_password_description": "你所输入的密码不正确。请再试试!",
+      "incorrect_password_button": "好的"
+    }
+  },
+  "generate_wallet_modal": {
+    "title": "创造和保存",
+    "close": "关闭",
+    "address_input": "地址",
+    "private_key_input": "私人钥匙",
+    "private_key_generate_button": "创造",
+    "wallet_name_input": "钱袋名称",
+    "password_input": "密码",
+    "confirm_password_input": "确认密码",
+    "save_wallet_button": "保存钱袋"
+  },
+  "import_wallet_modal": {
+    "title": "输入钱袋",
+    "close": "关闭",
+    "private_key_input": "私人钥匙",
+    "wallet_name_input": "钱袋名称",
+    "password_input": "密码",
+    "confirm_password_input": "确认密码",
+    "save_wallet_button": "保存钱袋",
+    "import_outcome": {
+      "invalid": "私人钥匙无效!",
+      "invalid_description": "我们无法根据此私人钥匙产生成您的地址。",
+      "invalid_button": "好的"
+    }
+  },
+  "load_wallet_modal": {
+    "title": "解密并加载",
+    "close": "关闭",
+    "wallet_name_input": "钱袋名称",
+    "password_input": "密码",
+    "load_wallet_button": "加载钱袋",
+    "load_outcome": {
+      "incorrect_password": "密码不正确!",
+      "incorrect_password_description": "你所输入的密码不正确。请再试试!",
+      "incorrect_password_button": "好的"
+    }
+  },
+  "save_wallet_modal": {
+    "title": "加密并保存",
+    "close": "关闭",
+    "address_input": "地址",
+    "private_key_input": "私人钥匙",
+    "wallet_name_input": "钱袋名称",
+    "password_input": "密码",
+    "confirm_password_input": "确认密码",
+    "save_wallet_button": "保存钱袋"
+  },
+  "view_transaction_modal": {
+    "title": "查看交易",
+    "close": "关闭",
+    "overview_card_title": "概述",
+    "txn_id": "ID",
+    "hash": "区块哈希",
+    "index": "区块索引",
+    "amount": "交易金额",
+    "inputs_card_title": "输入",
+    "inputs_card_address": "输入地址",
+    "inputs_card_amount": "输入金额",
+    "inputs_card_empty": "没有输入",
+    "outputs_card_title": "输出",
+    "outputs_card_address": "输出地址",
+    "outputs_card_amount": "输出金额",
+    "outputs_card_empty": "没有输出"
+  },
+  "settings_modal": {
+    "title": "设置",
+    "close": "关闭",
+    "language_input": "语文",
+    "save_button": "保存设置"
+  },
+  "shared": {
+    "warnings": {
+      "not_saved": "您的钱袋尚未保存！ 请保存！",
+      "not_loaded": "钱袋未加载！",
+      "not_loaded_description": "请先从主页加载您的钱袋，然后再继续。",
+      "not_loaded_button": "好的"
+    },
+    "generate_wallet_outcome": {
+      "error": "创建电子钱袋时出错！",
+      "error_description": "请先重新启动应用程序，然后再继续！",
+      "error_button": "好的"
+    },
+    "save_wallet_outcome": {
+      "success": "钱袋已保存！",
+      "success_description": "您的私钥已被安全加密并存储在手机中。",
+      "success_button": "好的",
+      "in_use": "钱袋名称已被使用！",
+      "in_use_description": "您选择的钱袋名称已被使用。",
+      "in_use_button": "好的"
+    }
+  }
+}
