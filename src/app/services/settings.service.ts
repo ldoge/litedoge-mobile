@@ -29,6 +29,10 @@ export class SettingsService {
     {
       id: 'cn',
       value: '中文'
+    },
+    {
+      id: 'fr',
+      value: 'Français'
     }
   ];
   private systemLanguage$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
