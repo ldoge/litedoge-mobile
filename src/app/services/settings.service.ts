@@ -13,6 +13,20 @@ export class SettingsService {
   public settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({
     language: this.translateService.getDefaultLang()
   });
+  public languages = [
+    {
+      id: 'en',
+      value: 'English'
+    },
+    {
+      id: 'es',
+      value: 'Española'
+    },
+    {
+      id: 'id',
+      value: 'Bahasa Indonesia'
+    }
+  ];
   private systemLanguage$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   constructor(private storageService: StorageService,
