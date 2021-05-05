@@ -25,7 +25,7 @@
     },
     "scanned_balance_info": {
       "title": "Fonds utilisables",
-      "description": "Les fonds utilisables sont disponibles immediatement par le portefeuille mobile. Après une transaction l'indication de fonds utilisables peut être temporairement desynchronisée.",
+      "description": "Les fonds utilisables sont disponibles immédiatement par le portefeuille mobile. Après une transaction l'indication de fonds utilisables peut être temporairement désynchronisée.",
       "button": "OK"
     }
   },
@@ -35,31 +35,31 @@
     "loading_data": "Chargement des données..."
   },
   "delete_wallet_modal": {
-    "title": "Suppression",
+    "title": "Supprimer",
     "close": "Fermer",
     "wallet_name_input": "Nom du portefeuille",
     "password_input": "Mot de passe",
-    "delete_wallet_button": "Suppression du portefeuille",
+    "delete_wallet_button": "Supprimer le portefeuille",
     "delete_confirmation": {
       "title": "Confirmation de la suppression",
-      "description": "Etes-vous sûre de vouloir supprimer ce portefeuille ?",
+      "description": "Etes-vous sûr de vouloir supprimer ce portefeuille ?",
       "delete_button": "Supprimer",
       "cancel_button": "Annuler"
     },
     "delete_outcome": {
-      "success": "Portefeuille supprimer",
+      "success": "Portefeuille supprimé",
       "success_description": "Le portefeuille sélectionné a bien été supprimer !",
       "success_button": "OK",
       "not_found": "Portefeuille inexistant",
       "not_found_description": "Ce portefeuille n'existe pas. Veuillez redémarrer votre application.",
       "not_found_button": "OK",
       "incorrect_password": "Mot de passe incorrect !",
-      "incorrect_password_description": "Saisi de mot de passe incorrect, veuillez le ressaisir.",
+      "incorrect_password_description": "Saisie de mot de passe incorrect, veuillez le ressaisir.",
       "incorrect_password_button": "OK"
     }
   },
   "generate_wallet_modal": {
-    "title": "Créer et sauver",
+    "title": "Créer et Sauvegarder",
     "close": "Fermer",
     "address_input": "Adresse",
     "private_key_input": "Clé privée",
@@ -91,7 +91,7 @@
     "load_wallet_button": "Chargement du portefeuille",
     "load_outcome": {
       "incorrect_password": "Mot de passe incorrect !",
-      "incorrect_password_description": "Saisi de mot de passe incorrect, veuillez le ressaisir.",
+      "incorrect_password_description": "Saisie de mot de passe incorrect, veuillez le ressaisir.",
       "incorrect_password_button": "OK"
     }
   },
@@ -109,10 +109,10 @@
     "title": "Détail de la transaction",
     "close": "Fermer",
     "overview_card_title": "Aperçu",
-    "txn_id": "Indentifiant",
+    "txn_id": "Identifiant",
     "hash": "Block Hash",
     "index": "Block Index",
-    "amount": "Montant",
+    "amount": "Montant de la transaction",
     "inputs_card_title": "Inputs",
     "inputs_card_address": "Input Address",
     "inputs_card_amount": "Input Amount",
@@ -130,9 +130,8 @@
   },
   "shared": {
     "warnings": {
-      "not_saved": "Votre portefeuille n'est pas sauvegarder ! Veuillez le sauvegarder maintenant !",
+      "not_saved": "Votre portefeuille n'est pas sauvegardé ! Veuillez le sauvegarder maintenant !",
       "not_loaded": "Portefeuille non chargé !",
-      "not_loaded_description": "Please load your wallet from the main page before continuing",
       "not_loaded_description": "Veuillez charger votre portefeuille depuis la page principale de l'application avant de continuer",
       "not_loaded_button": "OK"
     },
