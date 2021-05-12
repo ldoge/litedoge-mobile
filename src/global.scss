@@ -37,10 +37,11 @@ qr-code img {
 
 .hide-bg {
   visibility: hidden;
+  display: none;
 }
 
 .transparent-body {
-  background-color: transparent;
-  opacity: 0;
+  background-color: transparent !important;
+  opacity: 0 !important;
   height: 100vh;
 }
