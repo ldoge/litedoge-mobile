@@ -5,7 +5,7 @@
     "card_description": "Exporte sus claves privadas antes de desinstalar la aplicación, ya que se eliminarán todas las billeteras guardadas.",
     "card_address_input": "Dirección",
     "card_private_key_input": "Clave privada",
-    "card_load_button": "",
+    "card_load_button": "CARGA",
     "card_unload_button": "BORRAR"
   },
   "payment_page": {

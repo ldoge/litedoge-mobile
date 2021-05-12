@@ -5,7 +5,7 @@
     "card_description": "Mohon memasukan private key anda sebelum menghapus aplikasi ini karena semua dompet yang disimpan akan di hapus.",
     "card_address_input": "Alamat",
     "card_private_key_input": "Private Key",
-    "card_load_button": "",
+    "card_load_button": "MUAT",
     "card_unload_button": "HAPUS"
   },
   "payment_page": {
