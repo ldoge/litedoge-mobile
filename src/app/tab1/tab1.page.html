@@ -3,6 +3,11 @@
     <ion-title>
       {{'wallet_page.title' | translate}}
     </ion-title>
+    <ion-buttons collapse="true" slot="end">
+      <ion-button (click)="openSettings()" color="dark">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -10,30 +15,13 @@
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{'wallet_page.title' | translate}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="openSettings()" color="dark">
+          <ion-icon name="settings"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary" id="fab-init">
-      <ion-icon name="chevron-up"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="warning" (click)="deleteWallet()" id="fab-delete">
-        <ion-icon name="trash"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="secondary" [disabled]="!(janinService.loadedWallet$ | async)" (click)="storeWallet()" id="fab-store">
-        <ion-icon name="lock-closed"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="secondary" (click)="loadWallet()" id="fab-load">
-        <ion-icon name="lock-open"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="secondary" (click)="importWallet()" id="fab-import">
-        <ion-icon name="download"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button color="secondary" (click)="openSettings()" id="fab-settings">
-        <ion-icon name="settings"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
 
   <ion-grid>
     <ion-row>
@@ -44,7 +32,8 @@
           </ion-card-header>
           <ion-card-content>
             <p>{{'wallet_page.card_description' | translate}}</p>
-            <ion-text color="danger" *ngIf="(janinService.isWalletLoaded() | async) && !(janinService.walletSaved$ | async)">
+            <ion-text color="danger"
+                      *ngIf="(janinService.isWalletLoaded() | async) && !(janinService.walletSaved$ | async)">
               {{'shared.warnings.not_saved' | translate}}
             </ion-text>
           </ion-card-content>
@@ -66,9 +55,9 @@
           <ion-card-content>
             <ion-row>
               <ion-col>
-                <ion-button id="generate" (click)="generateWallet()" color="primary" expand="block">
-                  <ion-icon name="dice"></ion-icon>&nbsp;
-                  {{'wallet_page.card_generate_button' | translate}}
+                <ion-button id="load" (click)="loadWallet()" color="primary" expand="block">
+                  <ion-icon name="lock-open"></ion-icon>&nbsp;
+                  {{'wallet_page.card_load_button' | translate}}
                 </ion-button>
               </ion-col>
               <ion-col>
@@ -79,6 +68,36 @@
               </ion-col>
             </ion-row>
           </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card class="info-cards" (click)="generateWallet()">
+          <ion-item button lines="none" color="primary">
+            <ion-icon name="dice"></ion-icon>
+            <ion-label>{{'generate_wallet_modal.title' | translate}}</ion-label>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card class="info-cards" (click)="importWallet()">
+          <ion-item button lines="none" color="secondary">
+            <ion-icon name="download"></ion-icon>
+            <ion-label>{{'import_wallet_modal.title' | translate}}</ion-label>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card class="info-cards" (click)="deleteWallet()">
+          <ion-item button lines="none" color="danger">
+            <ion-icon name="trash"></ion-icon>
+            <ion-label>{{'delete_wallet_modal.title' | translate}}</ion-label>
+          </ion-item>
         </ion-card>
       </ion-col>
     </ion-row>

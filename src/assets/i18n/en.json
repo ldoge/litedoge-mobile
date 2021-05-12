@@ -5,7 +5,7 @@
     "card_description": "Please export your private keys before uninstalling the app as all saved wallets will be deleted.",
     "card_address_input": "Address",
     "card_private_key_input": "Private Key",
-    "card_generate_button": "GENERATE",
+    "card_load_button": "LOAD",
     "card_unload_button": "UNLOAD"
   },
   "payment_page": {
@@ -94,16 +94,6 @@
       "incorrect_password_description": "The password that you have keyed in is incorrect. Please try again!",
       "incorrect_password_button": "OK"
     }
-  },
-  "save_wallet_modal": {
-    "title": "Encrypt & Save",
-    "close": "CLOSE",
-    "address_input": "Address",
-    "private_key_input": "Private Key",
-    "wallet_name_input": "Wallet Name",
-    "password_input": "Password",
-    "confirm_password_input": "Confirm Password",
-    "save_wallet_button": "Save Wallet"
   },
   "view_transaction_modal": {
     "title": "View Transaction",

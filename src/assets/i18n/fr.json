@@ -5,7 +5,7 @@
     "card_description": "Veuillez exporter votre clé privée avant de désinstaller cette application. Tous les portefeuilles sauvegardés seront supprimés.",
     "card_address_input": "Adresse",
     "card_private_key_input": "Clé privée",
-    "card_generate_button": "Créer",
+    "card_load_button": "",
     "card_unload_button": "Fermer"
   },
   "payment_page": {
@@ -94,16 +94,6 @@
       "incorrect_password_description": "Saisie de mot de passe incorrect, veuillez le ressaisir.",
       "incorrect_password_button": "OK"
     }
-  },
-  "save_wallet_modal": {
-    "title": "Chiffrer et Sauver",
-    "close": "Fermer",
-    "address_input": "Adresse",
-    "private_key_input": "Clé privée",
-    "wallet_name_input": "Nom du portefeuille",
-    "password_input": "Mot de passe",
-    "confirm_password_input": "Confirmation du mot de passe",
-    "save_wallet_button": "Sauver"
   },
   "view_transaction_modal": {
     "title": "Détail de la transaction",

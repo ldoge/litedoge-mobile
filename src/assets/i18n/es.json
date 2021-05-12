@@ -5,7 +5,7 @@
     "card_description": "Exporte sus claves privadas antes de desinstalar la aplicación, ya que se eliminarán todas las billeteras guardadas.",
     "card_address_input": "Dirección",
     "card_private_key_input": "Clave privada",
-    "card_generate_button": "GENERAR",
+    "card_load_button": "",
     "card_unload_button": "BORRAR"
   },
   "payment_page": {
@@ -94,16 +94,6 @@
       "incorrect_password_description": "La contraseña que ingresó es incorrecta. ¡Inténtalo de nuevo!",
       "incorrect_password_button": "ACEPTAR"
     }
-  },
-  "save_wallet_modal": {
-    "title": "Encriptar y guardar",
-    "close": "CERRAR",
-    "address_input": "Dirección",
-    "private_key_input": "Clave privada",
-    "wallet_name_input": "Nombre de la billetera",
-    "password_input": "Contraseña",
-    "confirm_password_input": "Confirmar Contraseña",
-    "save_wallet_button": "Guardar billetera"
   },
   "view_transaction_modal": {
     "title": "Ver transacción",

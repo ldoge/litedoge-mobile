@@ -5,7 +5,7 @@
     "card_description": "请在卸载之前汇出您的私人钥匙。否则您的钱袋都也会被擦掉。",
     "card_address_input": "地址",
     "card_private_key_input": "私人钥匙",
-    "card_generate_button": "创造",
+    "card_load_button": "加载",
     "card_unload_button": "卸下"
   },
   "payment_page": {
@@ -94,16 +94,6 @@
       "incorrect_password_description": "你所输入的密码不正确。请再试试!",
       "incorrect_password_button": "好的"
     }
-  },
-  "save_wallet_modal": {
-    "title": "加密并保存",
-    "close": "关闭",
-    "address_input": "地址",
-    "private_key_input": "私人钥匙",
-    "wallet_name_input": "钱袋名称",
-    "password_input": "密码",
-    "confirm_password_input": "确认密码",
-    "save_wallet_button": "保存钱袋"
   },
   "view_transaction_modal": {
     "title": "查看交易",

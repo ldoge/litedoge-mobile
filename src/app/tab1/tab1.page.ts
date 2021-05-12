@@ -5,7 +5,6 @@ import {ModalController} from '@ionic/angular';
 import {GenerateWalletComponent} from '../shared-components/generate-wallet/generate-wallet.component';
 import {LoadWalletComponent} from '../shared-components/load-wallet/load-wallet.component';
 import {ImportWalletComponent} from '../shared-components/import-wallet/import-wallet.component';
-import {SaveWalletComponent} from '../shared-components/save-wallet/save-wallet.component';
 import {DeleteWalletComponent} from '../shared-components/delete-wallet/delete-wallet.component';
 import {SettingsComponent} from '../shared-components/settings/settings.component';
 
@@ -27,14 +26,6 @@ export class Tab1Page {
       component: GenerateWalletComponent
     });
     await walletGeneratorModal.present();
-  }
-
-  public async storeWallet() {
-    const importWalletModal = await this.modalController.create({
-      component: SaveWalletComponent
-    });
-
-    await importWalletModal.present();
   }
 
   public async loadWallet() {
