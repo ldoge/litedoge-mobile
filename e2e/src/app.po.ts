@@ -13,35 +13,11 @@ export class AppPage {
     return element(by.css('ion-card-title')).getText();
   }
 
-  getGenerateButton() {
-    return element(by.id('generate'));
+  getLoadButton() {
+    return element(by.id('load'));
   }
 
   getUnloadButton() {
     return element(by.id('unload'));
-  }
-
-  getFabInitButton() {
-    return element(by.id('fab-init'));
-  }
-
-  getFabDeleteButton() {
-    return element(by.id('fab-delete'));
-  }
-
-  getFabStoreButton() {
-    return element(by.id('fab-store'));
-  }
-
-  getFabLoadButton() {
-    return element(by.id('fab-load'));
-  }
-
-  getFabImportButton() {
-    return element(by.id('fab-import'));
-  }
-
-  getFabSettingsButton() {
-    return element(by.id('fab-settings'));
   }
 }
