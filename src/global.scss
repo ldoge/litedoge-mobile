@@ -40,8 +40,17 @@ qr-code img {
   display: none;
 }
 
+#qr-toolbar {
+  visibility: visible;
+}
+
 .transparent-body {
+  --ion-background-color: transparent;
   background-color: transparent !important;
   opacity: 0 !important;
   height: 100vh;
+}
+
+.app-transparent-body {
+  background-color: transparent;
 }

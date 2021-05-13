@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-header *ngIf="this.appService.isHideBackground$ | async">
+  <ion-header *ngIf="this.appService.isHideBackground$ | async" id="qr-toolbar">
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-button (click)="this.appService.triggerBackButton()">

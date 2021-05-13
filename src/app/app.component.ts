@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
 import {AppService} from './services/app.service';
 import {IonRouterOutlet} from '@ionic/angular';
 import {SettingsService} from './services/settings.service';
@@ -7,6 +7,7 @@ import {SettingsService} from './services/settings.service';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   @ViewChild(IonRouterOutlet, {static: true}) routerOutlet: IonRouterOutlet;
